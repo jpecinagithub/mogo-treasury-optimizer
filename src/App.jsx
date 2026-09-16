@@ -898,7 +898,7 @@ export default function App() {
   return (
     <div className="min-h-screen">
       {/* HEADER */}
-      <header className="sticky top-0 z-40 bg-[#0B1E3A] text-white border-b border-white/10">
+      <header className="sticky top-0 z-40 bg-[#0B2A5B] text-white border-b border-white/10">
         <div className="max-w-[1440px] mx-auto px-4 lg:px-6 h-[68px] flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <button onClick={() => setSidebarOpen(true)} className="lg:hidden w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/15 transition"><i className="fa-solid fa-bars" /></button>
