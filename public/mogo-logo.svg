@@ -1,9 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="120" viewBox="0 0 320 120" role="img" aria-label="MOGO logo">
-  <rect width="320" height="120" rx="16" fill="#0B2A5B"/>
-  <!-- mogo wordmark -->
-  <g font-family="Inter, Arial Black, sans-serif" font-weight="900" text-anchor="middle">
-    <text x="160" y="78" font-size="72" fill="white" letter-spacing="-3" style="font-stretch:condensed">mogo</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" role="img" aria-label="MOGO UGANDA ELEVING GROUP">
+  <rect width="360" height="140" rx="16" fill="#0B2A5B"/>
+  <!-- mogo wordmark - bold, slightly italic -->
+  <g font-family="Inter, Arial Black, Helvetica, sans-serif" font-weight="900" text-anchor="middle">
+    <text x="180" y="82" font-size="78" fill="white" letter-spacing="-3" style="font-style:italic; font-stretch:condensed" transform="skewX(-4)">mogo</text>
   </g>
-  <!-- car roof arc - green -->
-  <path d="M 95 42 C 115 18, 205 18, 225 42 C 232 48, 235 58, 233 68" stroke="#6DBE45" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- car roof arc - green, thick, matching new image -->
+  <path d="M 98 48 C 115 32, 128 28, 145 22 C 170 8, 210 8, 235 28 C 255 42, 268 48, 278 56 C 290 68, 292 82, 290 96" stroke="#6DBE45" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- subtitle -->
+  <text x="180" y="115" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="600" fill="white" text-anchor="middle" letter-spacing="3.5">UGANDA - ELEVING GROUP</text>
 </svg>
