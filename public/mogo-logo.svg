@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="120" viewBox="0 0 320 120" role="img" aria-label="MOGO logo">
+  <rect width="320" height="120" rx="16" fill="#6DBE45"/>
+  <!-- mogo wordmark -->
+  <g font-family="Inter, Arial Black, sans-serif" font-weight="900" text-anchor="middle">
+    <text x="160" y="78" font-size="72" fill="white" letter-spacing="-3" style="font-stretch:condensed">mogo</text>
+  </g>
+  <!-- car roof arc -->
+  <path d="M 95 42 C 115 18, 205 18, 225 42 C 232 48, 235 58, 233 68" stroke="#0B2A5B" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
