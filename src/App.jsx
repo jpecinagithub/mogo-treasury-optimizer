@@ -52,14 +52,74 @@ export default function App() {
     setTimeout(() => setToast(null), 3000);
   };
 
-  const getRestrictionValue = (labelContains) => {
-    const r = restrictions.find((x) => x.label.toLowerCase().includes(labelContains.toLowerCase()) && x.enabled);
+  // Migrate legacy restrictions (no key) to key-stable by slugifying label
+  const migrateRestrictions = (arr) => {
+    if (!Array.isArray(arr)) return arr;
+    return arr.map(r=>{
+      if (r.key) return r;
+      const slug = (r.label||'custom').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'').slice(0,30) || 'custom';
+      return { ...r, key: `${slug}_${r.id||Date.now()}` };
+    });
+  };
+
+  // legacy label aliases for key-based lookups (backwards compat with pre-key saves)
+  const KEY_LEGACY_LABELS = {
+    fx_eur: ["FX rate EUR", "FX EUR"],
+    fx_usd: ["FX rate USD", "FX USD"],
+    central_min: ["Central Bank minimum"],
+    bank_a_kes: ["Bank A — Opening", "Banco A — saldo"],
+    bank_a_eur: ["Bank A — EUR"],
+    bank_a_usd: ["Bank A — USD"],
+    wallet_c: ["Wallet C — Balance", "Wallet C — saldo"],
+    customer_inflows: ["Customer inflows", "Inflows clientes"],
+    rtgs_window: ["RTGS window"],
+    fx_window: ["FX market window"],
+    wallet_cutoff: ["Wallet-to-bank"],
+    pesa_limit: ["PesaLink max"],
+    mpesa_limit: ["M-Pesa max"],
+    payroll_deadline: ["Payroll deadline"],
+    phone_deadline: ["Phone dealers"],
+    erp_deadline: ["ERP shutdown"],
+    rent_deadline: ["HQ rent"],
+    motorcycle_deadline: ["Motorcycle dealer"],
+    car_loans_deadline: ["Car loans"],
+    suppliers_deadline: ["Suppliers"],
+    tax_grace: ["Tax grace"],
+  };
+
+  const getRestrictionValue = (keyOrLabel) => {
+    // Primary: exact key match (new stable API)
+    let r = restrictions.find((x) => x.key === keyOrLabel && x.enabled);
+    if (r) return r.value;
+    // Secondary: legacy alias map (key → old label substrings)
+    const aliases = KEY_LEGACY_LABELS[keyOrLabel];
+    if (aliases) {
+      for (const a of aliases) {
+        r = restrictions.find((x) => x.label.toLowerCase().includes(a.toLowerCase()) && x.enabled);
+        if (r) return r.value;
+      }
+    }
+    // Fallback: generic label-contains for old saved restrictions / backwards compat
+    r = restrictions.find((x) => x.label.toLowerCase().includes(keyOrLabel.toLowerCase()) && x.enabled);
     return r ? r.value : null;
   };
-  const getNum = (label) => {
-    const v = getRestrictionValue(label);
+  const getNum = (keyOrLabel) => {
+    const v = getRestrictionValue(keyOrLabel);
     if (!v) return 0;
     return parseVal(v);
+  };
+  // helper for deadline lookups – same key-first + alias logic
+  const getRestrictionByKey = (key) => {
+    let r = restrictions.find((x) => x.key === key && x.enabled);
+    if (r) return r;
+    const aliases = KEY_LEGACY_LABELS[key];
+    if (aliases) {
+      for (const a of aliases) {
+        r = restrictions.find((x) => x.label.toLowerCase().includes(a.toLowerCase()) && x.enabled);
+        if (r) return r;
+      }
+    }
+    return restrictions.find((x) => x.label.toLowerCase().includes(key.toLowerCase()) && x.enabled) || null;
   };
 
   const markPending = () => setPendingChanges(true);
@@ -69,8 +129,8 @@ export default function App() {
   function parseRestrictionsFromExcel(data) {
     const restrictions = [];
     let id = 1;
-    const add = (cat, label, value, unit, desc, type, critical, extra={}) => {
-      restrictions.push({ id: `r${id++}`, cat, label, value: String(value), unit, desc, type, enabled:true, editable:true, critical:!!critical, ...extra });
+    const add = (cat, key, label, value, unit, desc, type, critical, extra={}) => {
+      restrictions.push({ id: `r${id++}`, key, cat, label, value: String(value), unit, desc, type, enabled:true, editable:true, critical:!!critical, ...extra });
     };
     const allRowsText = data.map(r => (r||[]).join(' ')).join('\n');
     const lowerAll = allRowsText.toLowerCase();
@@ -97,46 +157,46 @@ export default function App() {
       const bankAKES = kesMatches.length ? parseVal(kesMatches[0][1]) : null;
       const bankAEUR = eurM ? parseVal(eurM[1]) : null;
       const bankAUSD = usdM ? parseVal(usdM[1]) : null;
-      if (bankAKES) add('liquidity','Bank A — Opening balance KES', new Intl.NumberFormat('en-KE').format(bankAKES), 'KES','Balance at 14:00. Extracted from Excel.','balance',false);
-      if (bankAEUR) add('liquidity','Bank A — EUR balance', new Intl.NumberFormat('en-KE').format(bankAEUR), 'EUR','≈'+formatKES(bankAEUR*150)+' KES @150. Extracted.','balance',false);
-      if (bankAUSD) add('liquidity','Bank A — USD balance', new Intl.NumberFormat('en-KE').format(bankAUSD), 'USD','≈'+formatKES(bankAUSD*130)+' KES @130. Extracted.','balance',false);
+      if (bankAKES) add('liquidity','bank_a_kes','Bank A — Opening balance KES', new Intl.NumberFormat('en-KE').format(bankAKES), 'KES','Balance at 14:00. Extracted from Excel.','balance',false);
+      if (bankAEUR) add('liquidity','bank_a_eur','Bank A — EUR balance', new Intl.NumberFormat('en-KE').format(bankAEUR), 'EUR','≈'+formatKES(bankAEUR*150)+' KES @150. Extracted.','balance',false);
+      if (bankAUSD) add('liquidity','bank_a_usd','Bank A — USD balance', new Intl.NumberFormat('en-KE').format(bankAUSD), 'USD','≈'+formatKES(bankAUSD*130)+' KES @130. Extracted.','balance',false);
     }
     // 2. Wallet C
     const walletText = findRowText('In Mobile Wallet C you have');
     if (walletText) {
       const m = walletText.match(/([\d’'?\s,\.]+)\s*KES/i);
-      if(m) add('liquidity','Wallet C — Balance at 14:00', new Intl.NumberFormat('en-KE').format(parseVal(m[1])), 'KES','Immediate sweep to Bank A. Extracted.','balance',false);
+      if(m) add('liquidity','wallet_c','Wallet C — Balance at 14:00', new Intl.NumberFormat('en-KE').format(parseVal(m[1])), 'KES','Immediate sweep to Bank A. Extracted.','balance',false);
     }
     // 3. Hourly inflows and cutoff
     const inflowRow = findRowText('each hour our customers will pay');
     if (inflowRow) {
       const m = inflowRow.match(/([\d’'?\s,\.]+)\s*KES/i);
-      if(m) add('liquidity','Customer inflows', new Intl.NumberFormat('en-KE').format(parseVal(m[1])), 'KES / hour','Every hour until midnight. Extracted.','balance',false);
+      if(m) add('liquidity','customer_inflows','Customer inflows', new Intl.NumberFormat('en-KE').format(parseVal(m[1])), 'KES / hour','Every hour until midnight. Extracted.','balance',false);
       // cutoff 10PM
       const cutMatch = inflowRow.match(/until\s*(\d{1,2})\s*PM/i);
       const cutHour = cutMatch ? parseInt(cutMatch[1]) : 10;
       const cutLabel = cutHour===10 ? 'until 22:00' : `until ${cutHour+12}:00`;
-      add('schedule','Wallet-to-bank API', cutLabel, 'cutoff','After cutoff money stays in wallet. Extracted.','window',true);
+      add('schedule','wallet_cutoff','Wallet-to-bank API', cutLabel, 'cutoff','After cutoff money stays in wallet. Extracted.','window',true);
     } else {
       // fallback cutoff
-      add('schedule','Wallet-to-bank API', 'until 22:00', 'cutoff','After 22:00 money stays in wallet.','window',true);
+      add('schedule','wallet_cutoff','Wallet-to-bank API', 'until 22:00', 'cutoff','After 22:00 money stays in wallet.','window',true);
     }
     // 4. FX rates
     const eurRateRow = findRowText('1 EUR =');
     if(eurRateRow){
       const m = eurRateRow.match(/1\s*EUR\s*=\s*([\d\.,]+)/i);
-      if(m) add('business','FX rate EUR→KES', parseVal(m[1]).toString(), 'KES/EUR','Extracted from Excel. Editable.','rule',false);
+      if(m) add('business','fx_eur','FX rate EUR→KES', parseVal(m[1]).toString(), 'KES/EUR','Extracted from Excel. Editable.','rule',false);
     }
     const usdRateRow = findRowText('1 USD =');
     if(usdRateRow){
       const m = usdRateRow.match(/1\s*USD\s*=\s*([\d\.,]+)/i);
-      if(m) add('business','FX rate USD→KES', parseVal(m[1]).toString(), 'KES/USD','Extracted.','rule',false);
+      if(m) add('business','fx_usd','FX rate USD→KES', parseVal(m[1]).toString(), 'KES/USD','Extracted.','rule',false);
     }
     // Cost of capital
     const costRow = findRowText('Cost of capital');
     if(costRow){
       const m = costRow.match(/([\d\.]+)\s*%/);
-      if(m) add('liquidity','Cost of capital', m[1]+'% p.a.', '≈'+(parseFloat(m[1])/12).toFixed(2)+'%/mo','Extracted.','balance',false);
+      if(m) add('liquidity','cost_capital','Cost of capital', m[1]+'% p.a.', '≈'+(parseFloat(m[1])/12).toFixed(2)+'%/mo','Extracted.','balance',false);
     }
     // 5. Payment rails
     const rtgsRow = findRowText('1. RTGS');
@@ -145,46 +205,46 @@ export default function App() {
       const m = rtgsRow.match(/Works\s*(\d{1,2})\s*AM[^\d]*(\d{1,2})[\.:](\d{2})\s*PM/i);
       let val='06:00 – 16:30';
       if(m) val = `${String(m[1]).padStart(2,'0')}:00 – ${String(m[2]).padStart(2,'0')}:${m[3]}`;
-      add('schedule','RTGS window', val, 'bank-to-bank','Any amount/currency. Inside Kenya. Extracted.','window',true);
+      add('schedule','rtgs_window','RTGS window', val, 'bank-to-bank','Any amount/currency. Inside Kenya. Extracted.','window',true);
     }
     const pesaRow = findRowText('2. Pesalink');
     if(pesaRow){
       const m = pesaRow.match(/up to\s*([\d’'?\s,\.]+)\s*KES/i);
       const lim = m ? new Intl.NumberFormat('en-KE').format(parseVal(m[1])) : '1,000,000';
-      add('schedule','PesaLink', '24/7', '≤'+lim+' KES/tx','KES only, bank-to-bank. Extracted.','window',false);
-      add('limits','PesaLink max', lim, 'KES/tx','Extracted.','limit',false);
+      add('schedule','pesa_window','PesaLink', '24/7', '≤'+lim+' KES/tx','KES only, bank-to-bank. Extracted.','window',false);
+      add('limits','pesa_limit','PesaLink max', lim, 'KES/tx','Extracted.','limit',false);
     }
     const mpesaRow = findRowText('3. M-Pesa');
     if(mpesaRow){
       const m = mpesaRow.match(/up to\s*([\d’'?\s,\.]+)\s*KES/i);
       const lim = m ? new Intl.NumberFormat('en-KE').format(parseVal(m[1])) : '250,000';
-      add('schedule','M-Pesa', '24/7', '≤'+lim+' KES/tx','Bank→M-Pesa. Extracted.','window',false);
-      add('limits','M-Pesa max', lim, 'KES/tx','Extracted.','limit',false);
+      add('schedule','mpesa_window','M-Pesa', '24/7', '≤'+lim+' KES/tx','Bank→M-Pesa. Extracted.','window',false);
+      add('limits','mpesa_limit','M-Pesa max', lim, 'KES/tx','Extracted.','limit',false);
     }
     const fxRow = findRowText('4. FX');
     if(fxRow){
       const m = fxRow.match(/Works\s*(\d{1,2})\s*AM[^\d]*(\d{1,2})[\.:](\d{2})\s*PM/i);
       let val='09:00 – 16:30';
       if(m) val = `${String(m[1]).padStart(2,'0')}:00 – ${String(m[2]).padStart(2,'0')}:${m[3]}`;
-      add('schedule','FX market window', val, 'any amount','Sell EUR/USD → KES. Extracted.','window',true);
+      add('schedule','fx_window','FX market window', val, 'any amount','Sell EUR/USD → KES. Extracted.','window',true);
     }
     const taxApiRow = findRowText('5. Tax Authority API');
-    if(taxApiRow) add('schedule','Tax Authority API', '24/7', 'bank→authority','Allows deferring tax. Extracted.','window',false);
+    if(taxApiRow) add('schedule','tax_api','Tax Authority API', '24/7', 'bank→authority','Allows deferring tax. Extracted.','window',false);
     const withinRow = findRowText('6. Within-bank transfer');
-    if(withinRow) add('schedule','Within-bank transfer', '24/7', 'same bank','Within same bank only. Always works. Extracted.','window',false);
+    if(withinRow) add('schedule','within_bank','Within-bank transfer', '24/7', 'same bank','Within same bank only. Always works. Extracted.','window',false);
     const batchRow = findRowText('7. Batch payments');
-    if(batchRow) add('schedule','Batch upload', 'inherits rail window', 'Excel','Multicurrency batch, rail limit applies. Extracted.','window',false);
+    if(batchRow) add('schedule','batch_upload','Batch upload', 'inherits rail window', 'Excel','Multicurrency batch, rail limit applies. Extracted.','window',false);
     // 6. Rules
     const loansRule = findRowText('We pay loans and dealers only from Bank A');
-    if(loansRule) add('business','Rule: Loans/dealers → Bank A', 'Bank A only', 'rule','Extracted.','rule',false);
+    if(loansRule) add('business','rule_loans_bank_a','Rule: Loans/dealers → Bank A', 'Bank A only', 'rule','Extracted.','rule',false);
     const vendorsRule = findRowText('We pay vendors only from Bank B');
-    if(vendorsRule) add('business','Rule: Vendors → Bank B', 'Bank B only', 'rule','Extracted.','rule',false);
+    if(vendorsRule) add('business','rule_vendors_bank_b','Rule: Vendors → Bank B', 'Bank B only', 'rule','Extracted.','rule',false);
     // 7. Business deadlines from payments will be added after payments are parsed (caller will handle)
     // 8. Central Bank minimum: find row with "Central Bank Rule"
     const centralRow = findRowText('Central Bank Rule');
     if(centralRow){
       const m = centralRow.match(/([\d’'?\s,\.]+)\s*KES/i);
-      if(m) add('liquidity','Central Bank minimum EOD', new Intl.NumberFormat('en-KE').format(parseVal(m[1])), 'KES equiv.','Fine 10M per breach. Extracted.','balance',true);
+      if(m) add('liquidity','central_min','Central Bank minimum EOD', new Intl.NumberFormat('en-KE').format(parseVal(m[1])), 'KES equiv.','Fine 10M per breach. Extracted.','balance',true);
       // fine
       const fineRowIdx = data.findIndex(r=> (r||[]).join(' ').includes('fine per breach') || (r||[]).join(' ').includes('Fine per breach'));
       if(fineRowIdx>=0){
@@ -197,14 +257,14 @@ export default function App() {
     }
     // If still empty (e.g., custom Excel with no spec), provide minimal editable defaults so user can fill
     if(restrictions.length===0){
-      add('liquidity','Bank A — Opening balance KES', '10,000,000', 'KES','Edit to match your statement.','balance',false);
-      add('liquidity','Bank A — EUR balance', '0', 'EUR','Edit.','balance',false);
-      add('liquidity','Bank A — USD balance', '0', 'USD','Edit.','balance',false);
-      add('liquidity','Wallet C — Balance at 14:00', '0', 'KES','Edit.','balance',false);
-      add('liquidity','Customer inflows', '0', 'KES / hour','Edit.','balance',false);
-      add('liquidity','Central Bank minimum EOD', '13,000,000', 'KES equiv.','Edit.','balance',true);
-      add('business','FX rate EUR→KES', '150', 'KES/EUR','Edit.','rule',false);
-      add('business','FX rate USD→KES', '130', 'KES/USD','Edit.','rule',false);
+      add('liquidity','bank_a_kes','Bank A — Opening balance KES', '10,000,000', 'KES','Edit to match your statement.','balance',false);
+      add('liquidity','bank_a_eur','Bank A — EUR balance', '0', 'EUR','Edit.','balance',false);
+      add('liquidity','bank_a_usd','Bank A — USD balance', '0', 'USD','Edit.','balance',false);
+      add('liquidity','wallet_c','Wallet C — Balance at 14:00', '0', 'KES','Edit.','balance',false);
+      add('liquidity','customer_inflows','Customer inflows', '0', 'KES / hour','Edit.','balance',false);
+      add('liquidity','central_min','Central Bank minimum EOD', '13,000,000', 'KES equiv.','Edit.','balance',true);
+      add('business','fx_eur','FX rate EUR→KES', '150', 'KES/EUR','Edit.','rule',false);
+      add('business','fx_usd','FX rate USD→KES', '130', 'KES/USD','Edit.','rule',false);
     }
     return restrictions;
   }
@@ -336,39 +396,39 @@ export default function App() {
           payments.forEach(p=>{
             const low = p.name.toLowerCase();
             const notes = (p.notes||'').toLowerCase();
-            let label=null, value=null, unit='', desc=p.notes||'', prio=null, cat='business', type='deadline';
+            let label=null, key=null, value=null, unit='', desc=p.notes||'', prio=null, cat='business', type='deadline';
             if(low.includes('payroll')){
-              label='Payroll deadline'; value='17:00 today'; unit='HR calls'; desc='Employees call HR if not by 17:00. '+p.notes; prio=2;
+              key='payroll_deadline'; label='Payroll deadline'; value='17:00 today'; unit='HR calls'; desc='Employees call HR if not by 17:00. '+p.notes; prio=2;
             } else if(low.includes('phone')){
-              label='Phone dealers deadline'; value='17:00 today'; unit='250 dealers'; desc='Route to competitor if not by 17:00. '+p.notes; prio=3;
+              key='phone_deadline'; label='Phone dealers deadline'; value='17:00 today'; unit='250 dealers'; desc='Route to competitor if not by 17:00. '+p.notes; prio=3;
             } else if(low.includes('erp')){
-              label='ERP shutdown'; value='midnight'; unit=p.currency+' '+formatKES(p.amount); desc='System shuts down. '+p.notes; prio=1;
+              key='erp_deadline'; label='ERP shutdown'; value='midnight'; unit=p.currency+' '+formatKES(p.amount); desc='System shuts down. '+p.notes; prio=1;
             } else if(low.includes('rent')){
-              label='HQ rent'; value='11:00 tomorrow'; unit='padlock'; desc='Landlord padlock. '+p.notes; prio=6;
+              key='rent_deadline'; label='HQ rent'; value='11:00 tomorrow'; unit='padlock'; desc='Landlord padlock. '+p.notes; prio=6;
             } else if(low.includes('motorcycle')){
-              label='Motorcycle dealer'; value='today'; unit='issuance block'; desc=p.notes; prio=4;
+              key='motorcycle_deadline'; label='Motorcycle dealer'; value='today'; unit='issuance block'; desc=p.notes; prio=4;
             } else if(low.includes('car financing')){
-              label='Car loans (100)'; value='today'; unit='cancellation'; desc=p.notes; prio=5;
+              key='car_loans_deadline'; label='Car loans (100)'; value='today'; unit='cancellation'; desc=p.notes; prio=5;
             } else if(low.includes('suppliers')||low.includes('administrative')){
-              label='Suppliers (30)'; value='today last day'; unit='no penalty'; desc=p.notes; prio=7;
+              key='suppliers_deadline'; label='Suppliers (30)'; value='today last day'; unit='no penalty'; desc=p.notes; prio=7;
             } else if(low.includes('tax')){
-              label='Tax grace period'; value='2 days'; unit='then 2% +0.5%/mo'; desc=p.notes; prio=8;
+              key='tax_grace'; label='Tax grace period'; value='2 days'; unit='then 2% +0.5%/mo'; desc=p.notes; prio=8;
             } else if(low.includes('central')){
               // already handled as liquidity minimum
               return;
             }
             if(label){
-              // avoid duplicate
-              if(!parsedRestrictions.find(r=> r.label===label) && !businessFromPayments.find(r=> r.label===label)){
-                businessFromPayments.push({ id: `r${Date.now()+Math.random()}`, cat, label, value, unit, desc: desc.slice(0,180), type, enabled:true, editable:true, priority:prio });
+              // avoid duplicate – check by key (with legacy label fallback)
+              if(!parsedRestrictions.find(r=> r.key===key || r.label===label) && !businessFromPayments.find(r=> r.key===key)){
+                businessFromPayments.push({ id: `r${Date.now()+Math.random()}`, key, cat, label, value, unit, desc: desc.slice(0,180), type, enabled:true, editable:true, priority:prio });
               }
             }
           });
           const allRestrictions = [...parsedRestrictions, ...businessFromPayments];
           // Re-assign banks based on extracted rules (vendors -> B, loans/dealers -> A)
-          // This ensures compliance with "Rule: Vendors → Bank B" etc.
-          const hasVendorRule = allRestrictions.some(r=> r.label.includes('Vendors') && r.enabled);
-          const hasLoanRule = allRestrictions.some(r=> r.label.includes('Loans/dealers') && r.enabled);
+          // This ensures compliance with "Rule: Vendors → Bank B" etc. – key-first with legacy fallback
+          const hasVendorRule = allRestrictions.some(r=> (r.key==='rule_vendors_bank_b' || r.label.includes('Vendors')) && r.enabled);
+          const hasLoanRule = allRestrictions.some(r=> (r.key==='rule_loans_bank_a' || r.label.includes('Loans/dealers')) && r.enabled);
           payments.forEach(p=>{
             const n = p.name.toLowerCase();
             const isVendor = n.includes('erp') || n.includes('rent') || n.includes('suppliers') || n.includes('administrative') || p.type==='vendor';
@@ -411,20 +471,20 @@ export default function App() {
       if (showToastFlag) showToast("Please upload an Excel file first");
       return null;
     }
-    // Debug: log current restrictions to verify edits are picked up
-    console.log("Calculating with", restrictions.length, "restrictions:", restrictions.map(r=> `${r.label}=${r.value} ${r.enabled?'enabled':'disabled'}`).join(' | '));
-    const eurRate = getNum("FX rate EUR") || getNum("FX EUR") || 150;
-    const usdRate = getNum("FX rate USD") || getNum("FX USD") || 130;
-    const minBalance = getNum("Central Bank minimum") || 13000000;
-    const bankAKES = getNum("Bank A — Opening") || getNum("Banco A — saldo inicial") || 10000000;
-    const bankAEUR = getNum("Bank A — EUR") || 170000;
-    const bankAUSD = getNum("Bank A — USD") || 100000;
-    const wallet0 = getNum("Wallet C — Balance") || getNum("Wallet C — saldo") || 10000000;
-    const hourlyIn = getNum("Customer inflows") || getNum("Inflows clientes") || 10000000;
+    // Debug: log current restrictions to verify edits are picked up (key-stable)
+    console.log("Calculating with", restrictions.length, "restrictions:", restrictions.map(r=> `${r.key||'no-key'}:${r.label}=${r.value} ${r.enabled?'enabled':'disabled'}`).join(' | '));
+    const eurRate = getNum("fx_eur") || getNum("FX rate EUR") || getNum("FX EUR") || 150;
+    const usdRate = getNum("fx_usd") || getNum("FX rate USD") || getNum("FX USD") || 130;
+    const minBalance = getNum("central_min") || getNum("Central Bank minimum") || 13000000;
+    const bankAKES = getNum("bank_a_kes") || getNum("Bank A — Opening") || getNum("Banco A — saldo inicial") || 10000000;
+    const bankAEUR = getNum("bank_a_eur") || getNum("Bank A — EUR") || 170000;
+    const bankAUSD = getNum("bank_a_usd") || getNum("Bank A — USD") || 100000;
+    const wallet0 = getNum("wallet_c") || getNum("Wallet C — Balance") || getNum("Wallet C — saldo") || 10000000;
+    const hourlyIn = getNum("customer_inflows") || getNum("Customer inflows") || getNum("Inflows clientes") || 10000000;
 
-    const rtgsStr = getRestrictionValue("RTGS window") || getRestrictionValue("RTGS") || "16:30";
-    const fxStr = getRestrictionValue("FX market window") || getRestrictionValue("FX") || "16:30";
-    const walletCutStr = getRestrictionValue("Wallet-to-bank") || "22:00";
+    const rtgsStr = getRestrictionValue("rtgs_window") || getRestrictionValue("RTGS window") || getRestrictionValue("RTGS") || "16:30";
+    const fxStr = getRestrictionValue("fx_window") || getRestrictionValue("FX market window") || getRestrictionValue("FX") || "16:30";
+    const walletCutStr = getRestrictionValue("wallet_cutoff") || getRestrictionValue("Wallet-to-bank") || "22:00";
     function parseTime(s) {
       const m = s.match(/(\d{1,2}):(\d{2})/);
       if (m) return parseInt(m[1]) * 60 + parseInt(m[2]);
@@ -559,9 +619,10 @@ export default function App() {
       } else if (p.name.toLowerCase().includes("tax")) expanded.push({ ...p, _deferred: true });
       else expanded.push(p);
     });
-    // --- Dynamic scheduling based on deadline restrictions ---
-    const getDeadlineMinutes = (labelContains, fallback) => {
-      const r = restrictions.find(x=> x.label.toLowerCase().includes(labelContains.toLowerCase()) && x.enabled);
+    // --- Dynamic scheduling based on deadline restrictions --- key-first with alias fallback
+    const getDeadlineMinutes = (keyOrLabel, fallback) => {
+      let r = getRestrictionByKey(keyOrLabel);
+      if (!r) r = restrictions.find(x=> x.label.toLowerCase().includes(keyOrLabel.toLowerCase()) && x.enabled);
       if (!r) return fallback;
       const v = r.value.toLowerCase();
       // Parse times like "17:00 today", "midnight", "11:00 tomorrow", "today"
@@ -576,18 +637,18 @@ export default function App() {
       if (v.includes('today')) return 22*60; // default end of today before wallet cutoff, or 24*60
       return fallback;
     };
-    const payrollDeadline = getDeadlineMinutes('Payroll deadline', 17*60);
-    const phoneDeadline = getDeadlineMinutes('Phone dealers', 17*60);
-    const erpDeadline = getDeadlineMinutes('ERP shutdown', 24*60);
-    const rentDeadline = getDeadlineMinutes('HQ rent', (24+11)*60);
-    const motoDeadline = getDeadlineMinutes('Motorcycle dealer', 22*60);
+    const payrollDeadline = getDeadlineMinutes('payroll_deadline', 17*60);
+    const phoneDeadline = getDeadlineMinutes('phone_deadline', 17*60);
+    const erpDeadline = getDeadlineMinutes('erp_deadline', 24*60);
+    const rentDeadline = getDeadlineMinutes('rent_deadline', (24+11)*60);
+    const motoDeadline = getDeadlineMinutes('motorcycle_deadline', 22*60);
     // Car and suppliers use "today" -> schedule before 22:00
-    const carDeadline = getDeadlineMinutes('Car loans', 22*60+10);
-    const suppliersDeadline = getDeadlineMinutes('Suppliers', 21*60);
+    const carDeadline = getDeadlineMinutes('car_loans_deadline', 22*60+10);
+    const suppliersDeadline = getDeadlineMinutes('suppliers_deadline', 21*60);
 
     // Schedule times: aim for 30-45 min before deadline to allow buffer, but not earlier than liquidity
     // Respect RTGS cutoff for RTGS payments
-    const rtgsCutVal = getRestrictionValue("RTGS window") || "06:00 – 16:30";
+    const rtgsCutVal = getRestrictionValue("rtgs_window") || getRestrictionValue("RTGS window") || "06:00 – 16:30";
     const rtgsEnd = (()=>{ const m=rtgsCutVal.match(/(\d{1,2}):(\d{2})/g); if(m && m.length>=2){ const parts=m[1].split(':'); return parseInt(parts[0])*60+parseInt(parts[1]); } return 16*60+30; })();
     // Helper to ensure RTGS payments are before cutoff
     const ensureBeforeCutoff = (proposed, isRTGS) => {
@@ -607,8 +668,8 @@ export default function App() {
     };
     const railMap = { payroll: "Batch PesaLink", erp: "RTGS / within-bank", phone: "Batch PesaLink / M-Pesa", motorcycle: "Within-bank", car: "Batch PesaLink", rent: "RTGS", suppliers: "Batch PesaLink", tax: "Tax API (deferred)" };
     // Validate that PesaLink/M-Pesa limits are respected (each individual payment < limit)
-    const pesaLimit = getNum("PesaLink max") || 1000000;
-    const mpesaLimit = getNum("M-Pesa max") || 250000;
+    const pesaLimit = getNum("pesa_limit") || getNum("PesaLink max") || 1000000;
+    const mpesaLimit = getNum("mpesa_limit") || getNum("M-Pesa max") || 250000;
     // For each scheduled payment, we will later validate rail limits
     
     let carIdx = 0; let scheduled = [];
@@ -747,7 +808,7 @@ export default function App() {
     XLSX.utils.book_append_sheet(wb, ws1, "Task1 Answer");
     const hdrA = ["Time", "Details", "Rail", "KES in", "KES out", "KES balance", "EUR balance", "USD balance", "Total equiv."];
     const rowsA = [hdrA];
-    const eurR = getNum("FX rate EUR") || 150, usdR = getNum("FX rate USD") || 130;
+    const eurR = getNum("fx_eur") || getNum("FX rate EUR") || 150, usdR = getNum("fx_usd") || getNum("FX rate USD") || 130;
     lastResult.ledgers.A.forEach(r => {
       const tot = (r.kesBal || 0) + (r.eurBal || 0) * eurR + (r.usdBal || 0) * usdR;
       rowsA.push([typeof r.time === "number" ? `${String(Math.floor(r.time / 60)).padStart(2, "0")}:${String(r.time % 60).padStart(2, "0")}` : r.time, r.desc, r.rail, r.kesIn || 0, r.kesOut || 0, r.kesBal, r.eurBal, r.usdBal, tot]);
@@ -772,7 +833,7 @@ export default function App() {
     const q = search.toLowerCase();
     return restrictions.filter(r => {
       const catOk = activeTab === "all" || r.cat === activeTab;
-      const searchOk = !q || (r.label + r.desc + r.value).toLowerCase().includes(q);
+      const searchOk = !q || (r.label + r.desc + r.value + (r.key||'')).toLowerCase().includes(q);
       return catOk && searchOk;
     });
   }, [restrictions, activeTab, search]);
@@ -793,8 +854,9 @@ export default function App() {
   const duplicateRestriction = (id) => {
     const r = restrictions.find(x => x.id === id);
     if (!r) return;
-    setRestrictions(prev => [...prev, { ...r, id: "r" + Date.now(), label: r.label + " (copy)" }]);
-    markPending(); showToast("Duplicated ✓");
+    const newKey = r.key ? `${r.key}_copy_${Date.now()}` : `custom_${Date.now()}`;
+    setRestrictions(prev => [...prev, { ...r, id: "r" + Date.now(), key: newKey, label: r.label + " (copy)" }]);
+    markPending(); showToast("Duplicated ✓ — new key: "+newKey);
   };
   const resetRestrictions = () => {
     if (!confirm("Clear all restrictions?")) return;
@@ -806,20 +868,23 @@ export default function App() {
   const loadRestrictions = () => {
     const s = localStorage.getItem("mogo_restrictions");
     if (!s) { showToast("Nothing saved"); return; }
-    setRestrictions(JSON.parse(s)); markPending(); showToast("Loaded ✓");
+    const parsed = migrateRestrictions(JSON.parse(s));
+    setRestrictions(parsed); markPending(); showToast("Loaded ✓ — migrated "+parsed.filter(r=>r.key).length+" keys");
   };
   const addRestriction = () => {
     if (!newRestr.name.trim() || !newRestr.value.trim()) { showToast("Name and value required"); return; }
     const cat = newRestr.type === "balance" ? "liquidity" : newRestr.type === "window" ? "schedule" : newRestr.type === "limit" ? "limits" : "business";
-    setRestrictions(prev => [...prev, { id: "r" + Date.now(), cat, label: newRestr.name.trim(), value: newRestr.value.trim(), unit: newRestr.unit.trim(), desc: newRestr.desc.trim() || "Added by user", type: newRestr.type, enabled: true, editable: true }]);
+    const slug = newRestr.name.trim().toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'').slice(0,30) || 'custom';
+    const newKey = `${slug}_${Date.now()}`;
+    setRestrictions(prev => [...prev, { id: "r" + Date.now(), key: newKey, cat, label: newRestr.name.trim(), value: newRestr.value.trim(), unit: newRestr.unit.trim(), desc: newRestr.desc.trim() || "Added by user", type: newRestr.type, enabled: true, editable: true }]);
     setNewRestr({ type: "balance", name: "", value: "", unit: "", desc: "" });
-    setShowAddModal(false); markPending(); showToast("Restriction added ✓");
+    setShowAddModal(false); markPending(); showToast("Restriction added ✓ — key: "+newKey);
   };
 
   // ---------- Render helpers ----------
   const ledgerData = lastResult?.ledgers?.[ledgerTab];
-  const eurRate = getNum("FX rate EUR") || getNum("FX EUR") || 150;
-  const usdRate = getNum("FX rate USD") || getNum("FX USD") || 130;
+  const eurRate = getNum("fx_eur") || getNum("FX rate EUR") || getNum("FX EUR") || 150;
+  const usdRate = getNum("fx_usd") || getNum("FX rate USD") || getNum("FX USD") || 130;
 
   // grouping for sidebar
   const grouped = useMemo(() => {
@@ -862,15 +927,15 @@ export default function App() {
           <div className="max-w-[1440px] mx-auto px-4 lg:px-6 h-10 flex items-center gap-6 text-xs overflow-x-auto scrollbar-thin">
             <span className="flex items-center gap-2 text-white/70 whitespace-nowrap"><i className="fa-regular fa-clock text-[#FCDC04]" /> Start <b className="text-white">14:00</b> — Cutoff RTGS/FX <b className="text-[#FCDC04]">16:30</b> — Wallet API <b className="text-white">22:00</b></span>
             <span className="hidden md:flex items-center gap-2 text-white/70 whitespace-nowrap"><i className="fa-solid fa-building-columns text-white/40" /> Bank A: <b className="text-white">{(() => {
-              const eur = getNum("Bank A — EUR") || 0;
-              const usd = getNum("Bank A — USD") || 0;
-              const kes = getNum("Bank A — Opening") || 0;
+              const eur = getNum("bank_a_eur") || getNum("Bank A — EUR") || 0;
+              const usd = getNum("bank_a_usd") || getNum("Bank A — USD") || 0;
+              const kes = getNum("bank_a_kes") || getNum("Bank A — Opening") || 0;
               if (eur===0 && usd===0 && kes===0) return "— upload Excel";
               return `${eur? (eur>=1000? Math.round(eur/1000)+'k' : eur)+' EUR • ':''}${usd? (usd>=1000? Math.round(usd/1000)+'k' : usd)+' USD • ':''}${kes? formatKES(kes)+' KES':''}`.replace(/ • $/,'');
             })()}</b></span>
             <span className="hidden lg:flex items-center gap-2 text-white/70 whitespace-nowrap"><i className="fa-solid fa-wallet text-white/40" /> Wallet C: <b className="text-white">{(() => {
-              const w = getNum("Wallet C — Balance") || 0;
-              const inflow = getNum("Customer inflows") || 0;
+              const w = getNum("wallet_c") || getNum("Wallet C — Balance") || 0;
+              const inflow = getNum("customer_inflows") || getNum("Customer inflows") || 0;
               if (w===0 && inflow===0) return "— upload Excel";
               return `${w? formatKES(w)+' KES':''}${w && inflow? ' + ':''}${inflow? formatKES(inflow)+'/h':''} until midnight`;
             })()}</b></span>
@@ -920,6 +985,7 @@ export default function App() {
                             {r.critical && <span className="px-1.5 py-0.5 rounded-full bg-amber-500 text-white text-[10px] font-black">CRITICAL</span>}
                             {!r.enabled && <span className="px-1.5 py-0.5 rounded-full bg-slate-200 text-slate-600 text-[10px] font-bold">OFF</span>}
                           </div>
+                          {r.key && <div className="mt-0.5 text-[10px] font-mono text-slate-400 truncate" title="Stable key — engine uses this, not label">{r.key}</div>}
                           <div className="mt-1 flex items-center gap-2">
                             <input value={r.value} onChange={e => updateRestriction(r.id, "value", e.target.value)} className="flex-1 min-w-0 px-2 py-1 rounded-lg border border-slate-200 bg-slate-50 text-xs font-mono font-bold text-[#0f2040] focus:bg-white focus:border-sky-400 focus:outline-none" />
                             <span className="text-[11px] font-bold text-slate-500 whitespace-nowrap">{r.unit}</span>
@@ -1225,7 +1291,7 @@ export default function App() {
                     {ledgerTab === "A" && ledgerData && (
                       <div className="px-4 py-3 bg-slate-900 text-white flex flex-wrap justify-between gap-2 text-xs">
                         <span>Closing Bank {ledgerTab}: <b>KES {formatKES(ledgerData[ledgerData.length - 1].kesBal)} + {ledgerData[ledgerData.length - 1].eurBal} EUR + {ledgerData[ledgerData.length - 1].usdBal} USD = {formatKES((ledgerData[ledgerData.length - 1].kesBal || 0) + (ledgerData[ledgerData.length - 1].eurBal || 0) * eurRate + (ledgerData[ledgerData.length - 1].usdBal || 0) * usdRate)} equiv.</b></span>
-                        <span className="text-emerald-300">Buffer {formatKES(((ledgerData[ledgerData.length - 1].kesBal || 0) + (ledgerData[ledgerData.length - 1].eurBal || 0) * eurRate + (ledgerData[ledgerData.length - 1].usdBal || 0) * usdRate) - (getNum("Central Bank minimum") || 13000000))}</span>
+                        <span className="text-emerald-300">Buffer {formatKES(((ledgerData[ledgerData.length - 1].kesBal || 0) + (ledgerData[ledgerData.length - 1].eurBal || 0) * eurRate + (ledgerData[ledgerData.length - 1].usdBal || 0) * usdRate) - (getNum("central_min") || getNum("Central Bank minimum") || 13000000))}</span>
                       </div>
                     )}
                   </div>
@@ -1314,19 +1380,19 @@ export default function App() {
                       })()},
                       {label: 'No overdraft', desc: 'No bank balance < 0', check: lastResult.ledgers.A.every(e=> e.kesBal>=0) && lastResult.ledgers.B.every(e=> e.kesBal>=0), detail: `A min ${formatKES(Math.min(...lastResult.ledgers.A.map(e=>e.kesBal)))} | B min ${formatKES(Math.min(...lastResult.ledgers.B.map(e=>e.kesBal)))}`},
                       {label: 'Central Bank minimum', desc: `≥ ${formatKES(lastResult.kpis.minBalance)} EOD`, check: lastResult.kpis.headroom>=0, detail: `Headroom ${formatKES(lastResult.kpis.headroom)} ${lastResult.kpis.headroom>=0?'✓':'✗ Breach'}`},
-                      {label: 'RTGS window', desc: (()=>{ const w=getRestrictionValue("RTGS window")||"06:00 – 16:30"; return `RTGS ${w}`; })(), check: (()=>{ const w=getRestrictionValue("RTGS window")||"06:00 – 16:30"; const m=w.match(/(\d{1,2}):(\d{2})/g); let cut=16*60+30; if(m && m.length>=2){ const parts=m[1].split(':'); cut=parseInt(parts[0])*60+parseInt(parts[1]); } return lastResult.ranked.filter(r=> r.rail.includes('RTGS')).every(r=> { if(r.time==='T+1'||r.time==='—') return true; const [h,mm]=r.time.split(':').map(Number); return h*60+mm <= cut; }); })(), detail: lastResult.ranked.filter(r=> r.rail.includes('RTGS')).map(r=> `${r.name} @${r.time}`).join(', ') || 'No RTGS'},
-                      {label: 'FX window', desc: (()=>{ const w=getRestrictionValue("FX market window")||"09:00 – 16:30"; return `FX ${w}`; })(), check: (()=>{ const w=getRestrictionValue("FX market window")||"09:00 – 16:30"; const m=w.match(/(\d{1,2}):(\d{2})/g); let cut=16*60+30; if(m && m.length>=2){ const parts=m[1].split(':'); cut=parseInt(parts[0])*60+parseInt(parts[1]); } else { const fm=w.match(/(\d{1,2}):(\d{2})/); if(fm) cut=parseInt(fm[1])*60+parseInt(fm[2]); } return lastResult.fxTrades.filter(f=> f.trade.includes('Sell')).every(f=> { const [h,mm]=f.time.split(':').map(Number); return h*60+(mm||0) <= cut; }); })(), detail: lastResult.fxTrades.filter(f=> f.trade.includes('Sell')).map(f=> `${f.trade} @${f.time}`).join(', ') || 'No FX'},
-                      {label: 'PesaLink limit', desc: `≤ ${formatKES(getNum("PesaLink max")||1000000)} per tx`, check: lastResult.ranked.filter(r=> r.rail.includes('PesaLink')).every(r=> r.amount <= (getNum("PesaLink max")||1000000) || r.name.includes('Payroll') || r.name.includes('Car loan')), detail: `Max scheduled PesaLink: ${formatKES(Math.max(...lastResult.ranked.filter(r=> r.rail.includes('PesaLink')).map(r=>r.amount),0))}`},
-                      {label: 'M-Pesa limit', desc: `≤ ${formatKES(getNum("M-Pesa max")||250000)} per tx`, check: lastResult.ranked.filter(r=> r.rail.includes('M-Pesa')).every(r=> {
-                        const limit = getNum("M-Pesa max")||250000;
+                      {label: 'RTGS window', desc: (()=>{ const w=getRestrictionValue("rtgs_window")||getRestrictionValue("RTGS window")||"06:00 – 16:30"; return `RTGS ${w}`; })(), check: (()=>{ const w=getRestrictionValue("rtgs_window")||getRestrictionValue("RTGS window")||"06:00 – 16:30"; const m=w.match(/(\d{1,2}):(\d{2})/g); let cut=16*60+30; if(m && m.length>=2){ const parts=m[1].split(':'); cut=parseInt(parts[0])*60+parseInt(parts[1]); } return lastResult.ranked.filter(r=> r.rail.includes('RTGS')).every(r=> { if(r.time==='T+1'||r.time==='—') return true; const [h,mm]=r.time.split(':').map(Number); return h*60+mm <= cut; }); })(), detail: lastResult.ranked.filter(r=> r.rail.includes('RTGS')).map(r=> `${r.name} @${r.time}`).join(', ') || 'No RTGS'},
+                      {label: 'FX window', desc: (()=>{ const w=getRestrictionValue("fx_window")||getRestrictionValue("FX market window")||"09:00 – 16:30"; return `FX ${w}`; })(), check: (()=>{ const w=getRestrictionValue("fx_window")||getRestrictionValue("FX market window")||"09:00 – 16:30"; const m=w.match(/(\d{1,2}):(\d{2})/g); let cut=16*60+30; if(m && m.length>=2){ const parts=m[1].split(':'); cut=parseInt(parts[0])*60+parseInt(parts[1]); } else { const fm=w.match(/(\d{1,2}):(\d{2})/); if(fm) cut=parseInt(fm[1])*60+parseInt(fm[2]); } return lastResult.fxTrades.filter(f=> f.trade.includes('Sell')).every(f=> { const [h,mm]=f.time.split(':').map(Number); return h*60+(mm||0) <= cut; }); })(), detail: lastResult.fxTrades.filter(f=> f.trade.includes('Sell')).map(f=> `${f.trade} @${f.time}`).join(', ') || 'No FX'},
+                      {label: 'PesaLink limit', desc: `≤ ${formatKES(getNum("pesa_limit")||getNum("PesaLink max")||1000000)} per tx`, check: lastResult.ranked.filter(r=> r.rail.includes('PesaLink')).every(r=> r.amount <= (getNum("pesa_limit")||getNum("PesaLink max")||1000000) || r.name.includes('Payroll') || r.name.includes('Car loan')), detail: `Max scheduled PesaLink: ${formatKES(Math.max(...lastResult.ranked.filter(r=> r.rail.includes('PesaLink')).map(r=>r.amount),0))}`},
+                      {label: 'M-Pesa limit', desc: `≤ ${formatKES(getNum("mpesa_limit")||getNum("M-Pesa max")||250000)} per tx`, check: lastResult.ranked.filter(r=> r.rail.includes('M-Pesa')).every(r=> {
+                        const limit = getNum("mpesa_limit")||getNum("M-Pesa max")||250000;
                         // Car 300k would need split, but we use PesaLink so ok
                         if(r.name.includes('Car loan') && r.rail.includes('M-Pesa')) return r.amount <= limit;
                         return true;
                       }), detail: `Car 300k via PesaLink (not M-Pesa) ✓`},
                       {label: 'Wallet cutoff', desc: 'Sweeps until 22:00, 23:00+ not bankable', check: lastResult.ledgers.C.filter(r=> r.time>=23*60).every(r=> r.kesBal>=0), detail: `Wallet 23:00 ${formatKES(lastResult.ledgers.C.find(r=>r.time===23*60)?.kesBal||0)} held`},
                       {label: 'Deadlines', desc: 'Respects edited deadlines (Payroll, ERP, Rent...)', check: (()=>{ 
-                        const getDl = (labelContains, fallback)=>{
-                          const r=restrictions.find(x=> x.label.toLowerCase().includes(labelContains.toLowerCase()) && x.enabled);
+                        const getDl = (keyOrLabel, fallback)=>{
+                          let r=getRestrictionByKey(keyOrLabel);
                           if(!r) return fallback;
                           const v=r.value.toLowerCase();
                           const m=v.match(/(\d{1,2}):(\d{2})/);
@@ -1335,10 +1401,10 @@ export default function App() {
                           if(v.includes('today')) return 22*60;
                           return fallback;
                         };
-                        const payrollDl=getDl('Payroll deadline',17*60);
-                        const phoneDl=getDl('Phone dealers',17*60);
-                        const erpDl=getDl('ERP shutdown',24*60);
-                        const rentDl=getDl('HQ rent',(24+11)*60);
+                        const payrollDl=getDl('payroll_deadline',17*60);
+                        const phoneDl=getDl('phone_deadline',17*60);
+                        const erpDl=getDl('erp_deadline',24*60);
+                        const rentDl=getDl('rent_deadline',(24+11)*60);
                         const dlCheck = (name, timeStr)=>{
                           if(timeStr==='T+1'||timeStr==='—') return true;
                           const [h,m]=timeStr.split(':').map(Number);
@@ -1348,7 +1414,7 @@ export default function App() {
                           if(name.toLowerCase().includes('erp')) return t < erpDl;
                           if(name.toLowerCase().includes('rent')) return t <= rentDl;
                           return true;
-                        }; return lastResult.ranked.every(r=> dlCheck(r.name, r.time)); })(), detail: (()=>{ const getDlStr=(l,f)=>{ const r=restrictions.find(x=> x.label.toLowerCase().includes(l.toLowerCase()) && x.enabled); return r? r.value : f; }; return `Payroll ${getDlStr('Payroll deadline','17:00')} | Phone ${getDlStr('Phone dealers','17:00')} | ERP ${getDlStr('ERP shutdown','midnight')} | Rent ${getDlStr('HQ rent','11:00 tomorrow')}`; })()},
+                        }; return lastResult.ranked.every(r=> dlCheck(r.name, r.time)); })(), detail: (()=>{ const getDlStr=(k,legacy,f)=>{ const r=getRestrictionByKey(k)||restrictions.find(x=> x.label.toLowerCase().includes(legacy.toLowerCase()) && x.enabled); return r? r.value : f; }; return `Payroll ${getDlStr('payroll_deadline','Payroll deadline','17:00')} | Phone ${getDlStr('phone_deadline','Phone dealers','17:00')} | ERP ${getDlStr('erp_deadline','ERP shutdown','midnight')} | Rent ${getDlStr('rent_deadline','HQ rent','11:00 tomorrow')}`; })()},
                     ].map((c,i)=> (
                       <div key={i} className={`p-3 rounded-xl border ${c.check ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'}`}>
                         <div className="flex items-center gap-2 font-bold text-sm">
