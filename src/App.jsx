@@ -923,30 +923,11 @@ export default function App() {
             <button onClick={exportExcel} className={`hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#FF6B00] hover:bg-orange-500 text-white font-bold text-sm transition ${!lastResult ? "opacity-50 pointer-events-none" : ""}`}><i className="fa-solid fa-file-excel" /> Export</button>
           </div>
         </div>
-        <div className="bg-[#0F2A52] border-t border-white/5">
-          <div className="max-w-[1440px] mx-auto px-4 lg:px-6 h-10 flex items-center gap-6 text-xs overflow-x-auto scrollbar-thin">
-            <span className="flex items-center gap-2 text-white/70 whitespace-nowrap"><i className="fa-regular fa-clock text-[#FCDC04]" /> Start <b className="text-white">14:00</b> — Cutoff RTGS/FX <b className="text-[#FCDC04]">16:30</b> — Wallet API <b className="text-white">22:00</b></span>
-            <span className="hidden md:flex items-center gap-2 text-white/70 whitespace-nowrap"><i className="fa-solid fa-building-columns text-white/40" /> Bank A: <b className="text-white">{(() => {
-              const eur = getNum("bank_a_eur") || getNum("Bank A — EUR") || 0;
-              const usd = getNum("bank_a_usd") || getNum("Bank A — USD") || 0;
-              const kes = getNum("bank_a_kes") || getNum("Bank A — Opening") || 0;
-              if (eur===0 && usd===0 && kes===0) return "— upload Excel";
-              return `${eur? (eur>=1000? Math.round(eur/1000)+'k' : eur)+' EUR • ':''}${usd? (usd>=1000? Math.round(usd/1000)+'k' : usd)+' USD • ':''}${kes? formatKES(kes)+' KES':''}`.replace(/ • $/,'');
-            })()}</b></span>
-            <span className="hidden lg:flex items-center gap-2 text-white/70 whitespace-nowrap"><i className="fa-solid fa-wallet text-white/40" /> Wallet C: <b className="text-white">{(() => {
-              const w = getNum("wallet_c") || getNum("Wallet C — Balance") || 0;
-              const inflow = getNum("customer_inflows") || getNum("Customer inflows") || 0;
-              if (w===0 && inflow===0) return "— upload Excel";
-              return `${w? formatKES(w)+' KES':''}${w && inflow? ' + ':''}${inflow? formatKES(inflow)+'/h':''} until midnight`;
-            })()}</b></span>
-            <span className="hidden xl:flex items-center gap-1.5 text-white/50 whitespace-nowrap ml-auto"><i className="fa-solid fa-location-dot text-[#FF6B00]" /> Kampala • Nairobi</span>
-          </div>
-        </div>
       </header>
 
-      <div className="max-w-[1440px] mx-auto flex min-h-[calc(100vh-104px)]">
+      <div className="max-w-[1440px] mx-auto flex min-h-[calc(100vh-68px)]">
         {/* SIDEBAR */}
-        <aside className={`fixed lg:sticky top-[104px] inset-y-0 left-0 z-30 w-[360px] lg:w-[380px] bg-white border-r border-slate-200 h-[calc(100vh-104px)] overflow-hidden flex flex-col shadow-2xl lg:shadow-none transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
+        <aside className={`fixed lg:sticky top-[68px] inset-y-0 left-0 z-30 w-[360px] lg:w-[380px] bg-white border-r border-slate-200 h-[calc(100vh-68px)] overflow-hidden flex flex-col shadow-2xl lg:shadow-none transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
           <div className="h-[56px] px-5 flex items-center justify-between border-b border-slate-100 bg-slate-50/80">
             <div className="flex items-center gap-2.5 font-extrabold text-[#0B1E3A]"><i className="fa-solid fa-sliders text-[#FF6B00]" /> Restrictions <span className="hidden sm:inline text-slate-400 font-normal">/ Constraints</span></div>
             <div className="flex items-center gap-1">
