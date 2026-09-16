@@ -897,7 +897,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen">
-      <div className="uganda-flag" />
       {/* HEADER */}
       <header className="sticky top-0 z-40 bg-[#0B1E3A] text-white border-b border-white/10">
         <div className="max-w-[1440px] mx-auto px-4 lg:px-6 h-[68px] flex items-center justify-between gap-4">
@@ -907,7 +906,7 @@ export default function App() {
               <img src="/mogo-logo.svg" alt="MOGO" className="h-11 w-auto rounded-xl shadow-lg object-contain" />
               <div>
                 <div className="font-black tracking-tight leading-none text-[18px]">MOGO <span className="font-extrabold text-[#FF6B00]">UGANDA</span> <span className="font-light text-white/90">— Treasury</span></div>
-                <div className="text-[10px] tracking-[0.18em] text-white/60 font-bold flex items-center gap-1.5"><span className="hidden sm:inline">ELEVING GROUP</span> <span className="w-1 h-1 rounded-full bg-[#FCDC04]" /> OPTIMIZER • KES • EUR • USD • UGX <span className="hidden md:inline-flex ml-1 w-5 h-3 rounded-[2px] overflow-hidden border border-white/20"><span className="flex-1 bg-black" /><span className="flex-1 bg-[#FCDC04]" /><span className="flex-1 bg-[#D90000]" /></span></div>
+                <div className="text-[10px] tracking-[0.18em] text-white/60 font-bold flex items-center gap-1.5"><span className="hidden sm:inline">ELEVING GROUP</span> <span className="w-1 h-1 rounded-full bg-[#FCDC04]" /> OPTIMIZER • KES • EUR • USD • UGX</div>
               </div>
             </div>
             <span className="hidden lg:inline-flex ml-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/20 text-emerald-300 text-xs font-bold tracking-wide"><span className="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-pulse inline-block" /> Engine active</span>

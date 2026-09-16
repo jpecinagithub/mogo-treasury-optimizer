@@ -7,7 +7,6 @@
 * { scroll-behavior: smooth; }
 body { @apply bg-[#f1f5f9] text-slate-800 font-sans antialiased; }
 
-.uganda-flag{height:4px;background: linear-gradient(90deg,#000 0 33%,#FCDC04 33% 66%,#D90000 66% 100%)}
 .mogo-card{border-top:3px solid #FF6B00}
 .glass{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .scrollbar-thin::-webkit-scrollbar{width:6px;height:6px}
