@@ -899,15 +899,11 @@ export default function App() {
     <div className="min-h-screen">
       {/* HEADER */}
       <header className="sticky top-0 z-40 bg-[#0B2A5B] text-white border-b border-white/10">
-        <div className="max-w-[1440px] mx-auto px-4 lg:px-6 h-[68px] flex items-center justify-between gap-4">
+        <div className="max-w-[1440px] mx-auto px-4 lg:px-6 h-[90px] flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <button onClick={() => setSidebarOpen(true)} className="lg:hidden w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/15 transition"><i className="fa-solid fa-bars" /></button>
             <div className="flex items-center gap-3">
-              <img src="/mogo-logo.svg" alt="MOGO" className="h-[57px] w-auto rounded-xl shadow-lg object-contain" />
-              <div>
-                <div className="font-black tracking-tight leading-none text-[18px]">MOGO <span className="font-extrabold text-[#FF6B00]">UGANDA</span> <span className="font-light text-white/90">— Treasury</span></div>
-                <div className="text-[10px] tracking-[0.18em] text-white/60 font-bold flex items-center gap-1.5"><span className="hidden sm:inline">ELEVING GROUP</span> <span className="w-1 h-1 rounded-full bg-[#FCDC04]" /> OPTIMIZER • KES • EUR • USD • UGX</div>
-              </div>
+              <img src="/mogo-logo.svg" alt="MOGO" className="h-[85px] w-auto rounded-xl shadow-lg object-contain" />
             </div>
             <span className="hidden lg:inline-flex ml-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/20 text-emerald-300 text-xs font-bold tracking-wide"><span className="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-pulse inline-block" /> Engine active</span>
           </div>
@@ -917,9 +913,9 @@ export default function App() {
         </div>
       </header>
 
-      <div className="max-w-[1440px] mx-auto flex min-h-[calc(100vh-68px)]">
+      <div className="max-w-[1440px] mx-auto flex min-h-[calc(100vh-90px)]">
         {/* SIDEBAR */}
-        <aside className={`fixed lg:sticky top-[68px] inset-y-0 left-0 z-30 w-[360px] lg:w-[380px] bg-white border-r border-slate-200 h-[calc(100vh-68px)] overflow-hidden flex flex-col shadow-2xl lg:shadow-none transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
+        <aside className={`fixed lg:sticky top-[90px] inset-y-0 left-0 z-30 w-[360px] lg:w-[380px] bg-white border-r border-slate-200 h-[calc(100vh-90px)] overflow-hidden flex flex-col shadow-2xl lg:shadow-none transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
           <div className="h-[56px] px-5 flex items-center justify-between border-b border-slate-100 bg-slate-50/80">
             <div className="flex items-center gap-2.5 font-extrabold text-[#0B1E3A]"><i className="fa-solid fa-sliders text-[#FF6B00]" /> Restrictions <span className="hidden sm:inline text-slate-400 font-normal">/ Constraints</span></div>
             <div className="flex items-center gap-1">
