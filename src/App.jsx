@@ -77,6 +77,7 @@ export default function App() {
     wallet_cutoff: ["Wallet-to-bank"],
     pesa_limit: ["PesaLink max"],
     mpesa_limit: ["M-Pesa max"],
+    bank_a_usd_eod: ["USD EOD", "Bank A — USD EOD"],
     payroll_deadline: ["Payroll deadline"],
     phone_deadline: ["Phone dealers"],
     erp_deadline: ["ERP shutdown"],
@@ -265,6 +266,10 @@ export default function App() {
       add('liquidity','central_min','Central Bank minimum EOD', '13,000,000', 'KES equiv.','Edit.','balance',true);
       add('business','fx_eur','FX rate EUR→KES', '150', 'KES/EUR','Edit.','rule',false);
       add('business','fx_usd','FX rate USD→KES', '130', 'KES/USD','Edit.','rule',false);
+    }
+    // 9. USD EOD target - user wants 0 at EOD (sell all USD) — always ensure present
+    if (!restrictions.find(r=> r.key==='bank_a_usd_eod')) {
+      add('liquidity','bank_a_usd_eod','Bank A — USD EOD target', '0', 'USD','Sell all USD via FX to reach zero at EOD. Set >0 to retain.','balance',false);
     }
     return restrictions;
   }
@@ -537,6 +542,18 @@ export default function App() {
     if (bankA.EUR === 170000 && bankA.USD === 100000 && eurRate === 150 && usdRate === 130) {
       fxEURtoSell = 100000;
       fxUSDtoSell = 23077;
+    }
+    // Enforce USD EOD target (user wants 0): override FX sizing
+    const usdEodRestr = getRestrictionByKey("bank_a_usd_eod");
+    if (usdEodRestr && usdEodRestr.enabled) {
+      const target = parseVal(usdEodRestr.value);
+      if (target === 0) {
+        fxUSDtoSell = bankA.USD; // sell all to reach zero
+      } else if (!isNaN(target) && target >= 0 && target < bankA.USD) {
+        fxUSDtoSell = Math.max(0, bankA.USD - target);
+      } else if (!isNaN(target) && target >= bankA.USD) {
+        fxUSDtoSell = 0; // already at/below target
+      }
     }
 
     let balA_KES = bankA.KES;
