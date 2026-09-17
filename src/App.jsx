@@ -930,15 +930,7 @@ export default function App() {
                 <p className="text-[14px] text-slate-100 mt-1">Treasury Assessment Task · Q2 2026 · <span className="text-mogo-goldLight">Confidential</span></p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="hidden lg:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[12px] font-medium text-slate-100">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /> Engine active
-              </span>
-              <button onClick={exportExcel} className={`hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-[14px] font-semibold transition shadow-sm border ${!lastResult ? "bg-white/10 text-white/40 border-white/10 cursor-not-allowed" : "bg-white text-mogo-navy border-white hover:bg-mogo-goldLight"}`}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h2"/><path d="M14 13h2"/><path d="M8 17h2"/><path d="M14 17h2"/></svg>
-                Export
-              </button>
-            </div>
+
           </div>
         </div>
         <div className="gold-line" />
