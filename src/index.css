@@ -10,7 +10,7 @@
 body { @apply bg-mogo-slate text-mogo-navy antialiased; }
 
 .gold-line {
-  background: linear-gradient(90deg, #c6a664 0%, #f0e6cc 50%, #c6a664 100%);
+  background: #C6A664;
   height: 3px;
 }
 

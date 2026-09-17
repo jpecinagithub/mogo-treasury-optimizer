@@ -1339,9 +1339,7 @@ export default function App() {
 
               {/* Wow footer — referencia footer styling pero con contenido export */}
               <div className="bg-mogo-navy rounded-2xl p-6 text-white relative overflow-hidden shadow-card">
-                <div className="absolute -right-12 -top-12 w-40 h-40 rounded-full bg-white/5" />
-                <div className="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-mogo-gold/20" />
-                <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-mogo-gold via-mogo-goldLight to-mogo-gold" />
+                <div className="absolute top-0 left-0 right-0 h-[3px] bg-mogo-gold" />
                 <div className="relative flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
                   <div>
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[14px] font-semibold tracking-wide text-mogo-goldLight"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/></svg> Ready for your boss</div>
