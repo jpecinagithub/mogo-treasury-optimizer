@@ -946,7 +946,7 @@ export default function App() {
                 <h2 className="text-[17px] font-semibold tracking-tight text-mogo-navy">Workbook upload</h2>
                 <span className="hidden sm:inline text-[15px] text-mogo-navy">· .xlsx only · sheets: Task, FX, Payroll</span>
               </div>
-              <span className="hidden sm:inline-flex items-center gap-2 text-[14px] text-mogo-navy font-medium">All processing local</span>
+              <span className="hidden sm:inline-flex items-center gap-2 text-[14px] text-mogo-navy font-medium">All processing local - No DATA exposed</span>
             </div>
             <div className="p-6 grid lg:grid-cols-[1.35fr_0.65fr] gap-6">
               <div onClick={() => fileInputRef.current?.click()} onDragOver={e => { e.preventDefault(); e.currentTarget.classList.add("border-mogo-navy/30", "bg-white"); }} onDragLeave={e => e.currentTarget.classList.remove("border-mogo-navy/30", "bg-white")} onDrop={e => { e.preventDefault(); e.currentTarget.classList.remove("border-mogo-navy/30", "bg-white"); const f = e.dataTransfer.files[0]; if (f) handleFile(f); }} className="relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-8 text-center cursor-pointer transition border-slate-200 bg-slate-50/50 hover:bg-white hover:border-mogo-navy/20">
