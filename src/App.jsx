@@ -921,10 +921,10 @@ export default function App() {
             <div className="flex items-center gap-4">
               <div>
                 <div className="flex items-center gap-3">
-                  <h1 className="text-[20px] font-semibold tracking-tight leading-none">MOGO UGANDA</h1>
-                  <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full bg-white/10 border border-white/15 text-[12px] tracking-widest font-medium text-mogo-goldLight">TREASURY OPTIMIZER</span>
+                  <h1 className="text-[22px] font-semibold tracking-tight leading-none">MOGO UGANDA</h1>
+                  <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full bg-white/10 border border-white/15 text-[14px] tracking-widest font-medium text-mogo-goldLight">TREASURY OPTIMIZER</span>
                 </div>
-                <p className="text-[14px] text-slate-100 mt-1">Treasury Assessment Task · Q2 2026 · <span className="text-mogo-goldLight">Confidential</span></p>
+                <p className="text-[16px] text-slate-100 mt-1">Treasury Assessment Task · Q2 2026 · <span className="text-mogo-goldLight">Confidential</span></p>
               </div>
             </div>
 
@@ -943,10 +943,10 @@ export default function App() {
                 <div className="w-7 h-7 rounded-lg bg-mogo-navy flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h2"/><path d="M14 13h2"/><path d="M8 17h2"/><path d="M14 17h2"/></svg>
                 </div>
-                <h2 className="text-[15px] font-semibold tracking-tight text-mogo-navy">Workbook upload</h2>
-                <span className="hidden sm:inline text-[13px] text-mogo-navy/60">· .xlsx only · sheets: Task, FX, Payroll</span>
+                <h2 className="text-[17px] font-semibold tracking-tight text-mogo-navy">Workbook upload</h2>
+                <span className="hidden sm:inline text-[15px] text-mogo-navy/60">· .xlsx only · sheets: Task, FX, Payroll</span>
               </div>
-              <span className="hidden sm:inline-flex items-center gap-2 text-[12px] text-mogo-navy/60 font-medium">All processing local</span>
+              <span className="hidden sm:inline-flex items-center gap-2 text-[14px] text-mogo-navy/60 font-medium">All processing local</span>
             </div>
             <div className="p-6 grid lg:grid-cols-[1.35fr_0.65fr] gap-6">
               <div onClick={() => fileInputRef.current?.click()} onDragOver={e => { e.preventDefault(); e.currentTarget.classList.add("border-mogo-navy/30", "bg-white"); }} onDragLeave={e => e.currentTarget.classList.remove("border-mogo-navy/30", "bg-white")} onDrop={e => { e.preventDefault(); e.currentTarget.classList.remove("border-mogo-navy/30", "bg-white"); const f = e.dataTransfer.files[0]; if (f) handleFile(f); }} className="relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-8 text-center cursor-pointer transition border-slate-200 bg-slate-50/50 hover:bg-white hover:border-mogo-navy/20">
@@ -954,47 +954,47 @@ export default function App() {
                 <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3 bg-mogo-navy text-white">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
                 </div>
-                <p className="text-[15px] font-semibold text-mogo-navy">Drop Excel file here or click to browse</p>
-                <p className="text-[13px] text-mogo-navy/60 mt-1">All processing is local — file never leaves your browser</p>
-                <span className="mt-4 inline-flex items-center px-4 py-2 rounded-full bg-mogo-navy text-white text-[14px] font-semibold shadow-sm">Choose file</span>
+                <p className="text-[17px] font-semibold text-mogo-navy">Drop Excel file here or click to browse</p>
+                <p className="text-[15px] text-mogo-navy/60 mt-1">All processing is local — file never leaves your browser</p>
+                <span className="mt-4 inline-flex items-center px-4 py-2 rounded-full bg-mogo-navy text-white text-[16px] font-semibold shadow-sm">Choose file</span>
                 {fileInfo && (
-                  <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-[13px]">
+                  <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-[15px]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-emerald-600"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/></svg>
                     <span className="font-semibold text-emerald-800">{fileInfo.name}</span>
-                    <span className="text-emerald-600 text-[12px]">{fileInfo.size}</span>
+                    <span className="text-emerald-600 text-[14px]">{fileInfo.size}</span>
                     <button onClick={clearFile} className="ml-2 w-6 h-6 rounded-full bg-white border border-emerald-200 flex items-center justify-center hover:bg-red-50"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
                   </div>
                 )}
               </div>
               <div className="rounded-xl bg-mogo-navy text-white p-5 flex flex-col">
                 <div className="flex items-center gap-2">
-                  <span className="px-2 py-1 rounded-full bg-white/10 border border-white/15 text-[12px] tracking-widest font-semibold text-mogo-goldLight">STEP 2</span>
-                  <h3 className="text-[15px] font-semibold">Generate optimization</h3>
+                  <span className="px-2 py-1 rounded-full bg-white/10 border border-white/15 text-[14px] tracking-widest font-semibold text-mogo-goldLight">STEP 2</span>
+                  <h3 className="text-[17px] font-semibold">Generate optimization</h3>
                 </div>
-                <p className="text-[14px] leading-relaxed text-slate-100 mt-3">The <span className="text-white font-semibold">CALCULATE</span> button runs the in-browser treasury engine and builds the chronological payment plan — with correct FX, rails and ledger entries.</p>
-                <ul className="mt-4 space-y-1.5 text-[13px] text-slate-200">
+                <p className="text-[16px] leading-relaxed text-slate-100 mt-3">The <span className="text-white font-semibold">CALCULATE</span> button runs the in-browser treasury engine and builds the chronological payment plan — with correct FX, rails and ledger entries.</p>
+                <ul className="mt-4 space-y-1.5 text-[15px] text-slate-200">
                   <li className="flex gap-2"><span className="text-mogo-gold">•</span> Live evidence extracted directly from your file</li>
                   <li className="flex gap-2"><span className="text-mogo-gold">•</span> Automatic validation of all restrictions</li>
                 </ul>
-                <button onClick={handleCalculate} disabled={!preview} className={`mt-5 w-full inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-[15px] font-semibold transition border ${!preview ? "bg-white/10 text-white/40 cursor-not-allowed border-white/10" : pendingChanges ? "bg-amber-500 hover:bg-amber-600 text-white border-amber-500 shadow" : "bg-white text-mogo-navy border-white hover:bg-mogo-goldLight"}`}>
+                <button onClick={handleCalculate} disabled={!preview} className={`mt-5 w-full inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-[17px] font-semibold transition border ${!preview ? "bg-white/10 text-white/40 cursor-not-allowed border-white/10" : pendingChanges ? "bg-amber-500 hover:bg-amber-600 text-white border-amber-500 shadow" : "bg-white text-mogo-navy border-white hover:bg-mogo-goldLight"}`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="m16 9-5.5 5.5L8 12"/></svg>
                   {pendingChanges ? "RECALCULATE WITH NEW VALUES" : "CALCULATE OPTIMIZATION"}
                 </button>
-                <p className="text-[12px] text-slate-300 mt-2 text-center">No backend · Vercel static · XLSX via SheetJS</p>
+                <p className="text-[14px] text-slate-300 mt-2 text-center">No backend · Vercel static · XLSX via SheetJS</p>
               </div>
             </div>
             {preview && (
               <div className="mx-6 mb-6 p-4 rounded-xl bg-slate-50 border border-slate-200">
                 <div className="flex items-center justify-between">
-                  <div className="text-[13px] font-semibold text-mogo-navy flex items-center gap-2"><span className="w-7 h-7 rounded-lg bg-mogo-navy flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></span>Payments detected: {preview.payments.length}</div>
-                  <span className="text-[11px] font-mono bg-white border border-slate-200 px-2 py-1 rounded-full text-mogo-navy">{[...new Set(preview.payments.map(p => p.currency))].join(" • ")}</span>
+                  <div className="text-[15px] font-semibold text-mogo-navy flex items-center gap-2"><span className="w-7 h-7 rounded-lg bg-mogo-navy flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></span>Payments detected: {preview.payments.length}</div>
+                  <span className="text-[13px] font-mono bg-white border border-slate-200 px-2 py-1 rounded-full text-mogo-navy">{[...new Set(preview.payments.map(p => p.currency))].join(" • ")}</span>
                 </div>
                 <div className="mt-3 overflow-x-auto">
                   <table className="w-full text-xs">
-                    <thead className="text-[11px] font-semibold tracking-widest text-slate-400 uppercase"><tr><th className="text-left py-1 font-semibold">Payment</th><th className="text-right py-1">Amount</th><th className="text-center py-1">Ccy</th><th className="text-center py-1">Bank</th></tr></thead>
+                    <thead className="text-[13px] font-semibold tracking-widest text-slate-400 uppercase"><tr><th className="text-left py-1 font-semibold">Payment</th><th className="text-right py-1">Amount</th><th className="text-center py-1">Ccy</th><th className="text-center py-1">Bank</th></tr></thead>
                     <tbody className="divide-y divide-slate-100">
                       {preview.payments.map((p, i) => (
-                        <tr key={i}><td className="py-1.5 font-semibold text-mogo-navy">{p.name}</td><td className="text-right font-mono text-mogo-navy">{formatKES(p.amount)}</td><td className="text-center"><span className={`px-1.5 py-0.5 rounded-full text-[10px] font-bold border ${p.currency === "EUR" ? "bg-violet-50 text-violet-700 border-violet-200" : p.currency === "USD" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-slate-50 text-mogo-navy border-slate-200"}`}>{p.currency}</span></td><td className="text-center"><span className={`px-2 py-0.5 rounded-full text-[11px] font-semibold ${p.bank === "A" ? "bg-mogo-navy text-white" : "bg-slate-700 text-white"}`}>Bank {p.bank}</span></td></tr>
+                        <tr key={i}><td className="py-1.5 font-semibold text-mogo-navy">{p.name}</td><td className="text-right font-mono text-mogo-navy">{formatKES(p.amount)}</td><td className="text-center"><span className={`px-1.5 py-0.5 rounded-full text-[12px] font-bold border ${p.currency === "EUR" ? "bg-violet-50 text-violet-700 border-violet-200" : p.currency === "USD" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-slate-50 text-mogo-navy border-slate-200"}`}>{p.currency}</span></td><td className="text-center"><span className={`px-2 py-0.5 rounded-full text-[13px] font-semibold ${p.bank === "A" ? "bg-mogo-navy text-white" : "bg-slate-700 text-white"}`}>Bank {p.bank}</span></td></tr>
                       ))}
                     </tbody>
                   </table>
@@ -1010,18 +1010,18 @@ export default function App() {
                 <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center gap-3">
                   <span className="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></span>
                   <div>
-                    <div className="font-semibold text-[13px] text-amber-900">Results are outdated — restrictions were modified</div>
-                    <div className="text-[13px] text-amber-800">Click <b>Recalculate</b> to apply your changes. Edited values are not yet reflected.</div>
+                    <div className="font-semibold text-[15px] text-amber-900">Results are outdated — restrictions were modified</div>
+                    <div className="text-[15px] text-amber-800">Click <b>Recalculate</b> to apply your changes. Edited values are not yet reflected.</div>
                   </div>
-                  <button onClick={handleCalculate} className="ml-auto px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold text-[13px] shadow">Recalculate now</button>
+                  <button onClick={handleCalculate} className="ml-auto px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold text-[15px] shadow">Recalculate now</button>
                 </div>
               )}
               {(lastResult.deferred.length > 1 || lastResult.fxTrades.some(f=> f.trade.includes('partial') || f.trade.includes('FAILED') || f.trade.includes('Auto-deferred'))) && (
                 <div className="bg-red-50 border border-red-200 rounded-2xl p-4 flex gap-3">
                   <div className="w-9 h-9 rounded-xl bg-red-500 text-white flex items-center justify-center flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
                   <div>
-                    <div className="font-semibold text-[13px] text-red-800">Overdraft protection activated — some payments deferred</div>
-                    <div className="text-[13px] text-red-700 mt-1 leading-relaxed">The engine prevented negative bank balances and Central Bank minimum breach. <b>{lastResult.deferred.length}</b> payment(s) were deferred. Check <b>Deferred / Skipped</b> and <b>Ledger</b> for details.</div>
+                    <div className="font-semibold text-[15px] text-red-800">Overdraft protection activated — some payments deferred</div>
+                    <div className="text-[15px] text-red-700 mt-1 leading-relaxed">The engine prevented negative bank balances and Central Bank minimum breach. <b>{lastResult.deferred.length}</b> payment(s) were deferred. Check <b>Deferred / Skipped</b> and <b>Ledger</b> for details.</div>
                   </div>
                 </div>
               )}
@@ -1029,66 +1029,66 @@ export default function App() {
               {/* KPIs — 4 cards */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                 <div className="bg-white rounded-2xl border border-mogo-border p-5 shadow-card">
-                  <div className="text-[11px] font-semibold tracking-widest text-slate-400 uppercase">Bankable liquidity 22:00</div>
-                  <div className="mt-1 font-semibold text-[20px] tracking-tight text-mogo-navy">{formatKES(lastResult.kpis.totalBankable)} <span className="text-[13px] font-medium">KES</span></div>
-                  <div className="text-[13px] text-mogo-navy/60">48.5M opening + 90M wallet</div>
+                  <div className="text-[13px] font-semibold tracking-widest text-slate-400 uppercase">Bankable liquidity 22:00</div>
+                  <div className="mt-1 font-semibold text-[22px] tracking-tight text-mogo-navy">{formatKES(lastResult.kpis.totalBankable)} <span className="text-[15px] font-medium">KES</span></div>
+                  <div className="text-[15px] text-mogo-navy/60">48.5M opening + 90M wallet</div>
                   <div className="mt-3 h-1.5 rounded-full bg-slate-100 overflow-hidden"><div className="h-full bg-mogo-navy" style={{ width: "100%" }} /></div>
                 </div>
                 <div className="bg-white rounded-2xl border border-mogo-border p-5 shadow-card">
-                  <div className="text-[11px] font-semibold tracking-widest text-slate-400 uppercase">Total to pay (ex-tax)</div>
-                  <div className="mt-1 font-semibold text-[20px] tracking-tight text-mogo-navy">{formatKES(lastResult.kpis.dynamicTotalKES)} <span className="text-[13px] font-medium">KES</span></div>
-                  <div className="text-[13px] text-mogo-navy/60">8 critical payments</div>
-                  <div className="mt-2 text-[11px] font-semibold text-emerald-600 flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6 9 17l-5-5"/></svg>{lastResult.ranked.filter(r => r.status === "Scheduled").length} scheduled</div>
+                  <div className="text-[13px] font-semibold tracking-widest text-slate-400 uppercase">Total to pay (ex-tax)</div>
+                  <div className="mt-1 font-semibold text-[22px] tracking-tight text-mogo-navy">{formatKES(lastResult.kpis.dynamicTotalKES)} <span className="text-[15px] font-medium">KES</span></div>
+                  <div className="text-[15px] text-mogo-navy/60">8 critical payments</div>
+                  <div className="mt-2 text-[13px] font-semibold text-emerald-600 flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6 9 17l-5-5"/></svg>{lastResult.ranked.filter(r => r.status === "Scheduled").length} scheduled</div>
                 </div>
                 <div className="bg-white rounded-2xl border border-mogo-border p-5 shadow-card">
-                  <div className="text-[11px] font-semibold tracking-widest text-slate-400 uppercase">Headroom above 13M minimum</div>
-                  <div className={`mt-1 font-semibold text-[20px] tracking-tight ${lastResult.kpis.headroom >= 0 ? "text-emerald-600" : "text-red-600"}`}>{lastResult.kpis.headroom >= 0 ? "+" : ""}{formatKES(lastResult.kpis.headroom)} <span className="text-[13px]">KES</span></div>
-                  <div className={`text-[13px] ${lastResult.kpis.headroom >= 0 ? "text-mogo-navy/60" : "text-red-600 font-medium"}`}>{lastResult.kpis.headroom >= 0 ? `${formatKES(lastResult.kpis.minBalance)} minimum · ${lastResult.kpis.headroom >= 7000000 ? "safe buffer" : "tight buffer"}` : "BREACH! Fine 10M"}</div>
+                  <div className="text-[13px] font-semibold tracking-widest text-slate-400 uppercase">Headroom above 13M minimum</div>
+                  <div className={`mt-1 font-semibold text-[22px] tracking-tight ${lastResult.kpis.headroom >= 0 ? "text-emerald-600" : "text-red-600"}`}>{lastResult.kpis.headroom >= 0 ? "+" : ""}{formatKES(lastResult.kpis.headroom)} <span className="text-[15px]">KES</span></div>
+                  <div className={`text-[15px] ${lastResult.kpis.headroom >= 0 ? "text-mogo-navy/60" : "text-red-600 font-medium"}`}>{lastResult.kpis.headroom >= 0 ? `${formatKES(lastResult.kpis.minBalance)} minimum · ${lastResult.kpis.headroom >= 7000000 ? "safe buffer" : "tight buffer"}` : "BREACH! Fine 10M"}</div>
                   <div className="mt-3 h-1.5 rounded-full bg-slate-100 overflow-hidden"><div className={`h-full ${lastResult.kpis.headroom >= 7000000 ? "bg-emerald-600" : lastResult.kpis.headroom >= 0 ? "bg-amber-500" : "bg-red-500"}`} style={{ width: Math.min(100, Math.max(0, (lastResult.kpis.headroom / lastResult.kpis.minBalance * 40 + 60))).toFixed(0) + "%" }} /></div>
                 </div>
                 <div className="bg-mogo-navy rounded-2xl p-5 text-white shadow-card">
-                  <div className="text-[11px] font-semibold tracking-widest text-mogo-goldLight uppercase">Deferred (grace)</div>
-                  <div className="mt-1 font-semibold text-[20px] tracking-tight">{formatKES(lastResult.kpis.taxAmount)} <span className="text-[13px] font-medium text-white/80">KES</span></div>
-                  <div className="text-[13px] text-white/80">Tax · 2-day grace</div>
-                  <div className="mt-2 inline-flex px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-[11px] font-semibold"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mr-1"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> No penalty</div>
+                  <div className="text-[13px] font-semibold tracking-widest text-mogo-goldLight uppercase">Deferred (grace)</div>
+                  <div className="mt-1 font-semibold text-[22px] tracking-tight">{formatKES(lastResult.kpis.taxAmount)} <span className="text-[15px] font-medium text-white/80">KES</span></div>
+                  <div className="text-[15px] text-white/80">Tax · 2-day grace</div>
+                  <div className="mt-2 inline-flex px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-[13px] font-semibold"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mr-1"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> No penalty</div>
                 </div>
               </div>
 
               {/* Ranked */}
               <div className="bg-white rounded-2xl shadow-card border border-mogo-border overflow-hidden">
                 <div className="px-6 py-4 border-b border-slate-100">
-                  <h2 className="text-[15px] font-semibold tracking-tight text-mogo-navy flex items-center gap-2"><span className="w-7 h-7 rounded-lg bg-mogo-navy text-white flex items-center justify-center text-[12px] font-bold">2</span> Payments in chronological order</h2>
+                  <h2 className="text-[17px] font-semibold tracking-tight text-mogo-navy flex items-center gap-2"><span className="w-7 h-7 rounded-lg bg-mogo-navy text-white flex items-center justify-center text-[14px] font-bold">2</span> Payments in chronological order</h2>
                 </div>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-[13px]">
-                    <thead className="bg-slate-50 text-[11px] font-semibold tracking-widest text-slate-500 uppercase"><tr><th className="px-4 py-3 text-left">#</th><th className="px-4 py-3 text-left">Approx. time</th><th className="px-4 py-3 text-left">Payment</th><th className="px-4 py-3 text-right">Amount</th><th className="px-4 py-3 text-center">Ccy</th><th className="px-4 py-3 text-left">Rail</th><th className="px-4 py-3 text-center">Bank</th><th className="px-4 py-3 text-center">Status</th></tr></thead>
+                  <table className="w-full text-[15px]">
+                    <thead className="bg-slate-50 text-[13px] font-semibold tracking-widest text-slate-500 uppercase"><tr><th className="px-4 py-3 text-left">#</th><th className="px-4 py-3 text-left">Approx. time</th><th className="px-4 py-3 text-left">Payment</th><th className="px-4 py-3 text-right">Amount</th><th className="px-4 py-3 text-center">Ccy</th><th className="px-4 py-3 text-left">Rail</th><th className="px-4 py-3 text-center">Bank</th><th className="px-4 py-3 text-center">Status</th></tr></thead>
                     <tbody className="divide-y divide-slate-100">
                       <tr className="bg-emerald-50/60 border-l-4 border-emerald-600">
-                        <td className="px-4 py-3 font-mono text-[12px] font-bold text-emerald-700">—</td>
-                        <td className="px-4 py-3"><span className="inline-flex px-2.5 py-1 rounded-full bg-emerald-600 text-white text-[12px] font-semibold">EOD</span></td>
+                        <td className="px-4 py-3 font-mono text-[14px] font-bold text-emerald-700">—</td>
+                        <td className="px-4 py-3"><span className="inline-flex px-2.5 py-1 rounded-full bg-emerald-600 text-white text-[14px] font-semibold">EOD</span></td>
                         <td className="px-4 py-3 font-semibold text-emerald-800">Retain Central Bank minimum</td>
                         <td className="px-4 py-3 text-right font-mono font-semibold text-emerald-800">{formatKES(lastResult.kpis.minBalance)}</td>
-                        <td className="px-4 py-3 text-center"><span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-bold border border-emerald-200">KES</span></td>
-                        <td className="px-4 py-3 text-[12px] font-medium text-emerald-700">No payment — reserve</td>
-                        <td className="px-4 py-3 text-center"><span className="px-3 py-1 rounded-full bg-emerald-600 text-white text-[11px] font-bold">A+B</span></td>
-                        <td className="px-4 py-3 text-center"><span className="px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-semibold">✓ Protected</span></td>
+                        <td className="px-4 py-3 text-center"><span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[13px] font-bold border border-emerald-200">KES</span></td>
+                        <td className="px-4 py-3 text-[14px] font-medium text-emerald-700">No payment — reserve</td>
+                        <td className="px-4 py-3 text-center"><span className="px-3 py-1 rounded-full bg-emerald-600 text-white text-[13px] font-bold">A+B</span></td>
+                        <td className="px-4 py-3 text-center"><span className="px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[13px] font-semibold">✓ Protected</span></td>
                       </tr>
                       {lastResult.ranked.map(r => (
                         <tr key={r.rank} className={`hover:bg-slate-50 transition ${r.status === "Deferred" ? "bg-amber-50/40" : ""}`}>
-                          <td className="px-4 py-3 font-mono text-[12px] font-medium text-slate-400">{r.rank}</td>
-                          <td className="px-4 py-3"><span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-mogo-navy text-white text-[12px] font-mono font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>{r.time}</span></td>
-                          <td className="px-4 py-3"><div className="font-semibold text-mogo-navy leading-tight">{r.name}</div><div className="text-[12px] text-mogo-navy/60 truncate max-w-[220px]">{r.rail}</div></td>
+                          <td className="px-4 py-3 font-mono text-[14px] font-medium text-slate-400">{r.rank}</td>
+                          <td className="px-4 py-3"><span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-mogo-navy text-white text-[14px] font-mono font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>{r.time}</span></td>
+                          <td className="px-4 py-3"><div className="font-semibold text-mogo-navy leading-tight">{r.name}</div><div className="text-[14px] text-mogo-navy/60 truncate max-w-[220px]">{r.rail}</div></td>
                           <td className="px-4 py-3 text-right font-mono font-medium text-mogo-navy">{r.currency === "EUR" ? "€" + formatKES(r.amount) : "KES " + formatKES(r.amount)}</td>
-                          <td className="px-4 py-3 text-center"><span className={`px-2 py-0.5 rounded-full text-[11px] font-bold border ${r.currency === "EUR" ? "bg-violet-50 text-violet-700 border-violet-200" : r.currency === "USD" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-slate-50 text-mogo-navy border-slate-200"}`}>{r.currency}</span></td>
-                          <td className="px-4 py-3"><span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200 text-[12px] font-medium text-mogo-navy"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 16V4"/><path d="M17 8v12"/><path d="M7 12h5a4 4 0 0 1 0 8H7"/><path d="M17 12h-5a4 4 0 0 0 0-8h5"/></svg>{r.rail}</span></td>
-                          <td className="px-4 py-3 text-center"><span className={`inline-flex w-16 justify-center px-3 py-1 rounded-full text-[12px] font-semibold ${r.bank === "A" ? "bg-mogo-navy text-white" : "bg-slate-700 text-white"}`}>Bank {r.bank}</span></td>
-                          <td className="px-4 py-3 text-center"><span className={`inline-flex px-2.5 py-1 rounded-full border text-[11px] font-semibold ${r.status === "Scheduled" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : r.status === "Deferred" ? "bg-amber-50 text-amber-800 border-amber-200" : "bg-red-50 text-red-700 border-red-200"}`}>{r.status === "Scheduled" ? "✓ " + r.status : r.status}</span></td>
+                          <td className="px-4 py-3 text-center"><span className={`px-2 py-0.5 rounded-full text-[13px] font-bold border ${r.currency === "EUR" ? "bg-violet-50 text-violet-700 border-violet-200" : r.currency === "USD" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-slate-50 text-mogo-navy border-slate-200"}`}>{r.currency}</span></td>
+                          <td className="px-4 py-3"><span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200 text-[14px] font-medium text-mogo-navy"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 16V4"/><path d="M17 8v12"/><path d="M7 12h5a4 4 0 0 1 0 8H7"/><path d="M17 12h-5a4 4 0 0 0 0-8h5"/></svg>{r.rail}</span></td>
+                          <td className="px-4 py-3 text-center"><span className={`inline-flex w-16 justify-center px-3 py-1 rounded-full text-[14px] font-semibold ${r.bank === "A" ? "bg-mogo-navy text-white" : "bg-slate-700 text-white"}`}>Bank {r.bank}</span></td>
+                          <td className="px-4 py-3 text-center"><span className={`inline-flex px-2.5 py-1 rounded-full border text-[13px] font-semibold ${r.status === "Scheduled" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : r.status === "Deferred" ? "bg-amber-50 text-amber-800 border-amber-200" : "bg-red-50 text-red-700 border-red-200"}`}>{r.status === "Scheduled" ? "✓ " + r.status : r.status}</span></td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
-                <div className="px-5 py-3 bg-slate-50 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-[12px]">
+                <div className="px-5 py-3 bg-slate-50 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-[14px]">
                   <span className="text-mogo-navy/60 flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> Order optimized by deadline + breach cost. Edit restrictions to reprioritize.</span>
                   <span className="font-semibold text-mogo-navy">{lastResult.ranked.length} lines • {lastResult.ranked.filter(r => r.status === "Scheduled").length} on time • 1 deferred within grace</span>
                 </div>
@@ -1097,39 +1097,39 @@ export default function App() {
               {/* FX + Deferred + Assumptions — 3 cols */}
               <div className="grid lg:grid-cols-3 gap-5">
                 <div className="bg-white rounded-2xl border border-mogo-border shadow-card overflow-hidden">
-                  <div className="px-5 py-3 border-b border-slate-100 font-semibold text-[14px] text-mogo-navy flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M7 16V4"/><path d="M17 8v12"/><path d="M7 12h5a4 4 0 0 1 0 8H7"/><path d="M17 12h-5a4 4 0 0 0 0-8h5"/></svg> FX trades</div>
+                  <div className="px-5 py-3 border-b border-slate-100 font-semibold text-[16px] text-mogo-navy flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M7 16V4"/><path d="M17 8v12"/><path d="M7 12h5a4 4 0 0 1 0 8H7"/><path d="M17 12h-5a4 4 0 0 0 0-8h5"/></svg> FX trades</div>
                   <div className="p-4 space-y-3">
                     {lastResult.fxTrades.map((f, i) => (
                       <div key={i} className="flex gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
-                        <div className="w-12 h-12 rounded-xl bg-white border border-slate-200 flex flex-col items-center justify-center leading-none"><span className="text-[10px] font-bold text-slate-400">{f.time}</span><span className="font-bold text-mogo-navy text-[11px]">FX</span></div>
+                        <div className="w-12 h-12 rounded-xl bg-white border border-slate-200 flex flex-col items-center justify-center leading-none"><span className="text-[12px] font-bold text-slate-400">{f.time}</span><span className="font-bold text-mogo-navy text-[13px]">FX</span></div>
                         <div className="flex-1 min-w-0">
-                          <div className="font-semibold text-[13px] text-mogo-navy">{f.trade}</div>
-                          <div className="text-[12px] text-mogo-navy/60">{f.amount.toLocaleString()} {f.trade.includes("EUR") ? "EUR" : "USD"} {f.rate !== "—" ? "@" + f.rate : ""} → <b className="text-mogo-navy">{f.proceeds === "—" ? "—" : formatKES(f.proceeds) + " KES"}</b></div>
-                          <div className="text-[11px] text-slate-400">{f.purpose} · {f.from}→{f.to || "A KES"}</div>
+                          <div className="font-semibold text-[15px] text-mogo-navy">{f.trade}</div>
+                          <div className="text-[14px] text-mogo-navy/60">{f.amount.toLocaleString()} {f.trade.includes("EUR") ? "EUR" : "USD"} {f.rate !== "—" ? "@" + f.rate : ""} → <b className="text-mogo-navy">{f.proceeds === "—" ? "—" : formatKES(f.proceeds) + " KES"}</b></div>
+                          <div className="text-[13px] text-slate-400">{f.purpose} · {f.from}→{f.to || "A KES"}</div>
                         </div>
                       </div>
                     ))}
-                    <div className="p-3 rounded-xl bg-mogo-navy text-white text-[12px]"><div className="font-semibold">Total proceeds: {formatKES(lastResult.fxTrades.filter(f => f.proceeds !== "—").reduce((s, f) => s + f.proceeds, 0))} KES</div><div className="text-white/70">Execute 14:05-14:15, before RTGS cutoff.</div></div>
+                    <div className="p-3 rounded-xl bg-mogo-navy text-white text-[14px]"><div className="font-semibold">Total proceeds: {formatKES(lastResult.fxTrades.filter(f => f.proceeds !== "—").reduce((s, f) => s + f.proceeds, 0))} KES</div><div className="text-white/70">Execute 14:05-14:15, before RTGS cutoff.</div></div>
                   </div>
-                  <div className="px-4 py-3 bg-mogo-navy/5 border-t border-mogo-border text-[12px] text-mogo-navy flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M9 12h6"/><path d="M12 9v6"/></svg> FX must close before <b>16:30</b>.</div>
+                  <div className="px-4 py-3 bg-mogo-navy/5 border-t border-mogo-border text-[14px] text-mogo-navy flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M9 12h6"/><path d="M12 9v6"/></svg> FX must close before <b>16:30</b>.</div>
                 </div>
                 <div className="bg-white rounded-2xl border border-mogo-border shadow-card overflow-hidden">
-                  <div className="px-5 py-3 border-b border-slate-100 font-semibold text-[13px] text-amber-700 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-amber-500"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Deferred / Skipped</div>
+                  <div className="px-5 py-3 border-b border-slate-100 font-semibold text-[15px] text-amber-700 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-amber-500"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Deferred / Skipped</div>
                   <div className="p-4 space-y-3">
-                    {lastResult.deferred.length === 0 ? <div className="text-[12px] text-slate-500 text-center py-6">Nothing deferred — all fits.</div> : lastResult.deferred.map((d, i) => (
+                    {lastResult.deferred.length === 0 ? <div className="text-[14px] text-slate-500 text-center py-6">Nothing deferred — all fits.</div> : lastResult.deferred.map((d, i) => (
                       <div key={i} className="p-3 rounded-xl bg-amber-50 border border-amber-200">
-                        <div className="font-semibold text-[13px] text-amber-900">{d.name}</div>
-                        <div className="text-[12px] font-mono font-semibold text-amber-800">{formatKES(d.amount)} {d.currency}</div>
-                        <div className="mt-1 text-[12px] leading-snug text-amber-800/80">{d.reason || "Deferred"}</div>
-                        {d.mitigation && <div className="mt-2 text-[11px] bg-white border border-amber-200 rounded-lg px-2 py-1.5 text-amber-800">{d.mitigation}</div>}
-                        <div className={`mt-2 inline-flex px-2 py-1 rounded-full text-[11px] font-bold ${d.name.toLowerCase().includes('tax') ? 'bg-amber-500 text-white' : 'bg-red-500 text-white'}`}>{d.name.toLowerCase().includes('tax') ? 'No penalty (2-day grace)' : 'Overdraft protection'}</div>
+                        <div className="font-semibold text-[15px] text-amber-900">{d.name}</div>
+                        <div className="text-[14px] font-mono font-semibold text-amber-800">{formatKES(d.amount)} {d.currency}</div>
+                        <div className="mt-1 text-[14px] leading-snug text-amber-800/80">{d.reason || "Deferred"}</div>
+                        {d.mitigation && <div className="mt-2 text-[13px] bg-white border border-amber-200 rounded-lg px-2 py-1.5 text-amber-800">{d.mitigation}</div>}
+                        <div className={`mt-2 inline-flex px-2 py-1 rounded-full text-[13px] font-bold ${d.name.toLowerCase().includes('tax') ? 'bg-amber-500 text-white' : 'bg-red-500 text-white'}`}>{d.name.toLowerCase().includes('tax') ? 'No penalty (2-day grace)' : 'Overdraft protection'}</div>
                       </div>
                     ))}
                   </div>
                 </div>
                 <div className="bg-white rounded-2xl border border-mogo-border shadow-card overflow-hidden">
-                  <div className="px-5 py-3 border-b border-slate-100 font-semibold text-[13px] text-mogo-navy flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><circle cx="12" cy="12" r="10"/><path d="M9 12h6"/><path d="M9 9h.01"/><path d="M9 15h.01"/></svg> Assumptions</div>
-                  <div className="p-4 space-y-2 text-[12px] leading-relaxed text-mogo-navy/70">
+                  <div className="px-5 py-3 border-b border-slate-100 font-semibold text-[15px] text-mogo-navy flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><circle cx="12" cy="12" r="10"/><path d="M9 12h6"/><path d="M9 9h.01"/><path d="M9 15h.01"/></svg> Assumptions</div>
+                  <div className="p-4 space-y-2 text-[14px] leading-relaxed text-mogo-navy/70">
                     {[
                       "Fixed rates EUR 150 / USD 130 (editable in side panel). No spread/fees — add 0.5–1% buffer in production.",
                       `Wallet sweeps hourly :00 collection → :05 transfer, only until ${String(Math.floor(lastResult.kpis.walletCut / 60)).padStart(2, "0")}:${String(lastResult.kpis.walletCut % 60).padStart(2, "0")}. 23:00–00:00 =20M stays in wallet for Tax T+1.`,
@@ -1147,16 +1147,16 @@ export default function App() {
               {/* Ledgers */}
               <div className="bg-white rounded-2xl shadow-card border border-mogo-border overflow-hidden">
                 <div className="px-6 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
-                  <h3 className="text-[15px] font-semibold tracking-tight text-mogo-navy flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M3 3v18h18"/><path d="M7 16h8"/><path d="M7 11h8"/><path d="M7 6h8"/></svg> Ledger by account — live balances</h3>
+                  <h3 className="text-[17px] font-semibold tracking-tight text-mogo-navy flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M3 3v18h18"/><path d="M7 16h8"/><path d="M7 11h8"/><path d="M7 6h8"/></svg> Ledger by account — live balances</h3>
                   <div className="flex gap-1 p-1 rounded-xl bg-slate-100 border border-slate-200">
                     {["A", "B", "C"].map(which => (
-                      <button key={which} onClick={() => setLedgerTab(which)} className={`px-4 py-1.5 rounded-lg text-[12px] font-semibold transition ${ledgerTab === which ? "bg-mogo-navy text-white shadow" : "text-mogo-navy hover:bg-white"}`}>{which === "C" ? "Wallet C" : `Bank ${which}`}</button>
+                      <button key={which} onClick={() => setLedgerTab(which)} className={`px-4 py-1.5 rounded-lg text-[14px] font-semibold transition ${ledgerTab === which ? "bg-mogo-navy text-white shadow" : "text-mogo-navy hover:bg-white"}`}>{which === "C" ? "Wallet C" : `Bank ${which}`}</button>
                     ))}
                   </div>
                 </div>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-[12px]">
-                    <thead className="bg-slate-50 text-[11px] font-semibold tracking-widest text-slate-500 uppercase"><tr><th className="px-3 py-2 text-left">Time</th><th className="px-3 py-2 text-left">Details</th><th className="px-3 py-2 text-center">Rail</th><th className="px-3 py-2 text-right">KES in</th><th className="px-3 py-2 text-right">KES out</th><th className="px-3 py-2 text-right">Balance KES</th><th className="px-3 py-2 text-right">EUR</th><th className="px-3 py-2 text-right">USD</th><th className="px-3 py-2 text-right">Total equiv.</th></tr></thead>
+                  <table className="w-full text-[14px]">
+                    <thead className="bg-slate-50 text-[13px] font-semibold tracking-widest text-slate-500 uppercase"><tr><th className="px-3 py-2 text-left">Time</th><th className="px-3 py-2 text-left">Details</th><th className="px-3 py-2 text-center">Rail</th><th className="px-3 py-2 text-right">KES in</th><th className="px-3 py-2 text-right">KES out</th><th className="px-3 py-2 text-right">Balance KES</th><th className="px-3 py-2 text-right">EUR</th><th className="px-3 py-2 text-right">USD</th><th className="px-3 py-2 text-right">Total equiv.</th></tr></thead>
                     <tbody className="divide-y divide-slate-100">
                       {ledgerData?.map((r, i) => {
                         const total = (r.kesBal || 0) + (r.eurBal || 0) * eurRate + (r.usdBal || 0) * usdRate;
@@ -1165,7 +1165,7 @@ export default function App() {
                           <tr key={i} className="hover:bg-slate-50">
                             <td className="px-3 py-2 font-mono font-medium whitespace-nowrap text-mogo-navy">{timeStr}</td>
                             <td className="px-3 py-2 font-semibold text-mogo-navy">{r.desc}</td>
-                            <td className="px-3 py-2 text-center"><span className="px-2 py-0.5 rounded-full bg-white border border-slate-200 text-[11px] font-medium">{r.rail}</span></td>
+                            <td className="px-3 py-2 text-center"><span className="px-2 py-0.5 rounded-full bg-white border border-slate-200 text-[13px] font-medium">{r.rail}</span></td>
                             <td className="px-3 py-2 text-right font-mono text-emerald-600">{r.kesIn ? formatKES(r.kesIn) : "—"}</td>
                             <td className="px-3 py-2 text-right font-mono text-red-600">{r.kesOut ? formatKES(r.kesOut) : "—"}</td>
                             <td className={`px-3 py-2 text-right font-mono font-semibold ${r.kesBal < 0 ? 'text-red-600 bg-red-50' : r.kesBal < 2000000 ? 'text-amber-600' : 'text-mogo-navy'}`}>{formatKES(r.kesBal)} {r.kesBal < 0 ? '⚠️' : ''}</td>
@@ -1177,9 +1177,9 @@ export default function App() {
                       })}
                     </tbody>
                   </table>
-                  {ledgerTab === "C" && <div className="px-4 py-3 bg-amber-50 border-t border-amber-200 text-[12px] text-amber-800">23:00 and 00:00 stay in wallet (API closed) — they fund Tax on T+1.</div>}
+                  {ledgerTab === "C" && <div className="px-4 py-3 bg-amber-50 border-t border-amber-200 text-[14px] text-amber-800">23:00 and 00:00 stay in wallet (API closed) — they fund Tax on T+1.</div>}
                   {ledgerTab === "A" && ledgerData && (
-                    <div className="px-4 py-3 bg-mogo-navy text-white flex flex-wrap justify-between gap-2 text-[12px]">
+                    <div className="px-4 py-3 bg-mogo-navy text-white flex flex-wrap justify-between gap-2 text-[14px]">
                       <span>Closing Bank {ledgerTab}: <b>KES {formatKES(ledgerData[ledgerData.length - 1].kesBal)} + {ledgerData[ledgerData.length - 1].eurBal} EUR + {ledgerData[ledgerData.length - 1].usdBal} USD = {formatKES((ledgerData[ledgerData.length - 1].kesBal || 0) + (ledgerData[ledgerData.length - 1].eurBal || 0) * eurRate + (ledgerData[ledgerData.length - 1].usdBal || 0) * usdRate)} equiv.</b></span>
                       <span className="text-mogo-goldLight">Buffer {formatKES(((ledgerData[ledgerData.length - 1].kesBal || 0) + (ledgerData[ledgerData.length - 1].eurBal || 0) * eurRate + (ledgerData[ledgerData.length - 1].usdBal || 0) * usdRate) - (getNum("central_min") || getNum("Central Bank minimum") || 13000000))}</span>
                     </div>
@@ -1190,8 +1190,8 @@ export default function App() {
               {/* Compliance */}
               <div className="bg-white rounded-2xl shadow-card border border-mogo-border overflow-hidden">
                 <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between gap-3">
-                  <h3 className="text-[15px] font-semibold tracking-tight text-mogo-navy flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-emerald-600"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Restriction Compliance Check</h3>
-                  <span className={`px-3 py-1 rounded-full border text-[12px] font-semibold ${(() => {
+                  <h3 className="text-[17px] font-semibold tracking-tight text-mogo-navy flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-emerald-600"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Restriction Compliance Check</h3>
+                  <span className={`px-3 py-1 rounded-full border text-[14px] font-semibold ${(() => {
                       const checks = [];
                       const vendorPayments = lastResult.ranked.filter(r=> ['ERP system provider','HQ rent','Administrative suppliers'].some(v=> r.name.includes(v.replace(' (30)',''))));
                       const vendorOk = vendorPayments.every(r=> r.bank==='B');
@@ -1323,16 +1323,16 @@ export default function App() {
                       }; return lastResult.ranked.every(r=> dlCheck(r.name, r.time)); })(), detail: (()=>{ const getDlStr=(k,legacy,f)=>{ const r=getRestrictionByKey(k)||restrictions.find(x=> x.label.toLowerCase().includes(legacy.toLowerCase()) && x.enabled); return r? r.value : f; }; return `Payroll ${getDlStr('payroll_deadline','Payroll deadline','17:00')} | Phone ${getDlStr('phone_deadline','Phone dealers','17:00')} | ERP ${getDlStr('erp_deadline','ERP shutdown','midnight')} | Rent ${getDlStr('rent_deadline','HQ rent','11:00 tomorrow')}`; })()},
                   ].map((c,i)=> (
                     <div key={i} className={`p-3 rounded-xl border ${c.check ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'}`}>
-                      <div className="flex items-center gap-2 font-semibold text-[13px] text-mogo-navy">
-                        <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold ${c.check ? 'bg-emerald-600 text-white' : 'bg-red-500 text-white'}`}>{c.check ? '✓' : '✗'}</span>
+                      <div className="flex items-center gap-2 font-semibold text-[15px] text-mogo-navy">
+                        <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[13px] font-bold ${c.check ? 'bg-emerald-600 text-white' : 'bg-red-500 text-white'}`}>{c.check ? '✓' : '✗'}</span>
                         {c.label}
                       </div>
-                      <div className="text-[11px] text-mogo-navy/60 mt-1">{c.desc}</div>
-                      <div className="text-[11px] font-mono mt-1 text-slate-500 truncate" title={c.detail}>{c.detail}</div>
+                      <div className="text-[13px] text-mogo-navy/60 mt-1">{c.desc}</div>
+                      <div className="text-[13px] font-mono mt-1 text-slate-500 truncate" title={c.detail}>{c.detail}</div>
                     </div>
                   ))}
                 </div>
-                <div className="px-4 py-3 bg-slate-50 border-t border-slate-100 text-[12px] text-mogo-navy/70">
+                <div className="px-4 py-3 bg-slate-50 border-t border-slate-100 text-[14px] text-mogo-navy/70">
                   <b>How to verify:</b> Check <b>Ledger by account</b> for bank source, <b>Payments in chronological order</b> for rail/time, and <b>KPIs</b> for minimum.
                 </div>
               </div>
@@ -1344,13 +1344,13 @@ export default function App() {
                 <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-mogo-gold via-mogo-goldLight to-mogo-gold" />
                 <div className="relative flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
                   <div>
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[12px] font-semibold tracking-wide text-mogo-goldLight"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/></svg> Ready for your boss</div>
-                    <h4 className="mt-2 font-semibold text-[18px] leading-none tracking-tight">Impressed? Export the full deliverable.</h4>
-                    <p className="text-[13px] text-white/70 mt-1 leading-relaxed">Generates Excel with 4 sheets identical to Task 1 Completed: Answer + Bank A/B + Wallet.</p>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[14px] font-semibold tracking-wide text-mogo-goldLight"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/></svg> Ready for your boss</div>
+                    <h4 className="mt-2 font-semibold text-[20px] leading-none tracking-tight">Impressed? Export the full deliverable.</h4>
+                    <p className="text-[15px] text-white/70 mt-1 leading-relaxed">Generates Excel with 4 sheets identical to Task 1 Completed: Answer + Bank A/B + Wallet.</p>
                   </div>
                   <div className="flex gap-2">
-                    <button onClick={exportExcel} className="px-6 py-3 rounded-xl bg-white text-mogo-navy font-semibold text-[14px] hover:bg-mogo-goldLight transition shadow">Export Excel</button>
-                    <button onClick={() => window.print()} className="px-6 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-semibold text-[14px] hover:bg-white/15">Print</button>
+                    <button onClick={exportExcel} className="px-6 py-3 rounded-xl bg-white text-mogo-navy font-semibold text-[16px] hover:bg-mogo-goldLight transition shadow">Export Excel</button>
+                    <button onClick={() => window.print()} className="px-6 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-semibold text-[16px] hover:bg-white/15">Print</button>
                   </div>
                 </div>
               </div>
@@ -1362,8 +1362,8 @@ export default function App() {
               <div className="w-12 h-12 rounded-2xl bg-mogo-navy flex items-center justify-center mx-auto">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M3 3v18h18"/><path d="M7 16h8"/><path d="M7 11h8"/><path d="M7 6h8"/></svg>
               </div>
-              <div className="mt-4 text-[15px] font-semibold text-mogo-navy">No calculation yet</div>
-              <div className="text-[13px] text-mogo-navy/60 mt-1 max-w-md mx-auto leading-relaxed">Upload your <b>Financial Controller Homework - Task 1.xlsx</b> to see the optimization with your payments, currencies and rails. Upload and click <b>CALCULATE OPTIMIZATION</b>.</div>
+              <div className="mt-4 text-[17px] font-semibold text-mogo-navy">No calculation yet</div>
+              <div className="text-[15px] text-mogo-navy/60 mt-1 max-w-md mx-auto leading-relaxed">Upload your <b>Financial Controller Homework - Task 1.xlsx</b> to see the optimization with your payments, currencies and rails. Upload and click <b>CALCULATE OPTIMIZATION</b>.</div>
             </div>
           )}
         </main>
@@ -1373,21 +1373,21 @@ export default function App() {
       <div className="max-w-[1280px] w-full mx-auto px-4 lg:px-8 pb-6">
         <div className="bg-mogo-navy rounded-2xl p-6 text-white flex flex-col lg:flex-row gap-6">
           <div className="flex-1">
-            <h4 className="text-[15px] font-semibold text-mogo-gold">How it works</h4>
-            <p className="text-[13px] leading-relaxed text-slate-100 mt-2">Upload and calculate — the engine simulates wallet sweeps, FX and RTGS funding while never allowing negative balances and protecting the Central Bank 13M minimum. Each ledger entry shows live balances.</p>
+            <h4 className="text-[17px] font-semibold text-mogo-gold">How it works</h4>
+            <p className="text-[15px] leading-relaxed text-slate-100 mt-2">Upload and calculate — the engine simulates wallet sweeps, FX and RTGS funding while never allowing negative balances and protecting the Central Bank 13M minimum. Each ledger entry shows live balances.</p>
           </div>
           <div className="lg:w-[340px] rounded-xl bg-white/10 border border-white/15 p-4">
-            <div className="text-[11px] tracking-widest font-semibold text-mogo-goldLight uppercase">Stack & Deploy</div>
-            <div className="text-[13px] text-slate-100 mt-2 space-y-1 mono">
+            <div className="text-[13px] tracking-widest font-semibold text-mogo-goldLight uppercase">Stack & Deploy</div>
+            <div className="text-[15px] text-slate-100 mt-2 space-y-1 mono">
               <div>Vite + React</div><div>Tailwind · SheetJS</div><div>Front-only · Vercel static</div>
             </div>
-            <div className="text-[12px] text-slate-300 mt-3">File stays in browser. No data sent to server. Build: <span className="text-white font-medium">npm run build</span> → <span className="text-mogo-goldLight">dist</span></div>
+            <div className="text-[14px] text-slate-300 mt-3">File stays in browser. No data sent to server. Build: <span className="text-white font-medium">npm run build</span> → <span className="text-mogo-goldLight">dist</span></div>
           </div>
         </div>
       </div>
 
       <footer className="border-t border-slate-200 bg-white mt-auto">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-[12px] font-medium text-mogo-navy">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-[14px] font-medium text-mogo-navy">
           <span>© 2026 MOGO Uganda — Treasury Assessment Task · Confidential · Built for review exercise</span>
           <span className="inline-flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-mogo-gold"></span> Front-only · no backend</span>
         </div>
@@ -1399,18 +1399,18 @@ export default function App() {
           <div className="absolute inset-0 bg-mogo-navy/60 backdrop-blur-sm" onClick={() => setShowAddModal(false)} />
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-[520px] bg-white rounded-2xl shadow-elevated overflow-hidden">
             <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-              <h3 className="font-semibold text-[15px] text-mogo-navy">Add restriction</h3>
+              <h3 className="font-semibold text-[17px] text-mogo-navy">Add restriction</h3>
               <button onClick={() => setShowAddModal(false)} className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center hover:bg-slate-200"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
             </div>
             <div className="p-6 space-y-4">
-              <div><label className="text-[12px] font-semibold text-mogo-navy">Type</label><select value={newRestr.type} onChange={e => setNewRestr({ ...newRestr, type: e.target.value })} className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-white text-[13px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15"><option value="balance">Minimum / opening balance</option><option value="window">Time window (rail)</option><option value="limit">Per-transaction limit</option><option value="deadline">Payment deadline</option><option value="rule">Business rule</option></select></div>
-              <div><label className="text-[12px] font-semibold text-mogo-navy">Name</label><input value={newRestr.name} onChange={e => setNewRestr({ ...newRestr, name: e.target.value })} placeholder="e.g. Wallet API cutoff" className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-[13px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15" /></div>
-              <div className="grid grid-cols-2 gap-3"><div><label className="text-[12px] font-semibold text-mogo-navy">Value</label><input value={newRestr.value} onChange={e => setNewRestr({ ...newRestr, value: e.target.value })} placeholder="22:00 or 13000000" className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-[13px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15" /></div><div><label className="text-[12px] font-semibold text-mogo-navy">Unit</label><input value={newRestr.unit} onChange={e => setNewRestr({ ...newRestr, unit: e.target.value })} placeholder="KES / hour / EUR" className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-[13px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15" /></div></div>
-              <div><label className="text-[12px] font-semibold text-mogo-navy">Description</label><textarea value={newRestr.desc} onChange={e => setNewRestr({ ...newRestr, desc: e.target.value })} rows={2} placeholder="What happens if breached..." className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-[13px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15" /></div>
+              <div><label className="text-[14px] font-semibold text-mogo-navy">Type</label><select value={newRestr.type} onChange={e => setNewRestr({ ...newRestr, type: e.target.value })} className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-white text-[15px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15"><option value="balance">Minimum / opening balance</option><option value="window">Time window (rail)</option><option value="limit">Per-transaction limit</option><option value="deadline">Payment deadline</option><option value="rule">Business rule</option></select></div>
+              <div><label className="text-[14px] font-semibold text-mogo-navy">Name</label><input value={newRestr.name} onChange={e => setNewRestr({ ...newRestr, name: e.target.value })} placeholder="e.g. Wallet API cutoff" className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-[15px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15" /></div>
+              <div className="grid grid-cols-2 gap-3"><div><label className="text-[14px] font-semibold text-mogo-navy">Value</label><input value={newRestr.value} onChange={e => setNewRestr({ ...newRestr, value: e.target.value })} placeholder="22:00 or 13000000" className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-[15px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15" /></div><div><label className="text-[14px] font-semibold text-mogo-navy">Unit</label><input value={newRestr.unit} onChange={e => setNewRestr({ ...newRestr, unit: e.target.value })} placeholder="KES / hour / EUR" className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-[15px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15" /></div></div>
+              <div><label className="text-[14px] font-semibold text-mogo-navy">Description</label><textarea value={newRestr.desc} onChange={e => setNewRestr({ ...newRestr, desc: e.target.value })} rows={2} placeholder="What happens if breached..." className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-[15px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15" /></div>
             </div>
             <div className="px-6 py-4 bg-slate-50 flex justify-end gap-2">
-              <button onClick={() => setShowAddModal(false)} className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 font-semibold text-[13px] text-mogo-navy hover:bg-slate-50">Cancel</button>
-              <button onClick={addRestriction} className="px-6 py-2.5 rounded-xl bg-mogo-navy text-white font-semibold text-[13px] hover:bg-mogo-navyLight">Add</button>
+              <button onClick={() => setShowAddModal(false)} className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 font-semibold text-[15px] text-mogo-navy hover:bg-slate-50">Cancel</button>
+              <button onClick={addRestriction} className="px-6 py-2.5 rounded-xl bg-mogo-navy text-white font-semibold text-[15px] hover:bg-mogo-navyLight">Add</button>
             </div>
           </div>
         </div>
@@ -1418,7 +1418,7 @@ export default function App() {
 
       {toast && (
         <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
-          <div className="px-5 py-3 rounded-2xl bg-mogo-navy text-white text-[13px] font-medium shadow-elevated flex items-center gap-3 border border-white/10"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-emerald-400"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg>{toast}</div>
+          <div className="px-5 py-3 rounded-2xl bg-mogo-navy text-white text-[15px] font-medium shadow-elevated flex items-center gap-3 border border-white/10"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-emerald-400"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg>{toast}</div>
         </div>
       )}
     </div>
