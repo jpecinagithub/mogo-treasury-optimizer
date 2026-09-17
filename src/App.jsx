@@ -913,78 +913,106 @@ export default function App() {
   }, [filteredRestrictions]);
 
   return (
-    <div className="min-h-screen">
-      {/* HEADER */}
-      <header className="sticky top-0 z-40 bg-[#0B2A5B] text-white border-b border-white/10">
-        <div className="max-w-[1440px] mx-auto px-4 lg:px-6 h-[90px] flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/15 transition"><i className="fa-solid fa-bars" /></button>
-            <div className="flex items-center gap-3">
-              <img src="/mogo-logo.svg" alt="MOGO" className="h-[85px] w-auto rounded-xl shadow-lg object-contain" />
+    <div className="min-h-screen flex flex-col bg-mogo-slate">
+      {/* HEADER — referencia: navy + gold-line */}
+      <header className="bg-mogo-navy text-white">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
+          <div className="flex items-center justify-between py-5 gap-6">
+            <div className="flex items-center gap-4">
+              <button onClick={() => setSidebarOpen(true)} className="lg:hidden w-9 h-9 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center hover:bg-white/15 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+              </button>
+              <div>
+                <div className="flex items-center gap-3">
+                  <h1 className="text-[20px] font-semibold tracking-tight leading-none">MOGO UGANDA</h1>
+                  <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full bg-white/10 border border-white/15 text-[12px] tracking-widest font-medium text-mogo-goldLight">TREASURY OPTIMIZER</span>
+                </div>
+                <p className="text-[14px] text-slate-100 mt-1">Treasury Assessment Task · Q2 2026 · <span className="text-mogo-goldLight">Confidential</span></p>
+              </div>
             </div>
-            <span className="hidden lg:inline-flex ml-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/20 text-emerald-300 text-xs font-bold tracking-wide"><span className="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-pulse inline-block" /> Engine active</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <button onClick={exportExcel} className={`hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#FF6B00] hover:bg-orange-500 text-white font-bold text-sm transition ${!lastResult ? "opacity-50 pointer-events-none" : ""}`}><i className="fa-solid fa-file-excel" /> Export</button>
+            <div className="flex items-center gap-3">
+              <span className="hidden lg:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[12px] font-medium text-slate-100">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /> Engine active
+              </span>
+              <button onClick={exportExcel} className={`hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-[14px] font-semibold transition shadow-sm border ${!lastResult ? "bg-white/10 text-white/40 border-white/10 cursor-not-allowed" : "bg-white text-mogo-navy border-white hover:bg-mogo-goldLight"}`}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h2"/><path d="M14 13h2"/><path d="M8 17h2"/><path d="M14 17h2"/></svg>
+                Export
+              </button>
+            </div>
           </div>
         </div>
+        <div className="gold-line" />
       </header>
 
-      <div className="max-w-[1440px] mx-auto flex min-h-[calc(100vh-90px)]">
-        {/* SIDEBAR */}
-        <aside className={`fixed lg:sticky top-[90px] inset-y-0 left-0 z-30 w-[360px] lg:w-[380px] bg-white border-r border-slate-200 h-[calc(100vh-90px)] overflow-hidden flex flex-col shadow-2xl lg:shadow-none transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
-          <div className="h-[56px] px-5 flex items-center justify-between border-b border-slate-100 bg-slate-50/80">
-            <div className="flex items-center gap-2.5 font-extrabold text-[#0B1E3A]"><i className="fa-solid fa-sliders text-[#FF6B00]" /> Restrictions <span className="hidden sm:inline text-slate-400 font-normal">/ Constraints</span></div>
+      {/* LAYOUT — sidebar + main dentro de max-w 1280 */}
+      <div className="flex-1 max-w-[1280px] w-full mx-auto px-4 lg:px-8 py-6 lg:py-8 flex flex-col lg:flex-row gap-6">
+        {/* SIDEBAR — Restrictions como card referencia */}
+        <aside className={`fixed lg:sticky top-0 lg:top-6 inset-y-0 left-0 z-30 w-[360px] lg:w-[380px] bg-white rounded-2xl shadow-card border border-mogo-border flex flex-col overflow-hidden lg:max-h-[calc(100vh-48px)] lg:h-fit transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
+          <div className="px-6 py-4 flex items-center justify-between border-b border-slate-100">
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-lg bg-mogo-navy flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
+              </div>
+              <h2 className="text-[15px] font-semibold tracking-tight text-mogo-navy">Restrictions</h2>
+              <span className="hidden sm:inline text-[12px] text-mogo-navy/60 font-medium">/ Constraints</span>
+            </div>
             <div className="flex items-center gap-1">
-              <button onClick={resetRestrictions} className="w-8 h-8 rounded-lg hover:bg-white border border-transparent hover:border-slate-200 flex items-center justify-center text-slate-500" title="Reset"><i className="fa-solid fa-rotate-left text-xs" /></button>
-              <button onClick={() => setSidebarOpen(false)} className="lg:hidden w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center"><i className="fa-solid fa-xmark" /></button>
+              <button onClick={resetRestrictions} className="w-8 h-8 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200 flex items-center justify-center text-slate-500" title="Reset">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+              </button>
+              <button onClick={() => setSidebarOpen(false)} className="lg:hidden w-8 h-8 rounded-lg bg-mogo-navy text-white flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
             </div>
           </div>
-          <div className="px-3 pt-3 flex gap-1.5 overflow-x-auto scrollbar-thin">
-            {["all", "liquidity", "schedule", "limits", "business"].map(tab => (
-              <button key={tab} onClick={() => setActiveTab(tab)} className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-bold capitalize ${activeTab === tab ? "bg-[#0f2040] text-white" : "bg-slate-100 text-slate-600"}`}>{tab}</button>
+
+          <div className="px-3 pt-3 flex gap-1.5 overflow-x-auto">
+            {["all","liquidity","schedule","limits","business"].map(tab => (
+              <button key={tab} onClick={() => setActiveTab(tab)} className={`flex-shrink-0 px-3 py-1.5 rounded-full text-[12px] font-semibold capitalize border transition ${activeTab === tab ? "bg-mogo-navy text-white border-mogo-navy" : "bg-slate-50 text-mogo-navy border-slate-200 hover:bg-white"}`}>{tab}</button>
             ))}
           </div>
+
           <div className="px-3 py-2">
             <div className="relative">
-              <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs" />
-              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search restriction..." className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500" />
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search restriction..." className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-[13px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15 focus:border-mogo-navy/30 placeholder:text-mogo-navy/60" />
             </div>
           </div>
-          <div className="flex-1 overflow-y-auto px-3 pb-4 space-y-3 scrollbar-thin">
+
+          <div className="flex-1 overflow-y-auto px-3 pb-4 space-y-3">
             {restrictions.length===0 ? (
-              <div className="py-10 text-center">
-                <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 mx-auto flex items-center justify-center"><i className="fa-solid fa-file-excel text-slate-400" /></div>
-                <div className="mt-3 font-bold text-sm text-slate-700">No restrictions yet</div>
-                <div className="text-xs text-slate-500 mt-1 px-4">Upload your Excel file to automatically extract restrictions. You can then edit, delete or add new ones and recalculate.</div>
+              <div className="py-12 text-center">
+                <div className="w-12 h-12 rounded-2xl bg-mogo-navy flex items-center justify-center mx-auto">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h8"/></svg>
+                </div>
+                <div className="mt-3 text-[14px] font-semibold text-mogo-navy">No restrictions yet</div>
+                <div className="text-[13px] text-mogo-navy/60 mt-1 px-4 leading-relaxed">Upload your Excel file to automatically extract restrictions. You can then edit, delete or add new ones and recalculate.</div>
               </div>
-            ) : Object.keys(grouped).length === 0 ? <div className="py-8 text-center text-sm text-slate-400">No results for &quot;{search}&quot;</div> : Object.entries(grouped).map(([cat, list]) => (
+            ) : Object.keys(grouped).length === 0 ? <div className="py-8 text-center text-[13px] text-slate-400">No results for &quot;{search}&quot;</div> : Object.entries(grouped).map(([cat, list]) => (
               <div key={cat}>
-                <div className="mt-3 mb-1.5 flex items-center gap-2 text-[11px] font-extrabold tracking-widest text-slate-400"><span className="h-px flex-1 bg-slate-200" />{catLabels[cat] || cat}<span className="h-px flex-1 bg-slate-200" /></div>
+                <div className="mt-3 mb-1.5 flex items-center gap-2 text-[11px] font-semibold tracking-widest text-slate-400 uppercase"><span className="h-px flex-1 bg-slate-200" /><span>{catLabels[cat] || cat}</span><span className="h-px flex-1 bg-slate-200" /></div>
                 <div className="space-y-3">
                   {list.map(r => (
-                    <div key={r.id} className={`group relative bg-white rounded-2xl border p-3.5 hover:border-slate-300 transition ${r.critical ? "border-amber-200 bg-amber-50/30" : "border-slate-200"} ${!r.enabled ? "opacity-60" : ""}`}>
+                    <div key={r.id} className={`group relative bg-white rounded-xl border p-3.5 transition ${r.critical ? "border-amber-200 bg-amber-50/60" : "border-slate-200"} ${!r.enabled ? "opacity-60" : ""}`}>
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5 flex-wrap">
-                            <span className="font-bold text-sm leading-tight text-[#0f2040]">{r.label}</span>
-                            {r.critical && <span className="px-1.5 py-0.5 rounded-full bg-amber-500 text-white text-[10px] font-black">CRITICAL</span>}
+                            <span className="font-semibold text-[13px] leading-tight text-mogo-navy">{r.label}</span>
+                            {r.critical && <span className="px-1.5 py-0.5 rounded-full bg-amber-500 text-white text-[10px] font-bold">CRITICAL</span>}
                             {!r.enabled && <span className="px-1.5 py-0.5 rounded-full bg-slate-200 text-slate-600 text-[10px] font-bold">OFF</span>}
                           </div>
-                          {r.key && <div className="mt-0.5 text-[10px] font-mono text-slate-400 truncate" title="Stable key — engine uses this, not label">{r.key}</div>}
-                          <div className="mt-1 flex items-center gap-2">
-                            <input value={r.value} onChange={e => updateRestriction(r.id, "value", e.target.value)} className="flex-1 min-w-0 px-2 py-1 rounded-lg border border-slate-200 bg-slate-50 text-xs font-mono font-bold text-[#0f2040] focus:bg-white focus:border-sky-400 focus:outline-none" />
-                            <span className="text-[11px] font-bold text-slate-500 whitespace-nowrap">{r.unit}</span>
+                          {r.key && <div className="mt-0.5 text-[11px] font-mono text-slate-400 truncate" title="Stable key">{r.key}</div>}
+                          <div className="mt-2 flex items-center gap-2">
+                            <input value={r.value} onChange={e => updateRestriction(r.id, "value", e.target.value)} className="flex-1 min-w-0 px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-[13px] font-mono font-medium text-mogo-navy focus:bg-white focus:border-mogo-navy/30 focus:outline-none focus:ring-2 focus:ring-mogo-navy/15" />
+                            <span className="text-[11px] font-semibold text-slate-500 whitespace-nowrap">{r.unit}</span>
                           </div>
-                          <div className="mt-1.5 text-xs leading-snug text-slate-500">{r.desc}</div>
+                          <div className="mt-1.5 text-[12px] leading-snug text-mogo-navy/60">{r.desc}</div>
                         </div>
                         <div className="flex flex-col items-center gap-1 ml-1">
                           <label className="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" checked={r.enabled} onChange={e => updateRestriction(r.id, "enabled", e.target.checked)} className="sr-only peer" />
-                            <div className="w-9 h-5 bg-slate-200 peer-focus:ring-2 peer-focus:ring-sky-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500" />
+                            <div className="w-9 h-5 bg-slate-200 peer-focus:ring-2 peer-focus:ring-mogo-navy/15 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-mogo-navy" />
                           </label>
-                          <button onClick={() => duplicateRestriction(r.id)} className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-sky-600 hover:border-sky-200" title="Duplicate"><i className="fa-regular fa-copy text-xs" /></button>
-                          <button onClick={() => deleteRestriction(r.id)} className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-red-500 hover:border-red-200" title="Delete"><i className="fa-solid fa-trash text-xs" /></button>
+                          <button onClick={() => duplicateRestriction(r.id)} className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-mogo-navy hover:border-mogo-navy/30" title="Duplicate"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v3"/></svg></button>
+                          <button onClick={() => deleteRestriction(r.id)} className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-red-500 hover:border-red-200" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
                         </div>
                       </div>
                     </div>
@@ -992,490 +1020,541 @@ export default function App() {
                 </div>
               </div>
             ))}
-            <div className="pt-2 text-center text-[11px] text-slate-400">{filteredRestrictions.length} restrictions • {restrictions.filter(r => r.enabled).length} active</div>
+            <div className="pt-2 text-center text-[11px] text-slate-400 font-medium">{filteredRestrictions.length} restrictions · {restrictions.filter(r => r.enabled).length} active</div>
           </div>
-          <div className="p-3 border-t border-slate-100 bg-slate-50 space-y-2">
-            <button onClick={() => setShowAddModal(true)} className="w-full py-2.5 rounded-xl bg-white border-2 border-dashed border-slate-300 text-sm font-bold text-slate-600 hover:border-sky-400 hover:text-sky-600 transition flex items-center justify-center gap-2"><i className="fa-solid fa-plus" /> Add restriction</button>
+
+          <div className="p-3 border-t border-slate-100 bg-slate-50/40 space-y-2 rounded-b-2xl">
+            <button onClick={() => setShowAddModal(true)} className="w-full py-2.5 rounded-xl bg-white border-2 border-dashed border-slate-200 text-[13px] font-semibold text-mogo-navy hover:border-mogo-navy/30 hover:bg-slate-50 transition flex items-center justify-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Add restriction
+            </button>
             <div className="flex gap-2">
-              <button onClick={saveRestrictions} className="flex-1 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition"><i className="fa-solid fa-floppy-disk mr-1" /> Save</button>
-              <button onClick={loadRestrictions} className="flex-1 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold hover:bg-slate-50">Load</button>
+              <button onClick={saveRestrictions} className="flex-1 py-2 rounded-xl bg-mogo-navy hover:bg-mogo-navyLight text-white text-[12px] font-semibold transition">Save</button>
+              <button onClick={loadRestrictions} className="flex-1 py-2 rounded-xl bg-white border border-slate-200 text-[12px] font-semibold hover:bg-slate-50">Load</button>
             </div>
             {pendingChanges && (
               <div className="bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 flex items-center justify-between">
-                <span className="text-xs font-bold text-amber-700"><i className="fa-solid fa-triangle-exclamation mr-1" /> Changes pending — recalculate</span>
-                <button onClick={handleCalculate} className="px-3 py-1 rounded-full bg-amber-500 text-white text-xs font-bold">Recalculate</button>
+                <span className="text-[12px] font-semibold text-amber-700 flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> Changes pending</span>
+                <button onClick={handleCalculate} className="px-3 py-1 rounded-full bg-amber-500 text-white text-[11px] font-bold">Recalculate</button>
               </div>
             )}
           </div>
         </aside>
-        {sidebarOpen && <div onClick={() => setSidebarOpen(false)} className="fixed inset-0 bg-[#0f2040]/40 backdrop-blur-sm z-20 lg:hidden" />}
+        {sidebarOpen && <div onClick={() => setSidebarOpen(false)} className="fixed inset-0 bg-mogo-navy/20 backdrop-blur-sm z-20 lg:hidden" />}
 
         {/* MAIN */}
-        <main className="flex-1 min-w-0">
-          <div className="p-4 lg:p-6">
-            {/* Upload card */}
-            <div className="bg-white rounded-[20px] border border-slate-200 shadow-sm overflow-hidden mogo-card">
-              <div className="px-5 lg:px-6 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <h1 className="font-extrabold text-[#0B1E3A] text-lg leading-none">1. Upload file & calculate</h1>
-                  <p className="text-xs text-slate-500 mt-1">Excel .xlsx with <b>Task</b> sheet — we auto-detect payments, rails and deadlines. 3 currencies: KES, EUR, USD.</p>
+        <main className="flex-1 min-w-0 space-y-6">
+          {/* Upload card — copia exacta referencia */}
+          <div className="bg-white rounded-2xl shadow-card border border-mogo-border overflow-hidden">
+            <div className="px-6 py-4 flex items-center justify-between border-b border-slate-100">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-lg bg-mogo-navy flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h2"/><path d="M14 13h2"/><path d="M8 17h2"/><path d="M14 17h2"/></svg>
                 </div>
-                <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-600"><i className="fa-solid fa-shield-halved text-emerald-500" /> 100% local — no server upload</span>
+                <h2 className="text-[15px] font-semibold tracking-tight text-mogo-navy">Workbook upload</h2>
+                <span className="hidden sm:inline text-[13px] text-mogo-navy/60">· .xlsx only · sheets: Task, FX, Payroll</span>
               </div>
-              <div className="p-5 lg:p-6">
-                <div onClick={() => fileInputRef.current?.click()} onDragOver={e => { e.preventDefault(); e.currentTarget.classList.add("border-sky-400", "bg-sky-50"); }} onDragLeave={e => e.currentTarget.classList.remove("border-sky-400", "bg-sky-50")} onDrop={e => { e.preventDefault(); e.currentTarget.classList.remove("border-sky-400", "bg-sky-50"); const f = e.dataTransfer.files[0]; if (f) handleFile(f); }} className="group relative rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 hover:bg-white hover:border-sky-400 transition p-6 lg:p-8 text-center cursor-pointer">
-                  <input ref={fileInputRef} type="file" accept=".xlsx,.xls" className="hidden" onChange={e => { const f = e.target.files[0]; if (f) handleFile(f); }} />
-                  <div className="w-14 h-14 rounded-2xl bg-white border border-slate-200 shadow-sm mx-auto flex items-center justify-center group-hover:scale-105 transition">
-                    <i className="fa-solid fa-cloud-arrow-up text-xl text-sky-500" />
-                  </div>
-                  <div className="mt-3 font-extrabold text-[#0B1E3A]">Drop your Excel here or click to select</div>
-                  <div className="text-xs text-slate-500 mt-1">Supports <b>Financial Controller Homework - Task 1.xlsx</b> and any variant with Payment / Amount / Currency columns</div>
-                  <div className="mt-4 flex flex-wrap justify-center gap-2 text-[11px] font-bold">
-                    <span className="px-2.5 py-1 rounded-full bg-white border border-slate-200"><i className="fa-solid fa-file-excel text-emerald-600 mr-1" /> .xlsx</span>
-                    <span className="px-2.5 py-1 rounded-full bg-white border border-slate-200"><i className="fa-solid fa-table text-sky-600 mr-1" /> Batch multicurrency</span>
-                    <span className="px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700">RTGS • PesaLink • M-Pesa</span>
-                  </div>
-                  {fileInfo && (
-                    <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-sm">
-                      <i className="fa-solid fa-file-circle-check text-emerald-600" />
-                      <span className="font-bold text-emerald-800">{fileInfo.name}</span>
-                      <span className="text-emerald-600 text-xs">{fileInfo.size}</span>
-                      <button onClick={clearFile} className="ml-2 w-6 h-6 rounded-full bg-white border border-emerald-200 flex items-center justify-center hover:bg-red-50"><i className="fa-solid fa-xmark text-xs" /></button>
-                    </div>
-                  )}
+              <span className="hidden sm:inline-flex items-center gap-2 text-[12px] text-mogo-navy/60 font-medium">All processing local</span>
+            </div>
+            <div className="p-6 grid lg:grid-cols-[1.35fr_0.65fr] gap-6">
+              <div onClick={() => fileInputRef.current?.click()} onDragOver={e => { e.preventDefault(); e.currentTarget.classList.add("border-mogo-navy/30", "bg-white"); }} onDragLeave={e => e.currentTarget.classList.remove("border-mogo-navy/30", "bg-white")} onDrop={e => { e.preventDefault(); e.currentTarget.classList.remove("border-mogo-navy/30", "bg-white"); const f = e.dataTransfer.files[0]; if (f) handleFile(f); }} className="relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-8 text-center cursor-pointer transition border-slate-200 bg-slate-50/50 hover:bg-white hover:border-mogo-navy/20">
+                <input ref={fileInputRef} type="file" accept=".xlsx,.xls" className="hidden" onChange={e => { const f = e.target.files[0]; if (f) handleFile(f); }} />
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3 bg-mogo-navy text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
                 </div>
-                <div className="mt-5 flex flex-col sm:flex-row gap-3">
-                  <button onClick={handleCalculate} disabled={!preview} className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-extrabold text-sm transition shadow-lg ${pendingChanges ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-amber-500/20 animate-pulse' : 'bg-[#0f2040] text-white hover:bg-[#162a52] shadow-[#0f2040]/20'} disabled:opacity-40 disabled:cursor-not-allowed`}>
-                    <i className={`fa-solid ${pendingChanges ? 'fa-rotate' : 'fa-calculator'}`} /> {pendingChanges ? 'RECALCULATE WITH NEW VALUES' : 'CALCULATE OPTIMIZATION'}
-                  </button>
-
-                  <span className="hidden lg:inline-flex items-center text-xs text-slate-500 ml-auto"><i className="fa-regular fa-lightbulb text-amber-500 mr-1.5" /> Tip: edit restrictions in side panel before calculating</span>
-                </div>
-                {preview && (
-                  <div className="mt-5 p-4 rounded-2xl bg-slate-50 border border-slate-200">
-                    <div className="flex items-center justify-between">
-                      <div className="font-bold text-sm text-[#0B1E3A]"><i className="fa-solid fa-list-check text-[#FF6B00] mr-2" />Payments detected: {preview.payments.length}</div>
-                      <span className="text-xs font-mono bg-white border border-slate-200 px-2 py-1 rounded-full">{[...new Set(preview.payments.map(p => p.currency))].join(" • ")}</span>
-                    </div>
-                    <div className="mt-3 overflow-x-auto">
-                      <table className="w-full text-xs">
-                        <thead className="text-[11px] font-bold text-slate-500"><tr><th className="text-left py-1">Payment</th><th className="text-right py-1">Amount</th><th className="text-center py-1">Ccy</th><th className="text-center py-1">Bank</th></tr></thead>
-                        <tbody className="divide-y divide-slate-100">
-                          {preview.payments.map((p, i) => (
-                            <tr key={i}><td className="py-1.5 font-semibold text-[#0f2040]">{p.name}</td><td className="text-right font-mono">{formatKES(p.amount)}</td><td className="text-center"><span className={`px-1.5 py-0.5 rounded-full text-[10px] font-black ${p.currency === "EUR" ? "bg-violet-100 text-violet-700" : p.currency === "USD" ? "bg-emerald-100 text-emerald-700" : "bg-sky-100 text-sky-700"}`}>{p.currency}</span></td><td className="text-center"><span className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${p.bank === "A" ? "bg-sky-500 text-white" : "bg-violet-600 text-white"}`}>Bank {p.bank}</span></td></tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                <p className="text-[15px] font-semibold text-mogo-navy">Drop Excel file here or click to browse</p>
+                <p className="text-[13px] text-mogo-navy/60 mt-1">All processing is local — file never leaves your browser</p>
+                <span className="mt-4 inline-flex items-center px-4 py-2 rounded-full bg-mogo-navy text-white text-[14px] font-semibold shadow-sm">Choose file</span>
+                {fileInfo && (
+                  <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-[13px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-emerald-600"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/></svg>
+                    <span className="font-semibold text-emerald-800">{fileInfo.name}</span>
+                    <span className="text-emerald-600 text-[12px]">{fileInfo.size}</span>
+                    <button onClick={clearFile} className="ml-2 w-6 h-6 rounded-full bg-white border border-emerald-200 flex items-center justify-center hover:bg-red-50"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
                   </div>
                 )}
+              </div>
+              <div className="rounded-xl bg-mogo-navy text-white p-5 flex flex-col">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-1 rounded-full bg-white/10 border border-white/15 text-[12px] tracking-widest font-semibold text-mogo-goldLight">STEP 2</span>
+                  <h3 className="text-[15px] font-semibold">Generate optimization</h3>
+                </div>
+                <p className="text-[14px] leading-relaxed text-slate-100 mt-3">The <span className="text-white font-semibold">CALCULATE</span> button runs the in-browser treasury engine and builds the chronological payment plan — with correct FX, rails and ledger entries.</p>
+                <ul className="mt-4 space-y-1.5 text-[13px] text-slate-200">
+                  <li className="flex gap-2"><span className="text-mogo-gold">•</span> Live evidence extracted directly from your file</li>
+                  <li className="flex gap-2"><span className="text-mogo-gold">•</span> Respects all edited restrictions before calculating</li>
+                </ul>
+                <button onClick={handleCalculate} disabled={!preview} className={`mt-5 w-full inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-[15px] font-semibold transition border ${!preview ? "bg-white/10 text-white/40 cursor-not-allowed border-white/10" : pendingChanges ? "bg-amber-500 hover:bg-amber-600 text-white border-amber-500 shadow" : "bg-white text-mogo-navy border-white hover:bg-mogo-goldLight"}`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="m16 9-5.5 5.5L8 12"/></svg>
+                  {pendingChanges ? "RECALCULATE WITH NEW VALUES" : "CALCULATE OPTIMIZATION"}
+                </button>
+                <p className="text-[12px] text-slate-300 mt-2 text-center">No backend · Vercel static · XLSX via SheetJS</p>
+                <span className="hidden lg:inline-flex items-center text-[12px] text-slate-300 mt-2 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mr-1 text-mogo-gold"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> Tip: edit restrictions in side panel before calculating</span>
               </div>
             </div>
-
-            {/* RESULTS */}
-            {lastResult && (
-              <div ref={resultsRef} className={`mt-6 space-y-5 animate-in ${pendingChanges ? 'opacity-50 pointer-events-none' : ''}`}>
-                {pendingChanges && (
-                  <div className="bg-amber-100 border-2 border-amber-400 rounded-2xl p-4 flex items-center gap-3 animate-pulse">
-                    <i className="fa-solid fa-rotate text-amber-600 text-xl" />
-                    <div>
-                      <div className="font-black text-amber-900">Results are outdated — restrictions were modified</div>
-                      <div className="text-sm text-amber-800">Click <b>Recalculate</b> in the left panel or <b>CALCULATE OPTIMIZATION</b> to apply your changes. Edited values are not yet reflected in the numbers below.</div>
-                    </div>
-                    <button onClick={handleCalculate} className="ml-auto px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-black text-sm shadow">Recalculate now</button>
-                  </div>
-                )}
-                {/* Guard warnings: overdraft protection triggered */}
-                {(lastResult.deferred.length > 1 || lastResult.fxTrades.some(f=> f.trade.includes('partial') || f.trade.includes('FAILED') || f.trade.includes('Auto-deferred'))) && (
-                  <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-4 flex gap-3 animate-in">
-                    <div className="w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center flex-shrink-0"><i className="fa-solid fa-triangle-exclamation" /></div>
-                    <div>
-                      <div className="font-black text-red-800">Overdraft protection activated — some payments deferred</div>
-                      <div className="text-sm text-red-700 mt-1">The engine prevented negative bank balances and Central Bank minimum breach. <b>{lastResult.deferred.length}</b> payment(s) were deferred to keep all accounts ≥ 0 and headroom ≥ 0. Check <b>Deferred / Skipped</b> and <b>Ledger</b> for details. Funding or FX was partially limited due to insufficient liquidity — see <b>FX trades</b>.</div>
-                    </div>
-                  </div>
-                )}
-                {/* KPIs */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                  <div className="bg-white rounded-2xl border border-slate-200 p-4 card-hover">
-                    <div className="text-[11px] font-extrabold tracking-widest text-slate-400">BANKABLE LIQUIDITY 22:00</div>
-                    <div className="mt-1 font-black text-xl text-[#0f2040]">{formatKES(lastResult.kpis.totalBankable)} KES</div>
-                    <div className="text-xs text-slate-500">48.5M opening + 90M wallet</div>
-                    <div className="mt-2 h-1.5 rounded-full bg-slate-100 overflow-hidden"><div className="h-full bg-sky-500" style={{ width: "100%" }} /></div>
-                  </div>
-                  <div className="bg-white rounded-2xl border border-slate-200 p-4 card-hover">
-                    <div className="text-[11px] font-extrabold tracking-widest text-slate-400">TOTAL TO PAY (EX-TAX)</div>
-                    <div className="mt-1 font-black text-xl text-[#0f2040]">{formatKES(lastResult.kpis.dynamicTotalKES)} KES</div>
-                    <div className="text-xs text-slate-500">8 critical payments</div>
-                    <div className="mt-2 text-[11px] font-bold text-emerald-600"><i className="fa-solid fa-check mr-1" />{lastResult.ranked.filter(r => r.status === "Scheduled").length} scheduled</div>
-                  </div>
-                  <div className="bg-white rounded-2xl border border-slate-200 p-4 card-hover">
-                    <div className="text-[11px] font-extrabold tracking-widest text-slate-400">HEADROOM ABOVE 13M MINIMUM</div>
-                    <div className={`mt-1 font-black text-xl ${lastResult.kpis.headroom >= 0 ? "text-emerald-600" : "text-red-600"}`}>{lastResult.kpis.headroom >= 0 ? "+" : ""}{formatKES(lastResult.kpis.headroom)} KES</div>
-                    <div className={`text-xs ${lastResult.kpis.headroom >= 0 ? "text-slate-500" : "text-red-600 font-bold"}`}>{lastResult.kpis.headroom >= 0 ? `${formatKES(lastResult.kpis.minBalance)} minimum • ${lastResult.kpis.headroom >= 7000000 ? "safe buffer" : "tight buffer"}` : "BREACH! Fine 10M"}</div>
-                    <div className="mt-2 h-1.5 rounded-full bg-slate-100 overflow-hidden"><div className={`h-full ${lastResult.kpis.headroom >= 7000000 ? "bg-emerald-500" : lastResult.kpis.headroom >= 0 ? "bg-amber-500" : "bg-red-500"}`} style={{ width: Math.min(100, Math.max(0, (lastResult.kpis.headroom / lastResult.kpis.minBalance * 40 + 60))).toFixed(0) + "%" }} /></div>
-                  </div>
-                  <div className="bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl p-4 text-white card-hover">
-                    <div className="text-[11px] font-extrabold tracking-widest text-white/80">DEFERRED (GRACE)</div>
-                    <div className="mt-1 font-black text-xl">{formatKES(lastResult.kpis.taxAmount)} KES</div>
-                    <div className="text-xs text-white/90">Tax • 2-day grace</div>
-                    <div className="mt-2 inline-flex px-2 py-1 rounded-full bg-white/20 text-[11px] font-bold"><i className="fa-solid fa-triangle-exclamation mr-1" /> No penalty</div>
-                  </div>
+            {preview && (
+              <div className="mx-6 mb-6 p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <div className="flex items-center justify-between">
+                  <div className="text-[13px] font-semibold text-mogo-navy flex items-center gap-2"><span className="w-7 h-7 rounded-lg bg-mogo-navy flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></span>Payments detected: {preview.payments.length}</div>
+                  <span className="text-[11px] font-mono bg-white border border-slate-200 px-2 py-1 rounded-full text-mogo-navy">{[...new Set(preview.payments.map(p => p.currency))].join(" • ")}</span>
                 </div>
-
-                {/* Ranked */}
-                <div className="bg-white rounded-[20px] border border-slate-200 shadow-sm overflow-hidden animate-in">
-                  <div className="px-5 lg:px-6 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
-                    <h2 className="font-extrabold text-[#0B1E3A] flex items-center gap-2"><span className="w-8 h-8 rounded-xl bg-[#0B1E3A] text-white flex items-center justify-center text-sm">2</span> Payments in chronological order</h2>
-                    <div className="flex items-center gap-2">
-                      <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-xs"><span className="w-2 h-2 rounded-full bg-sky-500" /> Bank A <span className="w-2 h-2 rounded-full bg-violet-500 ml-2" /> Bank B</span>
-                      <button onClick={() => setTimelineVisible(v => !v)} className="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-bold"><i className="fa-solid fa-timeline mr-1" /> Timeline</button>
-                    </div>
-                  </div>
-                  {timelineVisible && (
-                    <div className="px-5 lg:px-6 py-4 bg-slate-50 border-b border-slate-100">
-                      <div className="flex items-center justify-between text-[11px] font-bold text-slate-500 mb-2">
-                        <span>14:00 start</span><span className="text-amber-600"><i className="fa-solid fa-clock mr-1" />16:30 RTGS/FX cutoff</span><span>22:00 wallet cut</span><span>00:00</span>
-                      </div>
-                      <div className="relative h-12 rounded-xl bg-white border border-slate-200 overflow-hidden flex">
-                        <div className="absolute inset-y-0 left-0 bg-amber-100 border-r-2 border-amber-400 flex items-center justify-center text-[10px] font-black text-amber-700" style={{ left: "0%", width: "26%" }}><span className="hidden sm:inline">RTGS/FX WINDOW</span><span className="sm:hidden">RTGS</span></div>
-                        <div className="absolute inset-0 flex items-center gap-1 px-2">
-                          {lastResult.ranked.filter(r => r.time !== "T+1" && r.time !== "—").map((r, i) => {
-                            const mins = parseInt(r.time.split(":")[0]) * 60 + parseInt(r.time.split(":")[1]);
-                            const pct = Math.max(0, Math.min(100, (mins - 840) / 600 * 100));
-                            return <div key={i} className={`absolute w-2.5 h-2.5 rounded-full border-2 border-white shadow ${r.bank === "A" ? "bg-sky-500" : "bg-violet-600"}`} style={{ left: `calc(${pct}% - 5px)`, top: "50%", transform: "translateY(-50%)" }} title={`${r.time} ${r.name}`} />;
-                          })}
-                          <div className="absolute top-0 bottom-0 w-0.5 bg-amber-500" style={{ left: ((990 - 840) / 600 * 100) + "%" }} />
-                        </div>
-                      </div>
-                      <div className="mt-2 flex flex-wrap gap-1.5">
-                        {lastResult.ranked.filter(r => r.time !== "T+1").map((r, i) => (
-                          <span key={i} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200 text-xs"><span className={`w-2 h-2 rounded-full ${r.bank === "A" ? "bg-sky-500" : "bg-violet-600"}`} />{r.time} {r.name.slice(0, 18)}<span className="text-slate-400">• {r.rail.split(" ")[0]}</span></span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  <div className="overflow-x-auto scrollbar-thin">
-                    <table className="w-full text-sm">
-                      <thead className="bg-slate-50 text-[11px] font-extrabold tracking-widest text-slate-500"><tr><th className="px-4 py-3 text-left">#</th><th className="px-4 py-3 text-left">Approx. time</th><th className="px-4 py-3 text-left">Payment</th><th className="px-4 py-3 text-right">Amount</th><th className="px-4 py-3 text-center">Ccy</th><th className="px-4 py-3 text-left">Rail</th><th className="px-4 py-3 text-center">Bank</th><th className="px-4 py-3 text-center">Status</th></tr></thead>
-                      <tbody className="divide-y divide-slate-100">
-                        <tr className="bg-emerald-50/70 border-l-4 border-emerald-500">
-                          <td className="px-4 py-3 font-mono text-xs font-black text-emerald-700">—</td>
-                          <td className="px-4 py-3"><span className="inline-flex px-2.5 py-1 rounded-full bg-emerald-600 text-white text-xs font-bold">EOD</span></td>
-                          <td className="px-4 py-3 font-bold text-emerald-800">Retain Central Bank minimum</td>
-                          <td className="px-4 py-3 text-right font-mono font-black text-emerald-800">{formatKES(lastResult.kpis.minBalance)}</td>
-                          <td className="px-4 py-3 text-center"><span className="px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-black border border-emerald-200">KES</span></td>
-                          <td className="px-4 py-3 text-xs font-semibold text-emerald-700">No payment — reserve</td>
-                          <td className="px-4 py-3 text-center"><span className="px-3 py-1 rounded-full bg-emerald-600 text-white text-xs font-black">A+B</span></td>
-                          <td className="px-4 py-3 text-center"><span className="px-2.5 py-1 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-800 text-[11px] font-bold">✓ Protected</span></td>
-                        </tr>
-                        {lastResult.ranked.map(r => (
-                          <tr key={r.rank} className={`hover:bg-slate-50 transition ${r.status === "Deferred" ? "bg-amber-50/50" : ""}`}>
-                            <td className="px-4 py-3 font-mono text-xs font-bold text-slate-400">{r.rank}</td>
-                            <td className="px-4 py-3"><span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900 text-white text-xs font-mono font-bold"><i className="fa-regular fa-clock text-[10px]" />{r.time}</span></td>
-                            <td className="px-4 py-3"><div className="font-bold text-[#0f2040] leading-tight">{r.name}</div><div className="text-xs text-slate-500 truncate max-w-[220px]">{r.rail}</div></td>
-                            <td className="px-4 py-3 text-right font-mono font-bold text-[#0f2040]">{r.currency === "EUR" ? "€" + formatKES(r.amount) : "KES " + formatKES(r.amount)}</td>
-                            <td className="px-4 py-3 text-center"><span className={`px-2 py-1 rounded-full text-[11px] font-black border ${r.currency === "EUR" ? "bg-violet-100 text-violet-700 border-violet-200" : r.currency === "USD" ? "bg-emerald-100 text-emerald-700 border-emerald-200" : "bg-sky-50 text-sky-700 border-sky-200"}`}>{r.currency}</span></td>
-                            <td className="px-4 py-3"><span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200 text-xs font-semibold"><i className="fa-solid fa-right-left text-slate-400 text-[10px]" />{r.rail}</span></td>
-                            <td className="px-4 py-3 text-center"><span className={`inline-flex w-16 justify-center px-3 py-1 rounded-full text-xs font-black ${r.bank === "A" ? "bg-sky-500 text-white" : "bg-violet-600 text-white"}`}>Bank {r.bank}</span></td>
-                            <td className="px-4 py-3 text-center"><span className={`inline-flex px-2.5 py-1 rounded-full border text-[11px] font-bold ${r.status === "Scheduled" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : r.status === "Deferred" ? "bg-amber-50 text-amber-800 border-amber-200" : "bg-red-50 text-red-700 border-red-200"}`}>{r.status === "Scheduled" ? "✓ " + r.status : r.status}</span></td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className="px-5 py-3 bg-slate-50 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs">
-                    <span className="text-slate-500"><i className="fa-solid fa-circle-info text-sky-500 mr-1" /> Order optimized by deadline + breach cost. Edit restrictions to reprioritize.</span>
-                    <span className="font-bold text-[#0f2040]">{lastResult.ranked.length} lines • {lastResult.ranked.filter(r => r.status === "Scheduled").length} on time • 1 deferred within grace</span>
-                  </div>
-                </div>
-
-                {/* FX + Deferred + Assumptions */}
-                <div className="grid lg:grid-cols-3 gap-5">
-                  <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-                    <div className="px-5 py-3 border-b border-slate-100 font-extrabold text-[#0B1E3A] text-sm flex items-center gap-2"><i className="fa-solid fa-right-left text-[#FF6B00]" /> FX trades</div>
-                    <div className="p-4 space-y-3">
-                      {lastResult.fxTrades.map((f, i) => (
-                        <div key={i} className="flex gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
-                          <div className="w-12 h-12 rounded-xl bg-white border border-slate-200 flex flex-col items-center justify-center leading-none"><span className="text-[10px] font-black text-slate-400">{f.time}</span><span className="font-black text-violet-600 text-xs">FX</span></div>
-                          <div className="flex-1 min-w-0">
-                            <div className="font-bold text-sm text-[#0f2040]">{f.trade}</div>
-                            <div className="text-xs text-slate-500">{f.amount.toLocaleString()} {f.trade.includes("EUR") ? "EUR" : "USD"} {f.rate !== "—" ? "@" + f.rate : ""} → <b className="text-[#0f2040]">{f.proceeds === "—" ? "—" : formatKES(f.proceeds) + " KES"}</b></div>
-                            <div className="text-[11px] text-slate-400">{f.purpose} • {f.from}→{f.to || "A KES"}</div>
-                          </div>
-                        </div>
+                <div className="mt-3 overflow-x-auto">
+                  <table className="w-full text-xs">
+                    <thead className="text-[11px] font-semibold tracking-widest text-slate-400 uppercase"><tr><th className="text-left py-1 font-semibold">Payment</th><th className="text-right py-1">Amount</th><th className="text-center py-1">Ccy</th><th className="text-center py-1">Bank</th></tr></thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {preview.payments.map((p, i) => (
+                        <tr key={i}><td className="py-1.5 font-semibold text-mogo-navy">{p.name}</td><td className="text-right font-mono text-mogo-navy">{formatKES(p.amount)}</td><td className="text-center"><span className={`px-1.5 py-0.5 rounded-full text-[10px] font-bold border ${p.currency === "EUR" ? "bg-violet-50 text-violet-700 border-violet-200" : p.currency === "USD" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-slate-50 text-mogo-navy border-slate-200"}`}>{p.currency}</span></td><td className="text-center"><span className={`px-2 py-0.5 rounded-full text-[11px] font-semibold ${p.bank === "A" ? "bg-mogo-navy text-white" : "bg-slate-700 text-white"}`}>Bank {p.bank}</span></td></tr>
                       ))}
-                      <div className="p-3 rounded-xl bg-violet-600 text-white text-xs"><div className="font-black">Total proceeds: {formatKES(lastResult.fxTrades.filter(f => f.proceeds !== "—").reduce((s, f) => s + f.proceeds, 0))} KES</div><div className="text-white/80">Execute 14:05-14:15, before RTGS cutoff.</div></div>
-                    </div>
-                    <div className="px-4 py-3 bg-violet-50 border-t border-violet-100 text-xs text-violet-800"><i className="fa-solid fa-lightbulb mr-1" /> FX must close before <b>16:30</b>. Includes buffer for spread.</div>
-                  </div>
-                  <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-                    <div className="px-5 py-3 border-b border-slate-100 font-extrabold text-amber-700 text-sm flex items-center gap-2"><i className="fa-solid fa-clock-rotate-left text-amber-500" /> Deferred / Skipped</div>
-                    <div className="p-4 space-y-3">
-                      {lastResult.deferred.length === 0 ? <div className="text-xs text-slate-500 text-center py-6">Nothing deferred — all fits.</div> : lastResult.deferred.map((d, i) => (
-                        <div key={i} className="p-3 rounded-xl bg-amber-50 border border-amber-200">
-                          <div className="font-bold text-sm text-amber-900">{d.name}</div>
-                          <div className="text-xs font-mono font-bold text-amber-800">{formatKES(d.amount)} {d.currency}</div>
-                          <div className="mt-1 text-xs leading-snug text-amber-800/80">{d.reason || "Deferred"}</div>
-                          {d.mitigation && <div className="mt-2 text-[11px] bg-white border border-amber-200 rounded-lg px-2 py-1.5 text-amber-800"><i className="fa-solid fa-shield-halved mr-1" />{d.mitigation}</div>}
-                          <div className={`mt-2 inline-flex px-2 py-1 rounded-full text-[11px] font-black ${d.name.toLowerCase().includes('tax') ? 'bg-amber-500 text-white' : 'bg-red-500 text-white'}`}>{d.name.toLowerCase().includes('tax') ? 'No penalty (2-day grace)' : 'Overdraft protection'}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-                    <div className="px-5 py-3 border-b border-slate-100 font-extrabold text-[#0B1E3A] text-sm flex items-center gap-2"><i className="fa-solid fa-clipboard-question text-[#FF6B00]" /> Assumptions</div>
-                    <div className="p-4 space-y-2 text-xs leading-relaxed text-slate-600">
-                      {[
-                        "Fixed rates EUR 150 / USD 130 (editable in side panel). No spread/fees — add 0.5–1% buffer in production.",
-                        `Wallet sweeps hourly :00 collection → :05 transfer, only until ${String(Math.floor(lastResult.kpis.walletCut / 60)).padStart(2, "0")}:${String(lastResult.kpis.walletCut % 60).padStart(2, "0")}. 23:00–00:00 =20M stays in wallet for Tax T+1.`,
-                        "Batch PesaLink inherits 24/7 window; RTGS/FX share 16:30 cutoff.",
-                        "Payroll/phone <1M per person → PesaLink no split. Car 300k → 1 PesaLink tx; M-Pesa would need 2.",
-                        "Moto dealer banks with A → within-bank 24/7, can go after cutoff.",
-                        "Vendors (ERP/rent/suppliers) must be paid from B → needs RTGS funding at 14:30.",
-                        "Tax deferred 0% if T+2, then 2% +0.5%/mo. Cost of capital 2.5%/mo irrelevant vs 10M breach.",
-                        "Minimum EOD 13M aggregate A+B, FX residual counted at spot rate."
-                      ].map((s, i) => (<div key={i} className="flex gap-2"><span className="mt-1 w-1.5 h-1.5 rounded-full bg-sky-500 flex-shrink-0" /><span>{s}</span></div>))}
-                    </div>
-                  </div>
+                    </tbody>
+                  </table>
                 </div>
-
-                {/* Ledgers */}
-                <div className="bg-white rounded-[20px] border border-slate-200 shadow-sm overflow-hidden mogo-card">
-                  <div className="px-5 lg:px-6 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
-                    <h3 className="font-extrabold text-[#0B1E3A] flex items-center gap-2"><i className="fa-solid fa-building-columns text-[#FF6B00]" /> Ledger by account — live balances</h3>
-                    <div className="flex gap-1.5 p-1 rounded-xl bg-slate-100">
-                      {["A", "B", "C"].map(which => (
-                        <button key={which} onClick={() => setLedgerTab(which)} className={`px-4 py-1.5 rounded-lg text-xs font-bold ${ledgerTab === which ? "bg-[#0f2040] text-white" : "text-slate-600"}`}>{which === "C" ? "Wallet C" : `Bank ${which}`}</button>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="overflow-x-auto scrollbar-thin">
-                    <table className="w-full text-xs">
-                      <thead className="bg-slate-50 text-[11px] font-extrabold tracking-widest text-slate-500"><tr><th className="px-3 py-2 text-left">Time</th><th className="px-3 py-2 text-left">Details</th><th className="px-3 py-2 text-center">Rail</th><th className="px-3 py-2 text-right">KES in</th><th className="px-3 py-2 text-right">KES out</th><th className="px-3 py-2 text-right">Balance KES</th><th className="px-3 py-2 text-right">EUR</th><th className="px-3 py-2 text-right">USD</th><th className="px-3 py-2 text-right">Total equiv.</th></tr></thead>
-                      <tbody className="divide-y divide-slate-100">
-                        {ledgerData?.map((r, i) => {
-                          const total = (r.kesBal || 0) + (r.eurBal || 0) * eurRate + (r.usdBal || 0) * usdRate;
-                          const timeStr = typeof r.time === "number" ? `${String(Math.floor(r.time / 60)).padStart(2, "0")}:${String(r.time % 60).padStart(2, "0")}` : r.time;
-                          return (
-                            <tr key={i} className="hover:bg-slate-50">
-                              <td className="px-3 py-2 font-mono font-bold whitespace-nowrap">{timeStr}</td>
-                              <td className="px-3 py-2 font-semibold text-[#0f2040]">{r.desc}</td>
-                              <td className="px-3 py-2 text-center"><span className="px-2 py-0.5 rounded-full bg-white border border-slate-200 text-[11px]">{r.rail}</span></td>
-                              <td className="px-3 py-2 text-right font-mono text-emerald-600">{r.kesIn ? formatKES(r.kesIn) : "—"}</td>
-                              <td className="px-3 py-2 text-right font-mono text-red-600">{r.kesOut ? formatKES(r.kesOut) : "—"}</td>
-                              <td className={`px-3 py-2 text-right font-mono font-black ${r.kesBal < 0 ? 'text-red-600 bg-red-50' : r.kesBal < 2000000 ? 'text-amber-600' : ''}`}>{formatKES(r.kesBal)} {r.kesBal < 0 ? '⚠️' : ''}</td>
-                              <td className="px-3 py-2 text-right font-mono">{r.eurBal != null ? r.eurBal.toLocaleString() : "—"}</td>
-                              <td className="px-3 py-2 text-right font-mono">{r.usdBal != null ? r.usdBal.toLocaleString() : "—"}</td>
-                              <td className="px-3 py-2 text-right font-mono font-bold text-[#0f2040]">{formatKES(total)}</td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                    {ledgerTab === "C" && <div className="px-4 py-3 bg-amber-50 border-t border-amber-200 text-xs text-amber-800"><i className="fa-solid fa-circle-info mr-1" /> 23:00 and 00:00 stay in wallet (API closed) — they fund Tax on T+1.</div>}
-                    {ledgerTab === "A" && ledgerData && (
-                      <div className="px-4 py-3 bg-slate-900 text-white flex flex-wrap justify-between gap-2 text-xs">
-                        <span>Closing Bank {ledgerTab}: <b>KES {formatKES(ledgerData[ledgerData.length - 1].kesBal)} + {ledgerData[ledgerData.length - 1].eurBal} EUR + {ledgerData[ledgerData.length - 1].usdBal} USD = {formatKES((ledgerData[ledgerData.length - 1].kesBal || 0) + (ledgerData[ledgerData.length - 1].eurBal || 0) * eurRate + (ledgerData[ledgerData.length - 1].usdBal || 0) * usdRate)} equiv.</b></span>
-                        <span className="text-emerald-300">Buffer {formatKES(((ledgerData[ledgerData.length - 1].kesBal || 0) + (ledgerData[ledgerData.length - 1].eurBal || 0) * eurRate + (ledgerData[ledgerData.length - 1].usdBal || 0) * usdRate) - (getNum("central_min") || getNum("Central Bank minimum") || 13000000))}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Compliance Report */}
-                <div className="bg-white rounded-[20px] border-2 border-slate-200 shadow-sm overflow-hidden">
-                  <div className="px-5 lg:px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-                    <h3 className="font-extrabold text-[#0B1E3A] flex items-center gap-2"><i className="fa-solid fa-clipboard-check text-emerald-600" /> Restriction Compliance Check</h3>
-                    <span className="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-700">
-                      {(() => {
-                        const checks = [];
-                        // Check 1: Vendors from B
-                        const vendorPayments = lastResult.ranked.filter(r=> ['ERP system provider','HQ rent','Administrative suppliers'].some(v=> r.name.includes(v.replace(' (30)',''))));
-                        const vendorOk = vendorPayments.every(r=> r.bank==='B');
-                        checks.push(vendorOk);
-                        // Check 2: Loans/dealers from A
-                        const loanPayments = lastResult.ranked.filter(r=> ['Car loan','Motorcycle','Phone dealers'].some(v=> r.name.includes(v)));
-                        const loanOk = loanPayments.every(r=> r.bank==='A');
-                        checks.push(loanOk);
-                        // Check 3: No negative balances
-                        const noNegative = lastResult.ledgers.A.every(e=> e.kesBal>=0) && lastResult.ledgers.B.every(e=> e.kesBal>=0);
-                        checks.push(noNegative);
-                        // Check 4: Minimum respected
-                        checks.push(lastResult.kpis.headroom >=0);
-                        // Check 5: RTGS before cutoff
-                        const rtgsCut = 16*60+30;
-                        const rtgsOk = lastResult.ranked.filter(r=> r.rail.includes('RTGS')).every(r=> {
-                          if(r.time==='T+1'||r.time==='—') return true;
-                          const [h,m]=r.time.split(':').map(Number);
-                          return h*60+m <= rtgsCut;
-                        });
-                        checks.push(rtgsOk);
-                        // Check 6: FX before cutoff
-                        const fxOk = lastResult.fxTrades.filter(f=> f.trade.includes('Sell')).every(f=> {
-                          const [h,m]=f.time.split(':').map(Number);
-                          return h*60+(m||0) <= rtgsCut;
-                        });
-                        checks.push(fxOk);
-                        const allOk = checks.every(Boolean);
-                        return allOk ? '✓ All restrictions satisfied' : '⚠️ Some checks need attention';
-                      })()}
-                    </span>
-                  </div>
-                  <div className="p-4 grid md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
-                    {[
-                      {label: 'Vendors → Bank B', desc: 'Vendors must be paid from Bank B (per restriction)', check: (()=>{ 
-                        // Generic: any payment originally classified as vendor (bank B) must stay B
-                        const origVendors = lastResult.payments.filter(p=> p.bank==='B');
-                        if(origVendors.length===0) return true;
-                        return origVendors.every(orig=>{
-                          const ranked = lastResult.ranked.find(r=> r.name===orig.name);
-                          return ranked ? ranked.bank==='B' : true;
-                        });
-                      })(), detail: (()=>{ 
-                        const v = lastResult.payments.filter(p=> p.bank==='B');
-                        if(v.length===0) return 'No vendor payments';
-                        return v.map(orig=>{
-                          const ranked = lastResult.ranked.find(r=> r.name===orig.name);
-                          return `${orig.name} → Bank ${ranked? ranked.bank : orig.bank}`;
-                        }).join(', ');
-                      })()},
-                      {label: 'Loans/Dealers → Bank A', desc: 'Loans & dealers must be paid from Bank A (per restriction)', check: (()=>{ 
-                        const origLoans = lastResult.payments.filter(p=> p.type==='loans' || p.type==='dealer' || p.name.toLowerCase().includes('car financing') || p.name.toLowerCase().includes('motorcycle') || p.name.toLowerCase().includes('phone dealer'));
-                        if(origLoans.length===0) return true;
-                        return origLoans.every(orig=>{
-                          const ranked = lastResult.ranked.find(r=> r.name===orig.name || r.name.includes('Car loan') && orig.name.includes('car'));
-                          // For car loans split into 4, check all car batches are from A
-                          if(orig.name.toLowerCase().includes('car financing')){
-                            const carBatches = lastResult.ranked.filter(r=> r.name.includes('Car loan'));
-                            return carBatches.length>0 ? carBatches.every(r=> r.bank==='A') : true;
-                          }
-                          return ranked ? ranked.bank==='A' : true;
-                        });
-                      })(), detail: (()=>{ 
-                        const v = lastResult.payments.filter(p=> p.type==='loans' || p.type==='dealer' || p.name.toLowerCase().includes('car financing') || p.name.toLowerCase().includes('motorcycle') || p.name.toLowerCase().includes('phone dealer'));
-                        if(v.length===0) return 'No loan/dealer payments';
-                        return v.map(orig=>{
-                          if(orig.name.toLowerCase().includes('car financing')){
-                            const batches = lastResult.ranked.filter(r=> r.name.includes('Car loan'));
-                            return `${orig.name} → ${batches.map(b=>`Bank ${b.bank}`).join(', ')}`;
-                          }
-                          const ranked = lastResult.ranked.find(r=> r.name===orig.name);
-                          return `${orig.name} → Bank ${ranked? ranked.bank : orig.bank}`;
-                        }).join(', ');
-                      })()},
-                      {label: 'No overdraft', desc: 'No bank balance < 0', check: lastResult.ledgers.A.every(e=> e.kesBal>=0) && lastResult.ledgers.B.every(e=> e.kesBal>=0), detail: `A min ${formatKES(Math.min(...lastResult.ledgers.A.map(e=>e.kesBal)))} | B min ${formatKES(Math.min(...lastResult.ledgers.B.map(e=>e.kesBal)))}`},
-                      {label: 'Central Bank minimum', desc: `≥ ${formatKES(lastResult.kpis.minBalance)} EOD`, check: lastResult.kpis.headroom>=0, detail: `Headroom ${formatKES(lastResult.kpis.headroom)} ${lastResult.kpis.headroom>=0?'✓':'✗ Breach'}`},
-                      {label: 'RTGS window', desc: (()=>{ const w=getRestrictionValue("rtgs_window")||getRestrictionValue("RTGS window")||"06:00 – 16:30"; return `RTGS ${w}`; })(), check: (()=>{ const w=getRestrictionValue("rtgs_window")||getRestrictionValue("RTGS window")||"06:00 – 16:30"; const m=w.match(/(\d{1,2}):(\d{2})/g); let cut=16*60+30; if(m && m.length>=2){ const parts=m[1].split(':'); cut=parseInt(parts[0])*60+parseInt(parts[1]); } return lastResult.ranked.filter(r=> r.rail.includes('RTGS')).every(r=> { if(r.time==='T+1'||r.time==='—') return true; const [h,mm]=r.time.split(':').map(Number); return h*60+mm <= cut; }); })(), detail: lastResult.ranked.filter(r=> r.rail.includes('RTGS')).map(r=> `${r.name} @${r.time}`).join(', ') || 'No RTGS'},
-                      {label: 'FX window', desc: (()=>{ const w=getRestrictionValue("fx_window")||getRestrictionValue("FX market window")||"09:00 – 16:30"; return `FX ${w}`; })(), check: (()=>{ const w=getRestrictionValue("fx_window")||getRestrictionValue("FX market window")||"09:00 – 16:30"; const m=w.match(/(\d{1,2}):(\d{2})/g); let cut=16*60+30; if(m && m.length>=2){ const parts=m[1].split(':'); cut=parseInt(parts[0])*60+parseInt(parts[1]); } else { const fm=w.match(/(\d{1,2}):(\d{2})/); if(fm) cut=parseInt(fm[1])*60+parseInt(fm[2]); } return lastResult.fxTrades.filter(f=> f.trade.includes('Sell')).every(f=> { const [h,mm]=f.time.split(':').map(Number); return h*60+(mm||0) <= cut; }); })(), detail: lastResult.fxTrades.filter(f=> f.trade.includes('Sell')).map(f=> `${f.trade} @${f.time}`).join(', ') || 'No FX'},
-                      {label: 'PesaLink limit', desc: `≤ ${formatKES(getNum("pesa_limit")||getNum("PesaLink max")||1000000)} per tx`, check: lastResult.ranked.filter(r=> r.rail.includes('PesaLink')).every(r=> r.amount <= (getNum("pesa_limit")||getNum("PesaLink max")||1000000) || r.name.includes('Payroll') || r.name.includes('Car loan')), detail: `Max scheduled PesaLink: ${formatKES(Math.max(...lastResult.ranked.filter(r=> r.rail.includes('PesaLink')).map(r=>r.amount),0))}`},
-                      {label: 'M-Pesa limit', desc: `≤ ${formatKES(getNum("mpesa_limit")||getNum("M-Pesa max")||250000)} per tx`, check: lastResult.ranked.filter(r=> r.rail.includes('M-Pesa')).every(r=> {
-                        const limit = getNum("mpesa_limit")||getNum("M-Pesa max")||250000;
-                        // Car 300k would need split, but we use PesaLink so ok
-                        if(r.name.includes('Car loan') && r.rail.includes('M-Pesa')) return r.amount <= limit;
-                        return true;
-                      }), detail: `Car 300k via PesaLink (not M-Pesa) ✓`},
-                      {label: 'Wallet cutoff', desc: 'Sweeps until 22:00, 23:00+ not bankable', check: lastResult.ledgers.C.filter(r=> r.time>=23*60).every(r=> r.kesBal>=0), detail: `Wallet 23:00 ${formatKES(lastResult.ledgers.C.find(r=>r.time===23*60)?.kesBal||0)} held`},
-                      {label: 'Deadlines', desc: 'Respects edited deadlines (Payroll, ERP, Rent...)', check: (()=>{ 
-                        const getDl = (keyOrLabel, fallback)=>{
-                          let r=getRestrictionByKey(keyOrLabel);
-                          if(!r) return fallback;
-                          const v=r.value.toLowerCase();
-                          const m=v.match(/(\d{1,2}):(\d{2})/);
-                          if(m){ let h=parseInt(m[1]), mm=parseInt(m[2]); if(v.includes('tomorrow')) h+=24; if(v.includes('midnight')) return 24*60; return h*60+mm; }
-                          if(v.includes('midnight')) return 24*60;
-                          if(v.includes('today')) return 22*60;
-                          return fallback;
-                        };
-                        const payrollDl=getDl('payroll_deadline',17*60);
-                        const phoneDl=getDl('phone_deadline',17*60);
-                        const erpDl=getDl('erp_deadline',24*60);
-                        const rentDl=getDl('rent_deadline',(24+11)*60);
-                        const dlCheck = (name, timeStr)=>{
-                          if(timeStr==='T+1'||timeStr==='—') return true;
-                          const [h,m]=timeStr.split(':').map(Number);
-                          const t=h*60+m;
-                          if(name.toLowerCase().includes('payroll')) return t <= payrollDl;
-                          if(name.toLowerCase().includes('phone')) return t <= phoneDl;
-                          if(name.toLowerCase().includes('erp')) return t < erpDl;
-                          if(name.toLowerCase().includes('rent')) return t <= rentDl;
-                          return true;
-                        }; return lastResult.ranked.every(r=> dlCheck(r.name, r.time)); })(), detail: (()=>{ const getDlStr=(k,legacy,f)=>{ const r=getRestrictionByKey(k)||restrictions.find(x=> x.label.toLowerCase().includes(legacy.toLowerCase()) && x.enabled); return r? r.value : f; }; return `Payroll ${getDlStr('payroll_deadline','Payroll deadline','17:00')} | Phone ${getDlStr('phone_deadline','Phone dealers','17:00')} | ERP ${getDlStr('erp_deadline','ERP shutdown','midnight')} | Rent ${getDlStr('rent_deadline','HQ rent','11:00 tomorrow')}`; })()},
-                    ].map((c,i)=> (
-                      <div key={i} className={`p-3 rounded-xl border ${c.check ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'}`}>
-                        <div className="flex items-center gap-2 font-bold text-sm">
-                          <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${c.check ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}`}>{c.check ? '✓' : '✗'}</span>
-                          {c.label}
-                        </div>
-                        <div className="text-[11px] text-slate-600 mt-1">{c.desc}</div>
-                        <div className="text-[11px] font-mono mt-1 text-slate-500 truncate" title={c.detail}>{c.detail}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="px-4 py-3 bg-slate-50 border-t border-slate-100 text-xs text-slate-600">
-                    <b>How to verify:</b> Check <b>Ledger by account</b> for bank source, <b>Payments in chronological order</b> for rail/time, and <b>KPIs</b> for minimum. All restrictions above are editable in the left panel — change a value and click <b>Recalculate</b> to see compliance update.
-                  </div>
-                </div>
-
-                {/* Wow footer */}
-                <div className="bg-gradient-to-br from-[#0B1E3A] to-[#162E5B] rounded-[20px] p-6 text-white relative overflow-hidden border-t-4 border-[#FF6B00]">
-                  <div className="absolute -right-12 -top-12 w-40 h-40 rounded-full bg-white/10" />
-                  <div className="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-sky-500/20" />
-                  <div className="relative flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-                    <div>
-                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-bold tracking-wide"><i className="fa-solid fa-sparkles text-[#FCDC04]" /> Ready for your boss</div>
-                      <h4 className="mt-2 font-black text-xl leading-none">Impressed? Export the full deliverable.</h4>
-                      <p className="text-sm text-white/70 mt-1">Generates Excel with 4 sheets identical to Task 1 Completed: Answer + Bank A/B + Wallet.</p>
-                    </div>
-                    <div className="flex gap-2">
-                      <button onClick={exportExcel} className="px-6 py-3 rounded-xl bg-white text-[#0f2040] font-black text-sm hover:bg-slate-100 transition shadow-lg"><i className="fa-solid fa-file-excel text-emerald-600 mr-2" />Export Excel</button>
-                      <button onClick={() => window.print()} className="px-6 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-bold text-sm hover:bg-white/15"><i className="fa-solid fa-print mr-2" />Print</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Empty state */}
-            {!lastResult && (
-              <div className="mt-6 bg-white rounded-[20px] border border-dashed border-slate-300 p-10 text-center">
-                <div className="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-200 mx-auto flex items-center justify-center"><i className="fa-solid fa-chart-line text-2xl text-slate-300" /></div>
-                <div className="mt-4 font-extrabold text-[#0B1E3A]">No calculation yet</div>
-                <div className="text-sm text-slate-500 mt-1 max-w-md mx-auto">Upload your <b>Financial Controller Homework - Task 1.xlsx</b> to see the optimization with your payments, currencies and rails. You can edit any restriction in the side panel before calculating.</div>
-                <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 border border-amber-200 text-xs font-bold text-amber-700"><i className="fa-solid fa-arrow-up" /> Check the side panel to see all detected restrictions</div>
               </div>
             )}
           </div>
+
+          {/* RESULTS */}
+          {lastResult && (
+            <div ref={resultsRef} className={`space-y-6 ${pendingChanges ? 'opacity-50 pointer-events-none' : ''}`}>
+              {pendingChanges && (
+                <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center gap-3">
+                  <span className="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></span>
+                  <div>
+                    <div className="font-semibold text-[13px] text-amber-900">Results are outdated — restrictions were modified</div>
+                    <div className="text-[13px] text-amber-800">Click <b>Recalculate</b> to apply your changes. Edited values are not yet reflected.</div>
+                  </div>
+                  <button onClick={handleCalculate} className="ml-auto px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold text-[13px] shadow">Recalculate now</button>
+                </div>
+              )}
+              {(lastResult.deferred.length > 1 || lastResult.fxTrades.some(f=> f.trade.includes('partial') || f.trade.includes('FAILED') || f.trade.includes('Auto-deferred'))) && (
+                <div className="bg-red-50 border border-red-200 rounded-2xl p-4 flex gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-red-500 text-white flex items-center justify-center flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+                  <div>
+                    <div className="font-semibold text-[13px] text-red-800">Overdraft protection activated — some payments deferred</div>
+                    <div className="text-[13px] text-red-700 mt-1 leading-relaxed">The engine prevented negative bank balances and Central Bank minimum breach. <b>{lastResult.deferred.length}</b> payment(s) were deferred. Check <b>Deferred / Skipped</b> and <b>Ledger</b> for details.</div>
+                  </div>
+                </div>
+              )}
+
+              {/* KPIs — 4 cards */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                <div className="bg-white rounded-2xl border border-mogo-border p-5 shadow-card">
+                  <div className="text-[11px] font-semibold tracking-widest text-slate-400 uppercase">Bankable liquidity 22:00</div>
+                  <div className="mt-1 font-semibold text-[20px] tracking-tight text-mogo-navy">{formatKES(lastResult.kpis.totalBankable)} <span className="text-[13px] font-medium">KES</span></div>
+                  <div className="text-[13px] text-mogo-navy/60">48.5M opening + 90M wallet</div>
+                  <div className="mt-3 h-1.5 rounded-full bg-slate-100 overflow-hidden"><div className="h-full bg-mogo-navy" style={{ width: "100%" }} /></div>
+                </div>
+                <div className="bg-white rounded-2xl border border-mogo-border p-5 shadow-card">
+                  <div className="text-[11px] font-semibold tracking-widest text-slate-400 uppercase">Total to pay (ex-tax)</div>
+                  <div className="mt-1 font-semibold text-[20px] tracking-tight text-mogo-navy">{formatKES(lastResult.kpis.dynamicTotalKES)} <span className="text-[13px] font-medium">KES</span></div>
+                  <div className="text-[13px] text-mogo-navy/60">8 critical payments</div>
+                  <div className="mt-2 text-[11px] font-semibold text-emerald-600 flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6 9 17l-5-5"/></svg>{lastResult.ranked.filter(r => r.status === "Scheduled").length} scheduled</div>
+                </div>
+                <div className="bg-white rounded-2xl border border-mogo-border p-5 shadow-card">
+                  <div className="text-[11px] font-semibold tracking-widest text-slate-400 uppercase">Headroom above 13M minimum</div>
+                  <div className={`mt-1 font-semibold text-[20px] tracking-tight ${lastResult.kpis.headroom >= 0 ? "text-emerald-600" : "text-red-600"}`}>{lastResult.kpis.headroom >= 0 ? "+" : ""}{formatKES(lastResult.kpis.headroom)} <span className="text-[13px]">KES</span></div>
+                  <div className={`text-[13px] ${lastResult.kpis.headroom >= 0 ? "text-mogo-navy/60" : "text-red-600 font-medium"}`}>{lastResult.kpis.headroom >= 0 ? `${formatKES(lastResult.kpis.minBalance)} minimum · ${lastResult.kpis.headroom >= 7000000 ? "safe buffer" : "tight buffer"}` : "BREACH! Fine 10M"}</div>
+                  <div className="mt-3 h-1.5 rounded-full bg-slate-100 overflow-hidden"><div className={`h-full ${lastResult.kpis.headroom >= 7000000 ? "bg-emerald-600" : lastResult.kpis.headroom >= 0 ? "bg-amber-500" : "bg-red-500"}`} style={{ width: Math.min(100, Math.max(0, (lastResult.kpis.headroom / lastResult.kpis.minBalance * 40 + 60))).toFixed(0) + "%" }} /></div>
+                </div>
+                <div className="bg-mogo-navy rounded-2xl p-5 text-white shadow-card">
+                  <div className="text-[11px] font-semibold tracking-widest text-mogo-goldLight uppercase">Deferred (grace)</div>
+                  <div className="mt-1 font-semibold text-[20px] tracking-tight">{formatKES(lastResult.kpis.taxAmount)} <span className="text-[13px] font-medium text-white/80">KES</span></div>
+                  <div className="text-[13px] text-white/80">Tax · 2-day grace</div>
+                  <div className="mt-2 inline-flex px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-[11px] font-semibold"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mr-1"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> No penalty</div>
+                </div>
+              </div>
+
+              {/* Ranked */}
+              <div className="bg-white rounded-2xl shadow-card border border-mogo-border overflow-hidden">
+                <div className="px-6 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                  <h2 className="text-[15px] font-semibold tracking-tight text-mogo-navy flex items-center gap-2"><span className="w-7 h-7 rounded-lg bg-mogo-navy text-white flex items-center justify-center text-[12px] font-bold">2</span> Payments in chronological order</h2>
+                  <div className="flex items-center gap-2">
+                    <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-[12px] font-medium text-mogo-navy"><span className="w-2 h-2 rounded-full bg-mogo-navy" /> Bank A <span className="w-2 h-2 rounded-full bg-slate-700 ml-2" /> Bank B</span>
+                    <button onClick={() => setTimelineVisible(v => !v)} className="px-3 py-1.5 rounded-xl bg-mogo-navy text-white text-[12px] font-semibold flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Timeline</button>
+                  </div>
+                </div>
+                {timelineVisible && (
+                  <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
+                    <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500 mb-2 tracking-wide">
+                      <span>14:00 start</span><span className="text-amber-600">16:30 RTGS/FX cutoff</span><span>22:00 wallet cut</span><span>00:00</span>
+                    </div>
+                    <div className="relative h-12 rounded-xl bg-white border border-slate-200 overflow-hidden flex">
+                      <div className="absolute inset-y-0 left-0 bg-amber-100/60 border-r-2 border-amber-400 flex items-center justify-center text-[10px] font-bold text-amber-700 tracking-widest" style={{ left: "0%", width: "26%" }}><span className="hidden sm:inline">RTGS/FX WINDOW</span><span className="sm:hidden">RTGS</span></div>
+                      <div className="absolute inset-0 flex items-center gap-1 px-2">
+                        {lastResult.ranked.filter(r => r.time !== "T+1" && r.time !== "—").map((r, i) => {
+                          const mins = parseInt(r.time.split(":")[0]) * 60 + parseInt(r.time.split(":")[1]);
+                          const pct = Math.max(0, Math.min(100, (mins - 840) / 600 * 100));
+                          return <div key={i} className={`absolute w-2.5 h-2.5 rounded-full border-2 border-white shadow ${r.bank === "A" ? "bg-mogo-navy" : "bg-slate-700"}`} style={{ left: `calc(${pct}% - 5px)`, top: "50%", transform: "translateY(-50%)" }} title={`${r.time} ${r.name}`} />;
+                        })}
+                        <div className="absolute top-0 bottom-0 w-0.5 bg-amber-500" style={{ left: ((990 - 840) / 600 * 100) + "%" }} />
+                      </div>
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {lastResult.ranked.filter(r => r.time !== "T+1").map((r, i) => (
+                        <span key={i} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200 text-[12px] font-medium text-mogo-navy"><span className={`w-2 h-2 rounded-full ${r.bank === "A" ? "bg-mogo-navy" : "bg-slate-700"}`} />{r.time} {r.name.slice(0, 18)}<span className="text-slate-400">· {r.rail.split(" ")[0]}</span></span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-[13px]">
+                    <thead className="bg-slate-50 text-[11px] font-semibold tracking-widest text-slate-500 uppercase"><tr><th className="px-4 py-3 text-left">#</th><th className="px-4 py-3 text-left">Approx. time</th><th className="px-4 py-3 text-left">Payment</th><th className="px-4 py-3 text-right">Amount</th><th className="px-4 py-3 text-center">Ccy</th><th className="px-4 py-3 text-left">Rail</th><th className="px-4 py-3 text-center">Bank</th><th className="px-4 py-3 text-center">Status</th></tr></thead>
+                    <tbody className="divide-y divide-slate-100">
+                      <tr className="bg-emerald-50/60 border-l-4 border-emerald-600">
+                        <td className="px-4 py-3 font-mono text-[12px] font-bold text-emerald-700">—</td>
+                        <td className="px-4 py-3"><span className="inline-flex px-2.5 py-1 rounded-full bg-emerald-600 text-white text-[12px] font-semibold">EOD</span></td>
+                        <td className="px-4 py-3 font-semibold text-emerald-800">Retain Central Bank minimum</td>
+                        <td className="px-4 py-3 text-right font-mono font-semibold text-emerald-800">{formatKES(lastResult.kpis.minBalance)}</td>
+                        <td className="px-4 py-3 text-center"><span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-bold border border-emerald-200">KES</span></td>
+                        <td className="px-4 py-3 text-[12px] font-medium text-emerald-700">No payment — reserve</td>
+                        <td className="px-4 py-3 text-center"><span className="px-3 py-1 rounded-full bg-emerald-600 text-white text-[11px] font-bold">A+B</span></td>
+                        <td className="px-4 py-3 text-center"><span className="px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-semibold">✓ Protected</span></td>
+                      </tr>
+                      {lastResult.ranked.map(r => (
+                        <tr key={r.rank} className={`hover:bg-slate-50 transition ${r.status === "Deferred" ? "bg-amber-50/40" : ""}`}>
+                          <td className="px-4 py-3 font-mono text-[12px] font-medium text-slate-400">{r.rank}</td>
+                          <td className="px-4 py-3"><span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-mogo-navy text-white text-[12px] font-mono font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>{r.time}</span></td>
+                          <td className="px-4 py-3"><div className="font-semibold text-mogo-navy leading-tight">{r.name}</div><div className="text-[12px] text-mogo-navy/60 truncate max-w-[220px]">{r.rail}</div></td>
+                          <td className="px-4 py-3 text-right font-mono font-medium text-mogo-navy">{r.currency === "EUR" ? "€" + formatKES(r.amount) : "KES " + formatKES(r.amount)}</td>
+                          <td className="px-4 py-3 text-center"><span className={`px-2 py-0.5 rounded-full text-[11px] font-bold border ${r.currency === "EUR" ? "bg-violet-50 text-violet-700 border-violet-200" : r.currency === "USD" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-slate-50 text-mogo-navy border-slate-200"}`}>{r.currency}</span></td>
+                          <td className="px-4 py-3"><span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200 text-[12px] font-medium text-mogo-navy"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 16V4"/><path d="M17 8v12"/><path d="M7 12h5a4 4 0 0 1 0 8H7"/><path d="M17 12h-5a4 4 0 0 0 0-8h5"/></svg>{r.rail}</span></td>
+                          <td className="px-4 py-3 text-center"><span className={`inline-flex w-16 justify-center px-3 py-1 rounded-full text-[12px] font-semibold ${r.bank === "A" ? "bg-mogo-navy text-white" : "bg-slate-700 text-white"}`}>Bank {r.bank}</span></td>
+                          <td className="px-4 py-3 text-center"><span className={`inline-flex px-2.5 py-1 rounded-full border text-[11px] font-semibold ${r.status === "Scheduled" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : r.status === "Deferred" ? "bg-amber-50 text-amber-800 border-amber-200" : "bg-red-50 text-red-700 border-red-200"}`}>{r.status === "Scheduled" ? "✓ " + r.status : r.status}</span></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="px-5 py-3 bg-slate-50 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-[12px]">
+                  <span className="text-mogo-navy/60 flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> Order optimized by deadline + breach cost. Edit restrictions to reprioritize.</span>
+                  <span className="font-semibold text-mogo-navy">{lastResult.ranked.length} lines • {lastResult.ranked.filter(r => r.status === "Scheduled").length} on time • 1 deferred within grace</span>
+                </div>
+              </div>
+
+              {/* FX + Deferred + Assumptions — 3 cols */}
+              <div className="grid lg:grid-cols-3 gap-5">
+                <div className="bg-white rounded-2xl border border-mogo-border shadow-card overflow-hidden">
+                  <div className="px-5 py-3 border-b border-slate-100 font-semibold text-[14px] text-mogo-navy flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M7 16V4"/><path d="M17 8v12"/><path d="M7 12h5a4 4 0 0 1 0 8H7"/><path d="M17 12h-5a4 4 0 0 0 0-8h5"/></svg> FX trades</div>
+                  <div className="p-4 space-y-3">
+                    {lastResult.fxTrades.map((f, i) => (
+                      <div key={i} className="flex gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+                        <div className="w-12 h-12 rounded-xl bg-white border border-slate-200 flex flex-col items-center justify-center leading-none"><span className="text-[10px] font-bold text-slate-400">{f.time}</span><span className="font-bold text-mogo-navy text-[11px]">FX</span></div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-semibold text-[13px] text-mogo-navy">{f.trade}</div>
+                          <div className="text-[12px] text-mogo-navy/60">{f.amount.toLocaleString()} {f.trade.includes("EUR") ? "EUR" : "USD"} {f.rate !== "—" ? "@" + f.rate : ""} → <b className="text-mogo-navy">{f.proceeds === "—" ? "—" : formatKES(f.proceeds) + " KES"}</b></div>
+                          <div className="text-[11px] text-slate-400">{f.purpose} · {f.from}→{f.to || "A KES"}</div>
+                        </div>
+                      </div>
+                    ))}
+                    <div className="p-3 rounded-xl bg-mogo-navy text-white text-[12px]"><div className="font-semibold">Total proceeds: {formatKES(lastResult.fxTrades.filter(f => f.proceeds !== "—").reduce((s, f) => s + f.proceeds, 0))} KES</div><div className="text-white/70">Execute 14:05-14:15, before RTGS cutoff.</div></div>
+                  </div>
+                  <div className="px-4 py-3 bg-mogo-navy/5 border-t border-mogo-border text-[12px] text-mogo-navy flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M9 12h6"/><path d="M12 9v6"/></svg> FX must close before <b>16:30</b>.</div>
+                </div>
+                <div className="bg-white rounded-2xl border border-mogo-border shadow-card overflow-hidden">
+                  <div className="px-5 py-3 border-b border-slate-100 font-semibold text-[13px] text-amber-700 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-amber-500"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Deferred / Skipped</div>
+                  <div className="p-4 space-y-3">
+                    {lastResult.deferred.length === 0 ? <div className="text-[12px] text-slate-500 text-center py-6">Nothing deferred — all fits.</div> : lastResult.deferred.map((d, i) => (
+                      <div key={i} className="p-3 rounded-xl bg-amber-50 border border-amber-200">
+                        <div className="font-semibold text-[13px] text-amber-900">{d.name}</div>
+                        <div className="text-[12px] font-mono font-semibold text-amber-800">{formatKES(d.amount)} {d.currency}</div>
+                        <div className="mt-1 text-[12px] leading-snug text-amber-800/80">{d.reason || "Deferred"}</div>
+                        {d.mitigation && <div className="mt-2 text-[11px] bg-white border border-amber-200 rounded-lg px-2 py-1.5 text-amber-800">{d.mitigation}</div>}
+                        <div className={`mt-2 inline-flex px-2 py-1 rounded-full text-[11px] font-bold ${d.name.toLowerCase().includes('tax') ? 'bg-amber-500 text-white' : 'bg-red-500 text-white'}`}>{d.name.toLowerCase().includes('tax') ? 'No penalty (2-day grace)' : 'Overdraft protection'}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="bg-white rounded-2xl border border-mogo-border shadow-card overflow-hidden">
+                  <div className="px-5 py-3 border-b border-slate-100 font-semibold text-[13px] text-mogo-navy flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><circle cx="12" cy="12" r="10"/><path d="M9 12h6"/><path d="M9 9h.01"/><path d="M9 15h.01"/></svg> Assumptions</div>
+                  <div className="p-4 space-y-2 text-[12px] leading-relaxed text-mogo-navy/70">
+                    {[
+                      "Fixed rates EUR 150 / USD 130 (editable in side panel). No spread/fees — add 0.5–1% buffer in production.",
+                      `Wallet sweeps hourly :00 collection → :05 transfer, only until ${String(Math.floor(lastResult.kpis.walletCut / 60)).padStart(2, "0")}:${String(lastResult.kpis.walletCut % 60).padStart(2, "0")}. 23:00–00:00 =20M stays in wallet for Tax T+1.`,
+                      "Batch PesaLink inherits 24/7 window; RTGS/FX share 16:30 cutoff.",
+                      "Payroll/phone <1M per person → PesaLink no split. Car 300k → 1 PesaLink tx; M-Pesa would need 2.",
+                      "Moto dealer banks with A → within-bank 24/7, can go after cutoff.",
+                      "Vendors (ERP/rent/suppliers) must be paid from B → needs RTGS funding at 14:30.",
+                      "Tax deferred 0% if T+2, then 2% +0.5%/mo. Cost of capital 2.5%/mo irrelevant vs 10M breach.",
+                      "Minimum EOD 13M aggregate A+B, FX residual counted at spot rate."
+                    ].map((s, i) => (<div key={i} className="flex gap-2"><span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-mogo-gold flex-shrink-0" /><span>{s}</span></div>))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Ledgers */}
+              <div className="bg-white rounded-2xl shadow-card border border-mogo-border overflow-hidden">
+                <div className="px-6 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                  <h3 className="text-[15px] font-semibold tracking-tight text-mogo-navy flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M3 3v18h18"/><path d="M7 16h8"/><path d="M7 11h8"/><path d="M7 6h8"/></svg> Ledger by account — live balances</h3>
+                  <div className="flex gap-1 p-1 rounded-xl bg-slate-100 border border-slate-200">
+                    {["A", "B", "C"].map(which => (
+                      <button key={which} onClick={() => setLedgerTab(which)} className={`px-4 py-1.5 rounded-lg text-[12px] font-semibold transition ${ledgerTab === which ? "bg-mogo-navy text-white shadow" : "text-mogo-navy hover:bg-white"}`}>{which === "C" ? "Wallet C" : `Bank ${which}`}</button>
+                    ))}
+                  </div>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-[12px]">
+                    <thead className="bg-slate-50 text-[11px] font-semibold tracking-widest text-slate-500 uppercase"><tr><th className="px-3 py-2 text-left">Time</th><th className="px-3 py-2 text-left">Details</th><th className="px-3 py-2 text-center">Rail</th><th className="px-3 py-2 text-right">KES in</th><th className="px-3 py-2 text-right">KES out</th><th className="px-3 py-2 text-right">Balance KES</th><th className="px-3 py-2 text-right">EUR</th><th className="px-3 py-2 text-right">USD</th><th className="px-3 py-2 text-right">Total equiv.</th></tr></thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {ledgerData?.map((r, i) => {
+                        const total = (r.kesBal || 0) + (r.eurBal || 0) * eurRate + (r.usdBal || 0) * usdRate;
+                        const timeStr = typeof r.time === "number" ? `${String(Math.floor(r.time / 60)).padStart(2, "0")}:${String(r.time % 60).padStart(2, "0")}` : r.time;
+                        return (
+                          <tr key={i} className="hover:bg-slate-50">
+                            <td className="px-3 py-2 font-mono font-medium whitespace-nowrap text-mogo-navy">{timeStr}</td>
+                            <td className="px-3 py-2 font-semibold text-mogo-navy">{r.desc}</td>
+                            <td className="px-3 py-2 text-center"><span className="px-2 py-0.5 rounded-full bg-white border border-slate-200 text-[11px] font-medium">{r.rail}</span></td>
+                            <td className="px-3 py-2 text-right font-mono text-emerald-600">{r.kesIn ? formatKES(r.kesIn) : "—"}</td>
+                            <td className="px-3 py-2 text-right font-mono text-red-600">{r.kesOut ? formatKES(r.kesOut) : "—"}</td>
+                            <td className={`px-3 py-2 text-right font-mono font-semibold ${r.kesBal < 0 ? 'text-red-600 bg-red-50' : r.kesBal < 2000000 ? 'text-amber-600' : 'text-mogo-navy'}`}>{formatKES(r.kesBal)} {r.kesBal < 0 ? '⚠️' : ''}</td>
+                            <td className="px-3 py-2 text-right font-mono text-mogo-navy/70">{r.eurBal != null ? r.eurBal.toLocaleString() : "—"}</td>
+                            <td className="px-3 py-2 text-right font-mono text-mogo-navy/70">{r.usdBal != null ? r.usdBal.toLocaleString() : "—"}</td>
+                            <td className="px-3 py-2 text-right font-mono font-semibold text-mogo-navy">{formatKES(total)}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                  {ledgerTab === "C" && <div className="px-4 py-3 bg-amber-50 border-t border-amber-200 text-[12px] text-amber-800">23:00 and 00:00 stay in wallet (API closed) — they fund Tax on T+1.</div>}
+                  {ledgerTab === "A" && ledgerData && (
+                    <div className="px-4 py-3 bg-mogo-navy text-white flex flex-wrap justify-between gap-2 text-[12px]">
+                      <span>Closing Bank {ledgerTab}: <b>KES {formatKES(ledgerData[ledgerData.length - 1].kesBal)} + {ledgerData[ledgerData.length - 1].eurBal} EUR + {ledgerData[ledgerData.length - 1].usdBal} USD = {formatKES((ledgerData[ledgerData.length - 1].kesBal || 0) + (ledgerData[ledgerData.length - 1].eurBal || 0) * eurRate + (ledgerData[ledgerData.length - 1].usdBal || 0) * usdRate)} equiv.</b></span>
+                      <span className="text-mogo-goldLight">Buffer {formatKES(((ledgerData[ledgerData.length - 1].kesBal || 0) + (ledgerData[ledgerData.length - 1].eurBal || 0) * eurRate + (ledgerData[ledgerData.length - 1].usdBal || 0) * usdRate) - (getNum("central_min") || getNum("Central Bank minimum") || 13000000))}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Compliance */}
+              <div className="bg-white rounded-2xl shadow-card border border-mogo-border overflow-hidden">
+                <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between gap-3">
+                  <h3 className="text-[15px] font-semibold tracking-tight text-mogo-navy flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-emerald-600"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Restriction Compliance Check</h3>
+                  <span className={`px-3 py-1 rounded-full border text-[12px] font-semibold ${(() => {
+                      const checks = [];
+                      const vendorPayments = lastResult.ranked.filter(r=> ['ERP system provider','HQ rent','Administrative suppliers'].some(v=> r.name.includes(v.replace(' (30)',''))));
+                      const vendorOk = vendorPayments.every(r=> r.bank==='B');
+                      checks.push(vendorOk);
+                      const loanPayments = lastResult.ranked.filter(r=> ['Car loan','Motorcycle','Phone dealers'].some(v=> r.name.includes(v)));
+                      const loanOk = loanPayments.every(r=> r.bank==='A');
+                      checks.push(loanOk);
+                      const noNegative = lastResult.ledgers.A.every(e=> e.kesBal>=0) && lastResult.ledgers.B.every(e=> e.kesBal>=0);
+                      checks.push(noNegative);
+                      checks.push(lastResult.kpis.headroom >=0);
+                      const rtgsCut = 16*60+30;
+                      const rtgsOk = lastResult.ranked.filter(r=> r.rail.includes('RTGS')).every(r=> {
+                        if(r.time==='T+1'||r.time==='—') return true;
+                        const [h,m]=r.time.split(':').map(Number);
+                        return h*60+m <= rtgsCut;
+                      });
+                      checks.push(rtgsOk);
+                      const fxOk = lastResult.fxTrades.filter(f=> f.trade.includes('Sell')).every(f=> {
+                        const [h,m]=f.time.split(':').map(Number);
+                        return h*60+(m||0) <= rtgsCut;
+                      });
+                      checks.push(fxOk);
+                      const allOk = checks.every(Boolean);
+                      return allOk;
+                    })() ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-red-50 border-red-200 text-red-700"}`}>
+                    {(() => {
+                      const checks = [];
+                      const vendorPayments = lastResult.ranked.filter(r=> ['ERP system provider','HQ rent','Administrative suppliers'].some(v=> r.name.includes(v.replace(' (30)',''))));
+                      const vendorOk = vendorPayments.every(r=> r.bank==='B');
+                      checks.push(vendorOk);
+                      const loanPayments = lastResult.ranked.filter(r=> ['Car loan','Motorcycle','Phone dealers'].some(v=> r.name.includes(v)));
+                      const loanOk = loanPayments.every(r=> r.bank==='A');
+                      checks.push(loanOk);
+                      const noNegative = lastResult.ledgers.A.every(e=> e.kesBal>=0) && lastResult.ledgers.B.every(e=> e.kesBal>=0);
+                      checks.push(noNegative);
+                      checks.push(lastResult.kpis.headroom >=0);
+                      const rtgsCut = 16*60+30;
+                      const rtgsOk = lastResult.ranked.filter(r=> r.rail.includes('RTGS')).every(r=> {
+                        if(r.time==='T+1'||r.time==='—') return true;
+                        const [h,m]=r.time.split(':').map(Number);
+                        return h*60+m <= rtgsCut;
+                      });
+                      checks.push(rtgsOk);
+                      const fxOk = lastResult.fxTrades.filter(f=> f.trade.includes('Sell')).every(f=> {
+                        const [h,m]=f.time.split(':').map(Number);
+                        return h*60+(m||0) <= rtgsCut;
+                      });
+                      checks.push(fxOk);
+                      const allOk = checks.every(Boolean);
+                      return allOk ? '✓ All restrictions satisfied' : '⚠️ Some checks need attention';
+                    })()}
+                  </span>
+                </div>
+                <div className="p-4 grid md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+                  {[
+                    {label: 'Vendors → Bank B', desc: 'Vendors must be paid from Bank B (per restriction)', check: (()=>{ 
+                      const origVendors = lastResult.payments.filter(p=> p.bank==='B');
+                      if(origVendors.length===0) return true;
+                      return origVendors.every(orig=>{
+                        const ranked = lastResult.ranked.find(r=> r.name===orig.name);
+                        return ranked ? ranked.bank==='B' : true;
+                      });
+                    })(), detail: (()=>{ 
+                      const v = lastResult.payments.filter(p=> p.bank==='B');
+                      if(v.length===0) return 'No vendor payments';
+                      return v.map(orig=>{
+                        const ranked = lastResult.ranked.find(r=> r.name===orig.name);
+                        return `${orig.name} → Bank ${ranked? ranked.bank : orig.bank}`;
+                      }).join(', ');
+                    })()},
+                    {label: 'Loans/Dealers → Bank A', desc: 'Loans & dealers must be paid from Bank A (per restriction)', check: (()=>{ 
+                      const origLoans = lastResult.payments.filter(p=> p.type==='loans' || p.type==='dealer' || p.name.toLowerCase().includes('car financing') || p.name.toLowerCase().includes('motorcycle') || p.name.toLowerCase().includes('phone dealer'));
+                      if(origLoans.length===0) return true;
+                      return origLoans.every(orig=>{
+                        const ranked = lastResult.ranked.find(r=> r.name===orig.name || r.name.includes('Car loan') && orig.name.includes('car'));
+                        if(orig.name.toLowerCase().includes('car financing')){
+                          const carBatches = lastResult.ranked.filter(r=> r.name.includes('Car loan'));
+                          return carBatches.length>0 ? carBatches.every(r=> r.bank==='A') : true;
+                        }
+                        return ranked ? ranked.bank==='A' : true;
+                      });
+                    })(), detail: (()=>{ 
+                      const v = lastResult.payments.filter(p=> p.type==='loans' || p.type==='dealer' || p.name.toLowerCase().includes('car financing') || p.name.toLowerCase().includes('motorcycle') || p.name.toLowerCase().includes('phone dealer'));
+                      if(v.length===0) return 'No loan/dealer payments';
+                      return v.map(orig=>{
+                        if(orig.name.toLowerCase().includes('car financing')){
+                          const batches = lastResult.ranked.filter(r=> r.name.includes('Car loan'));
+                          return `${orig.name} → ${batches.map(b=>`Bank ${b.bank}`).join(', ')}`;
+                        }
+                        const ranked = lastResult.ranked.find(r=> r.name===orig.name);
+                        return `${orig.name} → Bank ${ranked? ranked.bank : orig.bank}`;
+                      }).join(', ');
+                    })()},
+                    {label: 'No overdraft', desc: 'No bank balance < 0', check: lastResult.ledgers.A.every(e=> e.kesBal>=0) && lastResult.ledgers.B.every(e=> e.kesBal>=0), detail: `A min ${formatKES(Math.min(...lastResult.ledgers.A.map(e=>e.kesBal)))} | B min ${formatKES(Math.min(...lastResult.ledgers.B.map(e=>e.kesBal)))}`},
+                    {label: 'Central Bank minimum', desc: `≥ ${formatKES(lastResult.kpis.minBalance)} EOD`, check: lastResult.kpis.headroom>=0, detail: `Headroom ${formatKES(lastResult.kpis.headroom)} ${lastResult.kpis.headroom>=0?'✓':'✗ Breach'}`},
+                    {label: 'RTGS window', desc: (()=>{ const w=getRestrictionValue("rtgs_window")||getRestrictionValue("RTGS window")||"06:00 – 16:30"; return `RTGS ${w}`; })(), check: (()=>{ const w=getRestrictionValue("rtgs_window")||getRestrictionValue("RTGS window")||"06:00 – 16:30"; const m=w.match(/(\d{1,2}):(\d{2})/g); let cut=16*60+30; if(m && m.length>=2){ const parts=m[1].split(':'); cut=parseInt(parts[0])*60+parseInt(parts[1]); } return lastResult.ranked.filter(r=> r.rail.includes('RTGS')).every(r=> { if(r.time==='T+1'||r.time==='—') return true; const [h,mm]=r.time.split(':').map(Number); return h*60+mm <= cut; }); })(), detail: lastResult.ranked.filter(r=> r.rail.includes('RTGS')).map(r=> `${r.name} @${r.time}`).join(', ') || 'No RTGS'},
+                    {label: 'FX window', desc: (()=>{ const w=getRestrictionValue("fx_window")||getRestrictionValue("FX market window")||"09:00 – 16:30"; return `FX ${w}`; })(), check: (()=>{ const w=getRestrictionValue("fx_window")||getRestrictionValue("FX market window")||"09:00 – 16:30"; const m=w.match(/(\d{1,2}):(\d{2})/g); let cut=16*60+30; if(m && m.length>=2){ const parts=m[1].split(':'); cut=parseInt(parts[0])*60+parseInt(parts[1]); } else { const fm=w.match(/(\d{1,2}):(\d{2})/); if(fm) cut=parseInt(fm[1])*60+parseInt(fm[2]); } return lastResult.fxTrades.filter(f=> f.trade.includes('Sell')).every(f=> { const [h,mm]=f.time.split(':').map(Number); return h*60+(mm||0) <= cut; }); })(), detail: lastResult.fxTrades.filter(f=> f.trade.includes('Sell')).map(f=> `${f.trade} @${f.time}`).join(', ') || 'No FX'},
+                    {label: 'PesaLink limit', desc: `≤ ${formatKES(getNum("pesa_limit")||getNum("PesaLink max")||1000000)} per tx`, check: lastResult.ranked.filter(r=> r.rail.includes('PesaLink')).every(r=> r.amount <= (getNum("pesa_limit")||getNum("PesaLink max")||1000000) || r.name.includes('Payroll') || r.name.includes('Car loan')), detail: `Max scheduled PesaLink: ${formatKES(Math.max(...lastResult.ranked.filter(r=> r.rail.includes('PesaLink')).map(r=>r.amount),0))}`},
+                    {label: 'M-Pesa limit', desc: `≤ ${formatKES(getNum("mpesa_limit")||getNum("M-Pesa max")||250000)} per tx`, check: lastResult.ranked.filter(r=> r.rail.includes('M-Pesa')).every(r=> {
+                      const limit = getNum("mpesa_limit")||getNum("M-Pesa max")||250000;
+                      if(r.name.includes('Car loan') && r.rail.includes('M-Pesa')) return r.amount <= limit;
+                      return true;
+                    }), detail: `Car 300k via PesaLink (not M-Pesa) ✓`},
+                    {label: 'Wallet cutoff', desc: 'Sweeps until 22:00, 23:00+ not bankable', check: lastResult.ledgers.C.filter(r=> r.time>=23*60).every(r=> r.kesBal>=0), detail: `Wallet 23:00 ${formatKES(lastResult.ledgers.C.find(r=>r.time===23*60)?.kesBal||0)} held`},
+                    {label: 'Deadlines', desc: 'Respects edited deadlines (Payroll, ERP, Rent...)', check: (()=>{ 
+                      const getDl = (keyOrLabel, fallback)=>{
+                        let r=getRestrictionByKey(keyOrLabel);
+                        if(!r) return fallback;
+                        const v=r.value.toLowerCase();
+                        const m=v.match(/(\d{1,2}):(\d{2})/);
+                        if(m){ let h=parseInt(m[1]), mm=parseInt(m[2]); if(v.includes('tomorrow')) h+=24; if(v.includes('midnight')) return 24*60; return h*60+mm; }
+                        if(v.includes('midnight')) return 24*60;
+                        if(v.includes('today')) return 22*60;
+                        return fallback;
+                      };
+                      const payrollDl=getDl('payroll_deadline',17*60);
+                      const phoneDl=getDl('phone_deadline',17*60);
+                      const erpDl=getDl('erp_deadline',24*60);
+                      const rentDl=getDl('rent_deadline',(24+11)*60);
+                      const dlCheck = (name, timeStr)=>{
+                        if(timeStr==='T+1'||timeStr==='—') return true;
+                        const [h,m]=timeStr.split(':').map(Number);
+                        const t=h*60+m;
+                        if(name.toLowerCase().includes('payroll')) return t <= payrollDl;
+                        if(name.toLowerCase().includes('phone')) return t <= phoneDl;
+                        if(name.toLowerCase().includes('erp')) return t < erpDl;
+                        if(name.toLowerCase().includes('rent')) return t <= rentDl;
+                        return true;
+                      }; return lastResult.ranked.every(r=> dlCheck(r.name, r.time)); })(), detail: (()=>{ const getDlStr=(k,legacy,f)=>{ const r=getRestrictionByKey(k)||restrictions.find(x=> x.label.toLowerCase().includes(legacy.toLowerCase()) && x.enabled); return r? r.value : f; }; return `Payroll ${getDlStr('payroll_deadline','Payroll deadline','17:00')} | Phone ${getDlStr('phone_deadline','Phone dealers','17:00')} | ERP ${getDlStr('erp_deadline','ERP shutdown','midnight')} | Rent ${getDlStr('rent_deadline','HQ rent','11:00 tomorrow')}`; })()},
+                  ].map((c,i)=> (
+                    <div key={i} className={`p-3 rounded-xl border ${c.check ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'}`}>
+                      <div className="flex items-center gap-2 font-semibold text-[13px] text-mogo-navy">
+                        <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold ${c.check ? 'bg-emerald-600 text-white' : 'bg-red-500 text-white'}`}>{c.check ? '✓' : '✗'}</span>
+                        {c.label}
+                      </div>
+                      <div className="text-[11px] text-mogo-navy/60 mt-1">{c.desc}</div>
+                      <div className="text-[11px] font-mono mt-1 text-slate-500 truncate" title={c.detail}>{c.detail}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="px-4 py-3 bg-slate-50 border-t border-slate-100 text-[12px] text-mogo-navy/70">
+                  <b>How to verify:</b> Check <b>Ledger by account</b> for bank source, <b>Payments in chronological order</b> for rail/time, and <b>KPIs</b> for minimum. All restrictions above are editable in the left panel — change a value and click <b>Recalculate</b> to see compliance update.
+                </div>
+              </div>
+
+              {/* Wow footer — referencia footer styling pero con contenido export */}
+              <div className="bg-mogo-navy rounded-2xl p-6 text-white relative overflow-hidden shadow-card">
+                <div className="absolute -right-12 -top-12 w-40 h-40 rounded-full bg-white/5" />
+                <div className="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-mogo-gold/20" />
+                <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-mogo-gold via-mogo-goldLight to-mogo-gold" />
+                <div className="relative flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+                  <div>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[12px] font-semibold tracking-wide text-mogo-goldLight"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/></svg> Ready for your boss</div>
+                    <h4 className="mt-2 font-semibold text-[18px] leading-none tracking-tight">Impressed? Export the full deliverable.</h4>
+                    <p className="text-[13px] text-white/70 mt-1 leading-relaxed">Generates Excel with 4 sheets identical to Task 1 Completed: Answer + Bank A/B + Wallet.</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button onClick={exportExcel} className="px-6 py-3 rounded-xl bg-white text-mogo-navy font-semibold text-[14px] hover:bg-mogo-goldLight transition shadow">Export Excel</button>
+                    <button onClick={() => window.print()} className="px-6 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-semibold text-[14px] hover:bg-white/15">Print</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {!lastResult && (
+            <div className="bg-white rounded-2xl border border-dashed border-slate-200 p-10 lg:p-12 text-center shadow-card">
+              <div className="w-12 h-12 rounded-2xl bg-mogo-navy flex items-center justify-center mx-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M3 3v18h18"/><path d="M7 16h8"/><path d="M7 11h8"/><path d="M7 6h8"/></svg>
+              </div>
+              <div className="mt-4 text-[15px] font-semibold text-mogo-navy">No calculation yet</div>
+              <div className="text-[13px] text-mogo-navy/60 mt-1 max-w-md mx-auto leading-relaxed">Upload your <b>Financial Controller Homework - Task 1.xlsx</b> to see the optimization with your payments, currencies and rails. You can edit any restriction in the side panel before calculating.</div>
+              <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 text-[12px] font-medium text-mogo-navy"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Check the side panel to see all detected restrictions</div>
+            </div>
+          )}
         </main>
       </div>
 
-      {/* Add modal */}
+      {/* How scoring / Stack & footer — copia referencia */}
+      <div className="max-w-[1280px] w-full mx-auto px-4 lg:px-8 pb-6">
+        <div className="bg-mogo-navy rounded-2xl p-6 text-white flex flex-col lg:flex-row gap-6">
+          <div className="flex-1">
+            <h4 className="text-[15px] font-semibold text-mogo-gold">How it works</h4>
+            <p className="text-[13px] leading-relaxed text-slate-100 mt-2">Upload, edit restrictions and calculate — the engine simulates wallet sweeps, FX and RTGS funding while never allowing negative balances and protecting the Central Bank 13M minimum. Each ledger entry shows live balances.</p>
+          </div>
+          <div className="lg:w-[340px] rounded-xl bg-white/10 border border-white/15 p-4">
+            <div className="text-[11px] tracking-widest font-semibold text-mogo-goldLight uppercase">Stack & Deploy</div>
+            <div className="text-[13px] text-slate-100 mt-2 space-y-1 mono">
+              <div>Vite + React</div><div>Tailwind · SheetJS</div><div>Front-only · Vercel static</div>
+            </div>
+            <div className="text-[12px] text-slate-300 mt-3">File stays in browser. No data sent to server. Build: <span className="text-white font-medium">npm run build</span> → <span className="text-mogo-goldLight">dist</span></div>
+          </div>
+        </div>
+      </div>
+
+      <footer className="border-t border-slate-200 bg-white mt-auto">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-[12px] font-medium text-mogo-navy">
+          <span>© 2026 MOGO Uganda — Treasury Assessment Task · Confidential · Built for review exercise</span>
+          <span className="inline-flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-mogo-gold"></span> Front-only · no backend</span>
+        </div>
+      </footer>
+
+      {/* Add modal — referencia style */}
       {showAddModal && (
         <div className="fixed inset-0 z-50">
-          <div className="absolute inset-0 bg-[#0f2040]/60 backdrop-blur-sm" onClick={() => setShowAddModal(false)} />
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-[520px] bg-white rounded-[20px] shadow-2xl overflow-hidden animate-in">
+          <div className="absolute inset-0 bg-mogo-navy/60 backdrop-blur-sm" onClick={() => setShowAddModal(false)} />
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-[520px] bg-white rounded-2xl shadow-elevated overflow-hidden">
             <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-              <h3 className="font-extrabold text-[#0B1E3A]">Add restriction</h3>
-              <button onClick={() => setShowAddModal(false)} className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center"><i className="fa-solid fa-xmark" /></button>
+              <h3 className="font-semibold text-[15px] text-mogo-navy">Add restriction</h3>
+              <button onClick={() => setShowAddModal(false)} className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center hover:bg-slate-200"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
             </div>
             <div className="p-6 space-y-4">
-              <div><label className="text-xs font-bold text-slate-600">Type</label><select value={newRestr.type} onChange={e => setNewRestr({ ...newRestr, type: e.target.value })} className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-white text-sm"><option value="balance">Minimum / opening balance</option><option value="window">Time window (rail)</option><option value="limit">Per-transaction limit</option><option value="deadline">Payment deadline</option><option value="rule">Business rule</option></select></div>
-              <div><label className="text-xs font-bold text-slate-600">Name</label><input value={newRestr.name} onChange={e => setNewRestr({ ...newRestr, name: e.target.value })} placeholder="e.g. Wallet API cutoff" className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-sm" /></div>
-              <div className="grid grid-cols-2 gap-3"><div><label className="text-xs font-bold text-slate-600">Value</label><input value={newRestr.value} onChange={e => setNewRestr({ ...newRestr, value: e.target.value })} placeholder="22:00 or 13000000" className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-sm" /></div><div><label className="text-xs font-bold text-slate-600">Unit</label><input value={newRestr.unit} onChange={e => setNewRestr({ ...newRestr, unit: e.target.value })} placeholder="KES / hour / EUR" className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-sm" /></div></div>
-              <div><label className="text-xs font-bold text-slate-600">Description</label><textarea value={newRestr.desc} onChange={e => setNewRestr({ ...newRestr, desc: e.target.value })} rows={2} placeholder="What happens if breached..." className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-sm" /></div>
+              <div><label className="text-[12px] font-semibold text-mogo-navy">Type</label><select value={newRestr.type} onChange={e => setNewRestr({ ...newRestr, type: e.target.value })} className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-white text-[13px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15"><option value="balance">Minimum / opening balance</option><option value="window">Time window (rail)</option><option value="limit">Per-transaction limit</option><option value="deadline">Payment deadline</option><option value="rule">Business rule</option></select></div>
+              <div><label className="text-[12px] font-semibold text-mogo-navy">Name</label><input value={newRestr.name} onChange={e => setNewRestr({ ...newRestr, name: e.target.value })} placeholder="e.g. Wallet API cutoff" className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-[13px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15" /></div>
+              <div className="grid grid-cols-2 gap-3"><div><label className="text-[12px] font-semibold text-mogo-navy">Value</label><input value={newRestr.value} onChange={e => setNewRestr({ ...newRestr, value: e.target.value })} placeholder="22:00 or 13000000" className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-[13px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15" /></div><div><label className="text-[12px] font-semibold text-mogo-navy">Unit</label><input value={newRestr.unit} onChange={e => setNewRestr({ ...newRestr, unit: e.target.value })} placeholder="KES / hour / EUR" className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-[13px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15" /></div></div>
+              <div><label className="text-[12px] font-semibold text-mogo-navy">Description</label><textarea value={newRestr.desc} onChange={e => setNewRestr({ ...newRestr, desc: e.target.value })} rows={2} placeholder="What happens if breached..." className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-[13px] focus:outline-none focus:ring-2 focus:ring-mogo-navy/15" /></div>
             </div>
             <div className="px-6 py-4 bg-slate-50 flex justify-end gap-2">
-              <button onClick={() => setShowAddModal(false)} className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 font-bold text-sm">Cancel</button>
-              <button onClick={addRestriction} className="px-6 py-2.5 rounded-xl bg-[#0f2040] text-white font-bold text-sm">Add</button>
+              <button onClick={() => setShowAddModal(false)} className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 font-semibold text-[13px] text-mogo-navy hover:bg-slate-50">Cancel</button>
+              <button onClick={addRestriction} className="px-6 py-2.5 rounded-xl bg-mogo-navy text-white font-semibold text-[13px] hover:bg-mogo-navyLight">Add</button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Toast */}
       {toast && (
         <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
-          <div className="px-5 py-3 rounded-2xl bg-[#0f2040] text-white text-sm font-semibold shadow-2xl flex items-center gap-3"><i className="fa-solid fa-circle-check text-emerald-400" />{toast}</div>
+          <div className="px-5 py-3 rounded-2xl bg-mogo-navy text-white text-[13px] font-medium shadow-elevated flex items-center gap-3 border border-white/10"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-emerald-400"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg>{toast}</div>
         </div>
       )}
     </div>

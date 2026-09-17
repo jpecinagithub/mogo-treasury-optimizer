@@ -6,12 +6,30 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: { sans: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+      fontFamily: { sans: ['Inter','system-ui','sans-serif'], mono: ['JetBrains Mono','monospace'] },
       colors: {
-        mogo: { navy:'#0B1E3A', blue:'#162E5B', light:'#FFF7ED', orange:'#FF6B00', yellow:'#FCDC04', red:'#D90000', accent:'#FF6B00', teal:'#0d9488' },
+        mogo: {
+          navy: '#0B1E3A',
+          navyLight: '#13294B',
+          slate: '#F8FAFC',
+          border: '#E2E8F0',
+          gold: '#C6A664',
+          goldLight: '#F0E6CC',
+          teal: '#0FA3A8',
+          // legacy aliases kept for safety
+          blue: '#162E5B',
+          light: '#FFF7ED',
+          orange: '#C6A664',
+          yellow: '#FCDC04',
+          red: '#D90000',
+          accent: '#C6A664',
+        },
+      },
+      boxShadow: {
+        card: '0 1px 3px #0f1e3a14, 0 4px 12px #0f1e3a0f',
+        elevated: '0 8px 30px #0f1e3a1f',
       },
     },
   },
   plugins: [],
 }
-
