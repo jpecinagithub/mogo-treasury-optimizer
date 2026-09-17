@@ -919,9 +919,6 @@ export default function App() {
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between py-5 gap-6">
             <div className="flex items-center gap-4">
-              <button onClick={() => setSidebarOpen(true)} className="lg:hidden w-9 h-9 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center hover:bg-white/15 transition">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
-              </button>
               <div>
                 <div className="flex items-center gap-3">
                   <h1 className="text-[20px] font-semibold tracking-tight leading-none">MOGO UGANDA</h1>
@@ -936,10 +933,9 @@ export default function App() {
         <div className="gold-line" />
       </header>
 
-      {/* LAYOUT — sidebar + main dentro de max-w 1280 */}
-      <div className="flex-1 max-w-[1280px] w-full mx-auto px-4 lg:px-8 py-6 lg:py-8 flex flex-col lg:flex-row gap-6">
-        {/* SIDEBAR — Restrictions como card referencia */}
-        <aside className={`fixed lg:sticky top-0 lg:top-6 inset-y-0 left-0 z-30 w-[360px] lg:w-[380px] bg-white rounded-2xl shadow-card border border-mogo-border flex flex-col overflow-hidden lg:max-h-[calc(100vh-48px)] lg:h-fit transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
+      {/* LAYOUT — single column */}
+      <div className="flex-1 max-w-[1280px] w-full mx-auto px-4 lg:px-8 py-6 lg:py-8">
+        <main className="space-y-6">
           <div className="px-6 py-4 flex items-center justify-between border-b border-slate-100">
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 rounded-lg bg-mogo-navy flex items-center justify-center">
@@ -1030,11 +1026,7 @@ export default function App() {
               </div>
             )}
           </div>
-        </aside>
-        {sidebarOpen && <div onClick={() => setSidebarOpen(false)} className="fixed inset-0 bg-mogo-navy/20 backdrop-blur-sm z-20 lg:hidden" />}
 
-        {/* MAIN */}
-        <main className="flex-1 min-w-0 space-y-6">
           {/* Upload card — copia exacta referencia */}
           <div className="bg-white rounded-2xl shadow-card border border-mogo-border overflow-hidden">
             <div className="px-6 py-4 flex items-center justify-between border-b border-slate-100">
@@ -1073,14 +1065,13 @@ export default function App() {
                 <p className="text-[14px] leading-relaxed text-slate-100 mt-3">The <span className="text-white font-semibold">CALCULATE</span> button runs the in-browser treasury engine and builds the chronological payment plan — with correct FX, rails and ledger entries.</p>
                 <ul className="mt-4 space-y-1.5 text-[13px] text-slate-200">
                   <li className="flex gap-2"><span className="text-mogo-gold">•</span> Live evidence extracted directly from your file</li>
-                  <li className="flex gap-2"><span className="text-mogo-gold">•</span> Respects all edited restrictions before calculating</li>
+                  <li className="flex gap-2"><span className="text-mogo-gold">•</span> Automatic validation of all restrictions</li>
                 </ul>
                 <button onClick={handleCalculate} disabled={!preview} className={`mt-5 w-full inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-[15px] font-semibold transition border ${!preview ? "bg-white/10 text-white/40 cursor-not-allowed border-white/10" : pendingChanges ? "bg-amber-500 hover:bg-amber-600 text-white border-amber-500 shadow" : "bg-white text-mogo-navy border-white hover:bg-mogo-goldLight"}`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="m16 9-5.5 5.5L8 12"/></svg>
                   {pendingChanges ? "RECALCULATE WITH NEW VALUES" : "CALCULATE OPTIMIZATION"}
                 </button>
                 <p className="text-[12px] text-slate-300 mt-2 text-center">No backend · Vercel static · XLSX via SheetJS</p>
-                <span className="hidden lg:inline-flex items-center text-[12px] text-slate-300 mt-2 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mr-1 text-mogo-gold"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> Tip: edit restrictions in side panel before calculating</span>
               </div>
             </div>
             {preview && (
@@ -1460,7 +1451,7 @@ export default function App() {
                   ))}
                 </div>
                 <div className="px-4 py-3 bg-slate-50 border-t border-slate-100 text-[12px] text-mogo-navy/70">
-                  <b>How to verify:</b> Check <b>Ledger by account</b> for bank source, <b>Payments in chronological order</b> for rail/time, and <b>KPIs</b> for minimum. All restrictions above are editable in the left panel — change a value and click <b>Recalculate</b> to see compliance update.
+                  <b>How to verify:</b> Check <b>Ledger by account</b> for bank source, <b>Payments in chronological order</b> for rail/time, and <b>KPIs</b> for minimum.
                 </div>
               </div>
 
@@ -1490,8 +1481,7 @@ export default function App() {
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-mogo-gold"><path d="M3 3v18h18"/><path d="M7 16h8"/><path d="M7 11h8"/><path d="M7 6h8"/></svg>
               </div>
               <div className="mt-4 text-[15px] font-semibold text-mogo-navy">No calculation yet</div>
-              <div className="text-[13px] text-mogo-navy/60 mt-1 max-w-md mx-auto leading-relaxed">Upload your <b>Financial Controller Homework - Task 1.xlsx</b> to see the optimization with your payments, currencies and rails. You can edit any restriction in the side panel before calculating.</div>
-              <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 text-[12px] font-medium text-mogo-navy"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Check the side panel to see all detected restrictions</div>
+              <div className="text-[13px] text-mogo-navy/60 mt-1 max-w-md mx-auto leading-relaxed">Upload your <b>Financial Controller Homework - Task 1.xlsx</b> to see the optimization with your payments, currencies and rails. Upload and click <b>CALCULATE OPTIMIZATION</b>.</div>
             </div>
           )}
         </main>
@@ -1502,7 +1492,7 @@ export default function App() {
         <div className="bg-mogo-navy rounded-2xl p-6 text-white flex flex-col lg:flex-row gap-6">
           <div className="flex-1">
             <h4 className="text-[15px] font-semibold text-mogo-gold">How it works</h4>
-            <p className="text-[13px] leading-relaxed text-slate-100 mt-2">Upload, edit restrictions and calculate — the engine simulates wallet sweeps, FX and RTGS funding while never allowing negative balances and protecting the Central Bank 13M minimum. Each ledger entry shows live balances.</p>
+            <p className="text-[13px] leading-relaxed text-slate-100 mt-2">Upload and calculate — the engine simulates wallet sweeps, FX and RTGS funding while never allowing negative balances and protecting the Central Bank 13M minimum. Each ledger entry shows live balances.</p>
           </div>
           <div className="lg:w-[340px] rounded-xl bg-white/10 border border-white/15 p-4">
             <div className="text-[11px] tracking-widest font-semibold text-mogo-goldLight uppercase">Stack & Deploy</div>
