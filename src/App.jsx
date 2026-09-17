@@ -991,10 +991,10 @@ export default function App() {
                 </div>
                 <div className="mt-3 overflow-x-auto">
                   <table className="w-full text-xs">
-                    <thead className="text-[13px] font-semibold tracking-widest text-mogo-navy uppercase"><tr><th className="text-left py-1 font-semibold">Payment</th><th className="text-right py-1">Amount</th><th className="text-center py-1">Ccy</th><th className="text-center py-1">Bank</th></tr></thead>
+                    <thead className="text-[13px] font-semibold tracking-widest text-mogo-navy uppercase"><tr><th className="text-left py-1 font-semibold">Payment</th><th className="text-right py-1">Amount</th><th className="text-center py-1">Ccy</th></tr></thead>
                     <tbody className="divide-y divide-slate-100">
                       {preview.payments.map((p, i) => (
-                        <tr key={i}><td className="py-1.5 font-semibold text-mogo-navy">{p.name}</td><td className="text-right font-mono text-mogo-navy">{formatKES(p.amount)}</td><td className="text-center"><span className={`px-1.5 py-0.5 rounded-full text-[12px] font-bold border ${p.currency === "EUR" ? "bg-violet-50 text-violet-700 border-violet-200" : p.currency === "USD" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-slate-50 text-mogo-navy border-slate-200"}`}>{p.currency}</span></td><td className="text-center"><span className={`px-2 py-0.5 rounded-full text-[13px] font-semibold ${p.bank === "A" ? "bg-mogo-navy text-white" : "bg-slate-700 text-white"}`}>Bank {p.bank}</span></td></tr>
+                        <tr key={i}><td className="py-1.5 font-semibold text-mogo-navy">{p.name}</td><td className="text-right font-mono text-mogo-navy">{formatKES(p.amount)}</td><td className="text-center"><span className={`px-1.5 py-0.5 rounded-full text-[12px] font-bold border ${p.currency === "EUR" ? "bg-violet-50 text-violet-700 border-violet-200" : p.currency === "USD" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-slate-50 text-mogo-navy border-slate-200"}`}>{p.currency}</span></td></tr>
                       ))}
                     </tbody>
                   </table>
