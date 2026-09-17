@@ -1056,36 +1056,9 @@ export default function App() {
 
               {/* Ranked */}
               <div className="bg-white rounded-2xl shadow-card border border-mogo-border overflow-hidden">
-                <div className="px-6 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                <div className="px-6 py-4 border-b border-slate-100">
                   <h2 className="text-[15px] font-semibold tracking-tight text-mogo-navy flex items-center gap-2"><span className="w-7 h-7 rounded-lg bg-mogo-navy text-white flex items-center justify-center text-[12px] font-bold">2</span> Payments in chronological order</h2>
-                  <div className="flex items-center gap-2">
-                    <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-[12px] font-medium text-mogo-navy"><span className="w-2 h-2 rounded-full bg-mogo-navy" /> Bank A <span className="w-2 h-2 rounded-full bg-slate-700 ml-2" /> Bank B</span>
-                    <button onClick={() => setTimelineVisible(v => !v)} className="px-3 py-1.5 rounded-xl bg-mogo-navy text-white text-[12px] font-semibold flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Timeline</button>
-                  </div>
                 </div>
-                {timelineVisible && (
-                  <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
-                    <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500 mb-2 tracking-wide">
-                      <span>14:00 start</span><span className="text-amber-600">16:30 RTGS/FX cutoff</span><span>22:00 wallet cut</span><span>00:00</span>
-                    </div>
-                    <div className="relative h-12 rounded-xl bg-white border border-slate-200 overflow-hidden flex">
-                      <div className="absolute inset-y-0 left-0 bg-amber-100/60 border-r-2 border-amber-400 flex items-center justify-center text-[10px] font-bold text-amber-700 tracking-widest" style={{ left: "0%", width: "26%" }}><span className="hidden sm:inline">RTGS/FX WINDOW</span><span className="sm:hidden">RTGS</span></div>
-                      <div className="absolute inset-0 flex items-center gap-1 px-2">
-                        {lastResult.ranked.filter(r => r.time !== "T+1" && r.time !== "—").map((r, i) => {
-                          const mins = parseInt(r.time.split(":")[0]) * 60 + parseInt(r.time.split(":")[1]);
-                          const pct = Math.max(0, Math.min(100, (mins - 840) / 600 * 100));
-                          return <div key={i} className={`absolute w-2.5 h-2.5 rounded-full border-2 border-white shadow ${r.bank === "A" ? "bg-mogo-navy" : "bg-slate-700"}`} style={{ left: `calc(${pct}% - 5px)`, top: "50%", transform: "translateY(-50%)" }} title={`${r.time} ${r.name}`} />;
-                        })}
-                        <div className="absolute top-0 bottom-0 w-0.5 bg-amber-500" style={{ left: ((990 - 840) / 600 * 100) + "%" }} />
-                      </div>
-                    </div>
-                    <div className="mt-2 flex flex-wrap gap-1.5">
-                      {lastResult.ranked.filter(r => r.time !== "T+1").map((r, i) => (
-                        <span key={i} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200 text-[12px] font-medium text-mogo-navy"><span className={`w-2 h-2 rounded-full ${r.bank === "A" ? "bg-mogo-navy" : "bg-slate-700"}`} />{r.time} {r.name.slice(0, 18)}<span className="text-slate-400">· {r.rail.split(" ")[0]}</span></span>
-                      ))}
-                    </div>
-                  </div>
-                )}
                 <div className="overflow-x-auto">
                   <table className="w-full text-[13px]">
                     <thead className="bg-slate-50 text-[11px] font-semibold tracking-widest text-slate-500 uppercase"><tr><th className="px-4 py-3 text-left">#</th><th className="px-4 py-3 text-left">Approx. time</th><th className="px-4 py-3 text-left">Payment</th><th className="px-4 py-3 text-right">Amount</th><th className="px-4 py-3 text-center">Ccy</th><th className="px-4 py-3 text-left">Rail</th><th className="px-4 py-3 text-center">Bank</th><th className="px-4 py-3 text-center">Status</th></tr></thead>
